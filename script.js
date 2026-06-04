@@ -16,13 +16,13 @@ function showResult(msg) {
 //3.イベントリスナー設定
 
 answer.addEventListener('click', function () {
-    showResult('正解！')
+    showResult('正解！ よくできました')
 });
 
 water.addEventListener('click', function () {
-    showResult('残念！')
+    showResult('残念！　もう一度考えてみよう')
 });
 
 air.addEventListener('click', function () {
-    showResult('残念！')
+    showResult('残念！　もう一度考えてみよう')
 });
