@@ -20,7 +20,7 @@ answer.addEventListener('click', function () {
 
 incorrectButtons.forEach(function (incorrectButton) {
 incorrectButton.addEventListener("click", function (event) {
-console.log(event.target);
+console.log(event.target.textContent);
 showResult("残念！", reasonText);
     })
 });
