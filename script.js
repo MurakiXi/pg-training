@@ -15,7 +15,7 @@ function showResult(msg, explanation) {
 
 answerButtons.forEach(function (answerButton) {
     answerButton.addEventListener("click", function (event) {
-        if (event.target.textContent === correctAnswer) {
+        if (event.target.textContent.trim() === correctAnswer) {
             showResult("正解！", reasonText);
         } else {
             showResult("残念！", reasonText);
