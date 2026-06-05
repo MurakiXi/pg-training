@@ -1,11 +1,10 @@
 //1.要素の取得
 
-const answer = document.querySelector("#correct-button");
-const incorrectButtons = document.querySelectorAll(".incorrect-button");
+const answerButtons = document.querySelectorAll(".answer-button");
 const result = document.querySelector("#result");
+const correctAnswer = '電気';
 const reason = document.querySelector("#reason");
 const reasonText = "乾電池は電圧(電気を押し出す力)を持っています。乾電池の＋極と－極を導線でつなぐと、電気の通り道ができ、電気が流れます。";
-console.log(incorrectButtons);
 //2.関数自作
 function showResult(msg, explanation) {
     result.textContent = msg;
@@ -14,13 +13,12 @@ function showResult(msg, explanation) {
 
 //3.イベントリスナー設定
 
-answer.addEventListener('click', function () {
-    showResult('正解！', reasonText)
-});
-
-incorrectButtons.forEach(function (incorrectButton) {
-incorrectButton.addEventListener("click", function (event) {
-console.log(event.target.textContent);
-showResult("残念！", reasonText);
-    })
+answerButtons.forEach(function (answerButton) {
+    answerButton.addEventListener("click", function (event) {
+        if (event.target.textContent === correctAnswer) {
+            showResult("正解！", reasonText);
+        } else {
+            showResult("残念！", reasonText);
+        }
+    });
 });
