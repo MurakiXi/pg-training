@@ -146,3 +146,35 @@
 - Day3では、複数の不正解ボタンに似た処理を設定するため、`querySelectorAll` と `forEach` の入口を学ぶ。
 - 目的は、複数のDOM要素をまとめて取得し、1つずつ処理する感覚を身につけること。
 - まだ配列・オブジェクトによる複数問題化には進まない。
+
+## 2026-06-05
+
+### 完了したこと
+
+- Week1 Day3-2 として、`querySelectorAll` と `forEach` の理解確認を行った。
+- `querySelector` は条件に一致する最初の要素を1つ取得し、`querySelectorAll` は条件に一致する要素すべてをまとめて取得することを説明した。
+- `querySelectorAll` で取得した `NodeList` は要素の集まりであり、そのまま `addEventListener` を設定できないことを確認した。
+- `forEach(function (incorrectButton) { ... })` の `incorrectButton` は、`NodeList` から1つずつ取り出された現在の要素であることを確認した。
+- `addEventListener("click", function () { ... })` の中の関数に引数がなくてもよい理由を確認した。
+- 不正解ボタンを1つ追加し、JavaScriptを変更せずに同じ不正解処理が動くことを確認した。
+
+### 学んだこと
+
+- `querySelectorAll` は複数要素の集まりを返す。
+- 複数要素の集まりには、直接イベントを設定するのではなく、`forEach` で1つずつ取り出して設定する。
+- `forEach` の引数は、現在取り出されている1つの要素を受け取るための名前である。
+- `addEventListener` のコールバック関数には、必要なら `event` を受け取れるが、今回は使わないので空でよい。
+- class を共通化しておくと、同じ種類のボタンを増やしてもJavaScript側を変更せずに同じ処理を適用できる。
+
+### 詰まった点・注意点
+
+- `addEventListener(...)` とだけ書くと、意図したボタンではなく別の対象にイベントが登録される可能性がある。
+- `incorrectButton.addEventListener(...)` のように、「どの要素にイベントを付けるのか」を明示する必要がある。
+- JavaScriptでは `showResult` と `ShowResult` のような大文字小文字の違いも別名として扱われる。
+
+### 次にやること
+
+- Week1 Day3-3 に進む。
+- 次は、`addEventListener` のコールバック関数に `event` を受け取り、クリックされたボタンの情報を確認する。
+- 目的は、`event.target` を使って「どのボタンがクリックされたか」を確認する感覚を身につけること。
+- ただし、まだ配列・オブジェクト・複数問題化には進まない。
