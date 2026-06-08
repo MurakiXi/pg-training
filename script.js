@@ -1,8 +1,12 @@
-//1.オブジェクトの作成変数の宣言
+//1.オブジェクトの作成
 const questionData = {
     statement: "水を熱し続けると、水は何になって空気中へ出ていくでしょうか？",
     correctAnswer: "水蒸気",
-    reasonText: "水を熱し続けると、水は気体になって空気中へ出ていきます。この気体になった水を水蒸気と呼びます。"
+    reasonText: "水を熱し続けると、水は気体になって空気中へ出ていきます。この気体になった水を水蒸気と呼びます。",
+    choice1: "氷",
+    choice2: "水蒸気",
+    choice3: "砂",
+    choice4: "光",
 };
 
 //2.要素の取得
@@ -22,8 +26,13 @@ function showResult(judge, explanation) {
 }
 
 //4.イベントリスナー設定
+answerButtons[0].textContent = questionData.choice1;
+answerButtons[1].textContent = questionData.choice2;
+answerButtons[2].textContent = questionData.choice3;
+answerButtons[3].textContent = questionData.choice4;
+
 showStatement(questionData.statement);
-console.log(questionData);
+
 answerButtons.forEach(function (answerButton) {
     answerButton.addEventListener("click", function (event) {
         if (event.target.textContent.trim() === questionData.correctAnswer) {

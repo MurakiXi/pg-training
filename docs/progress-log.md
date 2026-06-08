@@ -404,3 +404,34 @@
 - 次は、選択肢も `questionData` の中にまとめる。
 - ただし、最初はボタンをJavaScriptで生成するところまでは急がず、まずは `choice1`〜`choice4` または `choices` のどちらで持つべきかを検討する。
 - 目的は、問題文・正解・解説だけでなく、選択肢もデータとして扱う感覚を身につけること。
+
+## 2026-06-08
+
+### 完了したこと
+
+- Week2 Day2-1 として、選択肢を `questionData` の中に追加した。
+- `questionData.choice1`、`questionData.choice2`、`questionData.choice3`、`questionData.choice4` を作成した。
+- HTML側の選択肢ボタンの中身を空にした。
+- `answerButtons[0].textContent = questionData.choice1;` のように、JavaScript側から各ボタンに選択肢を表示した。
+- HTMLに選択肢を直書きしなくても、画面上に選択肢が表示されることを確認した。
+- クリック時の正誤判定と解説表示が、これまで通り正しく動くことを確認した。
+
+### 学んだこと
+
+- `querySelectorAll` で取得した複数要素は、`answerButtons[0]`、`answerButtons[1]` のように添字で取り出せる。
+- 添字は0から始まるため、1個目のボタンは `[0]`、4個目のボタンは `[3]` になる。
+- `textContent` を使うと、JavaScript側のデータをHTML要素の表示文字として入れられる。
+- 選択肢をHTML直書きではなくデータから表示することで、後から問題データを差し替えやすくなる。
+
+### 詰まった点・注意点
+
+- HTML側のボタンを空にしても、JavaScriptから `textContent` を入れれば画面に選択肢を表示できる。
+- 空のボタンを書く時は、不要な空白を入れず `<button class="answer-button"></button>` の形に揃えると読みやすい。
+- `answerButtons[3]` を使うには、HTML側に `.answer-button` を持つボタンが4つ存在している必要がある。
+
+### 次にやること
+
+- Week2 Day2-2 に進む。
+- 次は、`choice1`〜`choice4` のような個別プロパティではなく、`choices` というまとまりで選択肢を持つ形を学ぶ。
+- 目的は、選択肢を「個別の値4つ」ではなく「選択肢の集まり」として扱う感覚を身につけること。
+- ただし、まだ複数問題化や `createElement` によるボタン生成には進まない。
