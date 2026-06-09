@@ -40,7 +40,8 @@ renderQuestion(questionData);
 answerButtons.forEach(function (answerButton) {
     answerButton.addEventListener("click", function (event) {
         const answerText = event.target.textContent.trim();
-        if (isCorrectAnswer(answerText, questionData)) {
+        const isCorrect = isCorrectAnswer(answerText, questionData);
+        if (isCorrect) {
             showResult("正解！", questionData.reasonText);
         } else {
             showResult("残念！", questionData.reasonText);
