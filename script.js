@@ -16,8 +16,16 @@ const reason = document.querySelector("#reason");
 function renderQuestion(question) {
     statement.textContent = question.statement;
     answerButtons.forEach(function (answerButton, index) {
-        answerButton.textContent = question.choices[index]
+        answerButton.textContent = question.choices[index];
     });
+}
+
+function isCorrectAnswer(answerText, question) {
+    if (answerText === question.correctAnswer) {
+        return true;
+    } else {
+        return false;
+    }
 }
 
 function showResult(judge, explanation) {
@@ -31,7 +39,8 @@ renderQuestion(questionData);
 //5.イベントリスナー設定
 answerButtons.forEach(function (answerButton) {
     answerButton.addEventListener("click", function (event) {
-        if (event.target.textContent.trim() === questionData.correctAnswer) {
+        const answerText = event.target.textContent.trim();
+        if (isCorrectAnswer(answerText, questionData)) {
             showResult("正解！", questionData.reasonText);
         } else {
             showResult("残念！", questionData.reasonText);
