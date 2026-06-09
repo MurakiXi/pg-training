@@ -13,8 +13,11 @@ const result = document.querySelector("#result");
 const reason = document.querySelector("#reason");
 
 //3.関数の自作
-function showStatement(text) {
-    statement.textContent = text;
+function renderQuestion(question) {
+    statement.textContent = question.statement;
+    answerButtons.forEach(function (answerButton, index) {
+        answerButton.textContent = question.choices[index]
+    });
 }
 
 function showResult(judge, explanation) {
@@ -22,14 +25,10 @@ function showResult(judge, explanation) {
     reason.textContent = explanation;
 }
 
-//4.イベントリスナー設定
-answerButtons[0].textContent = questionData.choices[0];
-answerButtons[1].textContent = questionData.choices[1];
-answerButtons[2].textContent = questionData.choices[2];
-answerButtons[3].textContent = questionData.choices[3];
+//4.関数の呼び出し
+renderQuestion(questionData);
 
-showStatement(questionData.statement);
-
+//5.イベントリスナー設定
 answerButtons.forEach(function (answerButton) {
     answerButton.addEventListener("click", function (event) {
         if (event.target.textContent.trim() === questionData.correctAnswer) {

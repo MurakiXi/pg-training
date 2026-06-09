@@ -466,3 +466,69 @@
 - Week2 Day2-3 に進む。
 - 次は、`answerButtons[0]`〜`answerButtons[3]` に1つずつ代入している処理を、`forEach` を使ってまとめる。
 - 目的は、ボタンの数と選択肢の数が対応している場合に、添字を使って繰り返し処理を書く感覚を身につけること。
+
+## 2026-06-09
+
+### 完了したこと
+
+- Week2 Day2-3 として、選択肢表示の4行の手書き代入を `forEach` に置き換えた。
+- `answerButtons.forEach(function (answerButton, index) { ... })` の形で、ボタンを1つずつ取り出した。
+- `index` を使って、現在のボタンと `questionData.choices[index]` を対応させた。
+- `answerButton.textContent = questionData.choices[index];` により、選択肢を繰り返し処理で表示できるようにした。
+- Day2-2 と同じ表示・正誤判定・解説表示が動くことを確認した。
+
+### 学んだこと
+
+- `forEach` の第1引数には、現在処理中の要素が入る。
+- `forEach` の第2引数には、現在処理中の要素の添字 `index` が入る。
+- `index` は自分で数える必要はなく、`forEach` が渡してくれる。
+- `answerButtons[index]` と `questionData.choices[index]` のように、同じ添字を使うことで、DOM要素と配列データを対応させられる。
+- 同じ形の処理が並んでいる場合、`forEach` でまとめられる可能性がある。
+
+### 詰まった点・注意点
+
+- `index` は特別な予約語ではなく、引数名なので別名にもできる。
+- ただし、慣れるまでは `index` と書くのが分かりやすい。
+- `answerButton` はボタン要素、`questionData.choices[index]` は文字列であり、役割が違う。
+- `forEach` は「配列やNodeListの中身を1つずつ取り出して処理する」ためのもの。
+
+### 次にやること
+
+- Day2-4へ進む前に、`forEach` と `index` のミニ復習を行う。
+- 復習後、次は選択肢表示用の処理を関数にまとめるか、複数問題化の入口へ進むかを判断する。
+
+### ミニ復習
+
+- `forEach` の第1引数には現在処理中の要素が入る。
+- `forEach` の第2引数には現在処理中の添字 `index` が入る。
+- `answerButton` はDOM要素、`questionData.choices[index]` は表示する文字列。
+- `index` を使うことで、ボタンと選択肢配列の同じ順番の要素を対応させられる。
+
+## 2026-06-09
+
+### 完了したこと
+
+- Week2 Day2-4 として、問題文と選択肢を表示する処理を `renderQuestion` 関数にまとめた。
+- `renderQuestion(question)` の形で、1問分のデータを引数として受け取る関数を作成した。
+- 関数内で `question.statement` を使って問題文を表示した。
+- 関数内で `question.choices[index]` を使って、各ボタンに選択肢を表示した。
+- 関数の外で `renderQuestion(questionData)` を呼び出し、これまでと同じ挙動になることを確認した。
+
+### 学んだこと
+
+- オブジェクトを関数の引数として渡すと、関数内でそのデータを使って画面表示を更新できる。
+- `questionData` を直接関数内で使うのではなく、引数 `question` として受け取ることで、より再利用しやすい関数になる。
+- `renderQuestion(questionData)` のように、データを渡して表示を切り替える形は、今後の複数問題化につながる。
+- 問題文表示と選択肢表示のように、まとまった目的を持つ処理は関数にまとめられる。
+
+### 詰まった点・注意点
+
+- `renderQuestion(statement, correctAnswer, reasonText, choices)` のようにバラバラに渡すより、`questionData` を1つのまとまりとして渡す方がよい。
+- 関数内では、固定の `questionData` ではなく、引数として受け取った `question` を使うと汎用性が上がる。
+- `forEach` の中の処理は、複数行で書くと読みやすい。
+
+### 次にやること
+
+- Week2 Day2-5 に進む。
+- 次は、クリック時の正誤判定も関数に整理するか、現在の `questionData` を複数問題化しやすい形へ発展させる準備を行う。
+- 目的は、「問題を表示する処理」と「回答を判定する処理」の役割を分けて理解すること。
