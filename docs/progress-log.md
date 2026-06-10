@@ -626,3 +626,34 @@
 - Week2 Day3-2 に進む。
 - 次は、`questions[0]` を直接書くのではなく、現在の問題番号を表す変数を使う。
 - 目的は、`currentQuestionIndex` のような変数を使って、表示する問題を切り替える準備をすること。
+
+## 2026-06-10
+
+### 完了したこと
+
+- Week2 Day3-2 として、現在の問題番号を表す `currentQuestionIndex` を作成した。
+- `let currentQuestionIndex = 0;` として、初期値を0にした。
+- `questions[0]` を直接使っていた箇所を、`questions[currentQuestionIndex]` に置き換えた。
+- `renderQuestion(questions[currentQuestionIndex])` の形で、現在の問題を表示した。
+- 正誤判定でも `isCorrectAnswer(answerText, questions[currentQuestionIndex])` を使った。
+- 解説表示でも `questions[currentQuestionIndex].reasonText` を使った。
+- ブラウザ上で、これまでと同じ挙動になることを確認した。
+
+### 学んだこと
+
+- `currentQuestionIndex` のような変数を使うと、「今どの問題を表示しているか」を管理できる。
+- `questions[currentQuestionIndex]` は、現在の問題番号に対応する問題オブジェクトを表す。
+- `currentQuestionIndex` が0なら `questions[0]`、1なら `questions[1]` を参照する。
+- 表示・判定・解説で同じ `questions[currentQuestionIndex]` を使うことで、現在の問題に処理を揃えられる。
+
+### 詰まった点・注意点
+
+- `currentQuestionIndex` は後で値を変える予定があるため、`const` ではなく `let` で宣言する。
+- まだ `currentQuestionIndex++` は行わない。
+- 今回は見た目の挙動を変える課題ではなく、後で問題を切り替えるための準備である。
+
+### 次にやること
+
+- Week2 Day3-3 に進む。
+- 次は、`currentQuestionIndex` の値を手動で `1` に変えて、2問目が表示されることを確認する。
+- 目的は、`currentQuestionIndex` の値によって、表示・判定・解説に使われる問題が切り替わることを理解すること。

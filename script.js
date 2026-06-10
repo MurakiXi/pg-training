@@ -14,13 +14,16 @@ const questions = [
     }
 ];
 
-//2.要素の取得
+//2.変数の作成
+let currentQuestionIndex = 0;
+
+//3.要素の取得
 const answerButtons = document.querySelectorAll(".answer-button");
 const statement = document.querySelector("#statement")
 const result = document.querySelector("#result");
 const reason = document.querySelector("#reason");
 
-//3.関数の自作
+//4.関数の自作
 function renderQuestion(question) {
     statement.textContent = question.statement;
     answerButtons.forEach(function (answerButton, index) {
@@ -41,18 +44,18 @@ function showResult(judge, explanation) {
     reason.textContent = explanation;
 }
 
-//4.関数の呼び出し
-renderQuestion(questions[0]);
+//5.関数の呼び出し
+renderQuestion(questions[currentQuestionIndex]);
 
 //5.イベントリスナー設定
 answerButtons.forEach(function (answerButton) {
     answerButton.addEventListener("click", function (event) {
         const answerText = event.target.textContent.trim();
-        const isCorrect = isCorrectAnswer(answerText, questions[0]);
+        const isCorrect = isCorrectAnswer(answerText, questions[currentQuestionIndex]);
         if (isCorrect) {
-            showResult("正解！", questions[0].reasonText);
+            showResult("正解！", questions[currentQuestionIndex].reasonText);
         } else {
-            showResult("残念！", questions[0].reasonText);
+            showResult("残念！", questions[currentQuestionIndex].reasonText);
         }
     });
 });
