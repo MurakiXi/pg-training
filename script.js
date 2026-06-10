@@ -1,10 +1,18 @@
-//1.オブジェクトの作成
-const questionData = {
+//1.配列の作成
+const questions = [
+    {
     statement: "水を熱し続けると、水は何になって空気中へ出ていくでしょうか？",
     correctAnswer: "水蒸気",
     reasonText: "水を熱し続けると、水は気体になって空気中へ出ていきます。この気体になった水を水蒸気と呼びます。",
-    choices: ["氷", "水蒸気", "砂", "光"],
-};
+    choices: ["氷", "水蒸気", "砂", "光"]
+},
+    {
+    statement: "乾電池の＋極と－極を導線でつなぎ、回路ができると何が流れるでしょうか？",
+    correctAnswer: "電気",
+    reasonText: "乾電池の＋極と－極をつなぐと電気の通り道ができ、電気が流れます。",
+    choices: ["電気", "水", "空気", "光"],
+    }
+];
 
 //2.要素の取得
 const answerButtons = document.querySelectorAll(".answer-button");
@@ -34,17 +42,17 @@ function showResult(judge, explanation) {
 }
 
 //4.関数の呼び出し
-renderQuestion(questionData);
+renderQuestion(questions[0]);
 
 //5.イベントリスナー設定
 answerButtons.forEach(function (answerButton) {
     answerButton.addEventListener("click", function (event) {
         const answerText = event.target.textContent.trim();
-        const isCorrect = isCorrectAnswer(answerText, questionData);
+        const isCorrect = isCorrectAnswer(answerText, questions[0]);
         if (isCorrect) {
-            showResult("正解！", questionData.reasonText);
+            showResult("正解！", questions[0].reasonText);
         } else {
-            showResult("残念！", questionData.reasonText);
+            showResult("残念！", questions[0].reasonText);
         }
     });
 });
