@@ -46,6 +46,11 @@ function showResult(judge, explanation) {
     reason.textContent = explanation;
 }
 
+function clearFeedback() {
+    result.textContent = "";
+    reason.textContent = "";
+}
+
 //5.関数の呼び出し
 renderQuestion(questions[currentQuestionIndex]);
 
@@ -66,9 +71,8 @@ nextButton.addEventListener("click", function () {
     if (currentQuestionIndex < questionCount - 1) {
         currentQuestionIndex++;
         renderQuestion(questions[currentQuestionIndex]);
-        result.textContent = "";
-        reason.textContent = "";
+        clearFeedback();
     } else {
-        reason.textContent = "最後の問題です"
+        reason.textContent = "最後の問題です";
     }
 });
