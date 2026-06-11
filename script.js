@@ -62,7 +62,7 @@ answerButtons.forEach(function (answerButton) {
 });
 
 nextButton.addEventListener("click", function () {
-    currentQuestionIndex = 1;
+    currentQuestionIndex++;
     renderQuestion(questions[currentQuestionIndex]);
     result.textContent = "";
     reason.textContent = "";
