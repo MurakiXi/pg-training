@@ -32,6 +32,10 @@ function renderQuestion(question) {
     answerButtons.forEach(function (answerButton, index) {
         answerButton.textContent = question.choices[index];
     });
+    renderProgress();
+}
+
+function renderProgress() {
     const progressMessage = `第${currentQuestionIndex + 1}問／全${questions.length}問`;
     progress.textContent = progressMessage;
 }
