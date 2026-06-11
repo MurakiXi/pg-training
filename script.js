@@ -24,6 +24,7 @@ const statement = document.querySelector("#statement")
 const result = document.querySelector("#result");
 const reason = document.querySelector("#reason");
 const nextButton = document.querySelector("#next-button");
+const progress = document.querySelector("#progress");
 
 //4.関数の自作
 function renderQuestion(question) {
@@ -31,6 +32,8 @@ function renderQuestion(question) {
     answerButtons.forEach(function (answerButton, index) {
         answerButton.textContent = question.choices[index];
     });
+    const progressMessage = `第${currentQuestionIndex + 1}問／全${questions.length}問`;
+    progress.textContent = progressMessage;
 }
 
 function getCurrentQuestion() {
