@@ -68,5 +68,7 @@ nextButton.addEventListener("click", function () {
         renderQuestion(questions[currentQuestionIndex]);
         result.textContent = "";
         reason.textContent = "";
+    } else {
+        reason.textContent = "最後の問題です"
     }
 });
