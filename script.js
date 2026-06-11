@@ -37,6 +37,14 @@ function getCurrentQuestion() {
     return questions[currentQuestionIndex];
 }
 
+function hasNextQuestion() {
+    if (currentQuestionIndex < questionCount - 1) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
 function isCorrectAnswer(answerText, question) {
     if (answerText === question.correctAnswer) {
         return true;
@@ -73,7 +81,7 @@ answerButtons.forEach(function (answerButton) {
 });
 
 nextButton.addEventListener("click", function () {
-    if (currentQuestionIndex < questionCount - 1) {
+    if (hasNextQuestion()) {
         currentQuestionIndex++;
         renderQuestion(getCurrentQuestion());
         clearFeedback();
