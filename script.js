@@ -63,11 +63,11 @@ answerButtons.forEach(function (answerButton) {
     answerButton.addEventListener("click", function (event) {
         const answerText = event.target.textContent.trim();
         const currentQuestion = getCurrentQuestion();
-        const isCorrect = isCorrectAnswer(answerText, CurrentQuestion());
+        const isCorrect = isCorrectAnswer(answerText, currentQuestion);
         if (isCorrect) {
-            showResult("正解！", getCurrentQuestion().reasonText);
+            showResult("正解！", currentQuestion.reasonText);
         } else {
-            showResult("残念！", getCurrentQuestion().reasonText);
+            showResult("残念！", currentQuestion.reasonText);
         }
     });
 });
