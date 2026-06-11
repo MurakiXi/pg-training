@@ -33,6 +33,10 @@ function renderQuestion(question) {
     });
 }
 
+function getCurrentQuestion() {
+    return questions[currentQuestionIndex];
+}
+
 function isCorrectAnswer(answerText, question) {
     if (answerText === question.correctAnswer) {
         return true;
@@ -52,17 +56,18 @@ function clearFeedback() {
 }
 
 //5.関数の呼び出し
-renderQuestion(questions[currentQuestionIndex]);
+renderQuestion(getCurrentQuestion());
 
-//5.イベントリスナー設定
+//6.イベントリスナー設定
 answerButtons.forEach(function (answerButton) {
     answerButton.addEventListener("click", function (event) {
         const answerText = event.target.textContent.trim();
-        const isCorrect = isCorrectAnswer(answerText, questions[currentQuestionIndex]);
+        const currentQuestion = getCurrentQuestion();
+        const isCorrect = isCorrectAnswer(answerText, CurrentQuestion());
         if (isCorrect) {
-            showResult("正解！", questions[currentQuestionIndex].reasonText);
+            showResult("正解！", getCurrentQuestion().reasonText);
         } else {
-            showResult("残念！", questions[currentQuestionIndex].reasonText);
+            showResult("残念！", getCurrentQuestion().reasonText);
         }
     });
 });
@@ -70,7 +75,7 @@ answerButtons.forEach(function (answerButton) {
 nextButton.addEventListener("click", function () {
     if (currentQuestionIndex < questionCount - 1) {
         currentQuestionIndex++;
-        renderQuestion(questions[currentQuestionIndex]);
+        renderQuestion(getCurrentQuestion());
         clearFeedback();
     } else {
         reason.textContent = "最後の問題です";
