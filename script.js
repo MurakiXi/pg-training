@@ -13,6 +13,7 @@ const questions = [
     choices: ["電気", "水", "空気", "光"],
     }
 ];
+const questionCount = questions.length
 
 //2.変数の作成
 let currentQuestionIndex = 0;
@@ -62,8 +63,10 @@ answerButtons.forEach(function (answerButton) {
 });
 
 nextButton.addEventListener("click", function () {
-    currentQuestionIndex++;
-    renderQuestion(questions[currentQuestionIndex]);
-    result.textContent = "";
-    reason.textContent = "";
+    if (currentQuestionIndex < questionCount - 1) {
+        currentQuestionIndex++;
+        renderQuestion(questions[currentQuestionIndex]);
+        result.textContent = "";
+        reason.textContent = "";
+    }
 });
