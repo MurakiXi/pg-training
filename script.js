@@ -22,6 +22,7 @@ const answerButtons = document.querySelectorAll(".answer-button");
 const statement = document.querySelector("#statement")
 const result = document.querySelector("#result");
 const reason = document.querySelector("#reason");
+const nextButton = document.querySelector("#next-button");
 
 //4.関数の自作
 function renderQuestion(question) {
@@ -58,4 +59,11 @@ answerButtons.forEach(function (answerButton) {
             showResult("残念！", questions[currentQuestionIndex].reasonText);
         }
     });
+});
+
+nextButton.addEventListener("click", function () {
+    currentQuestionIndex = 1;
+    renderQuestion(questions[currentQuestionIndex]);
+    result.textContent = "";
+    reason.textContent = "";
 });
