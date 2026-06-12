@@ -17,6 +17,7 @@ const questionCount = questions.length
 
 //2.変数の作成
 let currentQuestionIndex = 0;
+let isAnswered = false;
 
 //3.要素の取得
 const answerButtons = document.querySelectorAll(".answer-button");
@@ -76,14 +77,17 @@ renderQuestion(getCurrentQuestion());
 //6.イベントリスナー設定
 answerButtons.forEach(function (answerButton) {
     answerButton.addEventListener("click", function (event) {
-        const answerText = event.target.textContent.trim();
-        const currentQuestion = getCurrentQuestion();
-        const isCorrect = isCorrectAnswer(answerText, currentQuestion);
+        if (!isAnswered){
+            const answerText = event.target.textContent.trim();
+            const currentQuestion = getCurrentQuestion();
+            const isCorrect = isCorrectAnswer(answerText, currentQuestion);
+            
         if (isCorrect) {
             showResult("正解！", currentQuestion.reasonText);
         } else {
             showResult("残念！", currentQuestion.reasonText);
-        }
+        }}
+        isAnswered = true;
     });
 });
 
@@ -92,6 +96,7 @@ nextButton.addEventListener("click", function () {
         currentQuestionIndex++;
         renderQuestion(getCurrentQuestion());
         clearFeedback();
+        isAnswered = false;
     } else {
         reason.textContent = "最後の問題です";
     }
