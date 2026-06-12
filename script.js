@@ -71,6 +71,18 @@ function clearFeedback() {
     reason.textContent = "";
 }
 
+function disableAnswerButtons() {
+    answerButtons.forEach(function (answerButton) {
+        answerButton.disabled = true;
+    });
+}
+
+function enableAnswerButtons() {
+    answerButtons.forEach(function (answerButton) {
+        answerButton.disabled = false;
+    });
+}
+
 //5.関数の呼び出し
 renderQuestion(getCurrentQuestion());
 
@@ -86,8 +98,11 @@ answerButtons.forEach(function (answerButton) {
             showResult("正解！", currentQuestion.reasonText);
         } else {
             showResult("残念！", currentQuestion.reasonText);
-        }}
+        }
+
         isAnswered = true;
+        disableAnswerButtons();
+        }
     });
 });
 
@@ -97,6 +112,7 @@ nextButton.addEventListener("click", function () {
         renderQuestion(getCurrentQuestion());
         clearFeedback();
         isAnswered = false;
+        enableAnswerButtons();
     } else {
         reason.textContent = "最後の問題です";
     }
