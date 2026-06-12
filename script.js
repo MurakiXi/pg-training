@@ -114,6 +114,6 @@ nextButton.addEventListener("click", function () {
         isAnswered = false;
         enableAnswerButtons();
     } else {
-        reason.textContent = "最後の問題です";
+        showResult("クイズ終了！", "おつかれさまでした。")
     }
 });
