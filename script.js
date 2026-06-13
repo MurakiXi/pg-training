@@ -13,11 +13,12 @@ const questions = [
     choices: ["電気", "水", "空気", "光"],
     }
 ];
-const questionCount = questions.length
+const questionCount = questions.length;
 
 //2.変数の作成
 let currentQuestionIndex = 0;
 let isAnswered = false;
+let score = 0;
 
 //3.要素の取得
 const answerButtons = document.querySelectorAll(".answer-button");
@@ -26,6 +27,8 @@ const result = document.querySelector("#result");
 const reason = document.querySelector("#reason");
 const nextButton = document.querySelector("#next-button");
 const progress = document.querySelector("#progress");
+const quizScore = document.querySelector("#quiz-score");
+
 
 //4.関数の自作
 function renderQuestion(question) {
@@ -39,6 +42,11 @@ function renderQuestion(question) {
 function renderProgress() {
     const progressMessage = `第${currentQuestionIndex + 1}問／全${questions.length}問`;
     progress.textContent = progressMessage;
+}
+
+function renderScore() {
+    const scoreMessage = `現在：${score}点`;
+    quizScore.textContent = scoreMessage;
 }
 
 function getCurrentQuestion() {
@@ -85,6 +93,7 @@ function enableAnswerButtons() {
 
 //5.関数の呼び出し
 renderQuestion(getCurrentQuestion());
+renderScore();
 
 //6.イベントリスナー設定
 answerButtons.forEach(function (answerButton) {
@@ -94,14 +103,16 @@ answerButtons.forEach(function (answerButton) {
             const currentQuestion = getCurrentQuestion();
             const isCorrect = isCorrectAnswer(answerText, currentQuestion);
             
-        if (isCorrect) {
-            showResult("正解！", currentQuestion.reasonText);
-        } else {
-            showResult("残念！", currentQuestion.reasonText);
-        }
+            if (isCorrect) {
+                showResult("正解！", currentQuestion.reasonText);
+                score++;
+            } else {
+                showResult("残念！", currentQuestion.reasonText);
+            }
 
-        isAnswered = true;
-        disableAnswerButtons();
+            isAnswered = true;
+            disableAnswerButtons();
+            renderScore();
         }
     });
 });
