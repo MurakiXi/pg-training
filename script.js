@@ -19,6 +19,7 @@ const questionCount = questions.length;
 let currentQuestionIndex = 0;
 let isAnswered = false;
 let score = 0;
+let answeredCount = 0;
 
 //3.要素の取得
 const answerButtons = document.querySelectorAll(".answer-button");
@@ -45,7 +46,7 @@ function renderProgress() {
 }
 
 function renderScore() {
-    const scoreMessage = `現在：${score}点`;
+    const scoreMessage = `現在：${score}点／回答：${answeredCount}問`;
     quizScore.textContent = scoreMessage;
 }
 
@@ -111,6 +112,7 @@ answerButtons.forEach(function (answerButton) {
             }
 
             isAnswered = true;
+            answeredCount++;
             disableAnswerButtons();
             renderScore();
         }
