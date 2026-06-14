@@ -120,13 +120,17 @@ answerButtons.forEach(function (answerButton) {
 });
 
 nextButton.addEventListener("click", function () {
-    if (hasNextQuestion()) {
-        currentQuestionIndex++;
-        renderQuestion(getCurrentQuestion());
-        clearFeedback();
-        isAnswered = false;
-        enableAnswerButtons();
+    if (isAnswered) {
+        if (hasNextQuestion()) {
+            currentQuestionIndex++;
+            renderQuestion(getCurrentQuestion());
+            clearFeedback();
+            isAnswered = false;
+            enableAnswerButtons();
+        } else {
+            showResult("クイズ終了！", "おつかれさまでした。");
+        }
     } else {
-        showResult("クイズ終了！", "おつかれさまでした。")
+        reason.textContent = "回答してから次に進んでください";
     }
 });
