@@ -92,6 +92,9 @@ function enableAnswerButtons() {
     });
 }
 
+function renderFinalScore() {
+    quizScore.textContent = `クイズ終了！　おつかれさまでした。正答数は、全${questions.length}問中……${score}問！`;
+}
 //5.関数の呼び出し
 renderQuestion(getCurrentQuestion());
 renderScore();
@@ -116,7 +119,7 @@ answerButtons.forEach(function (answerButton) {
             disableAnswerButtons();
             renderScore();
             if (!hasNextQuestion()) {
-                quizScore.textContent = `クイズ終了！　おつかれさまでした。あなたの成績は、全${questions.length}問中……${score}点！`;
+                renderFinalScore();
                 nextButton.disabled = true;
             }
         }
