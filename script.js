@@ -115,22 +115,25 @@ answerButtons.forEach(function (answerButton) {
             answeredCount++;
             disableAnswerButtons();
             renderScore();
+            if (!hasNextQuestion()) {
+                quizScore.textContent = `クイズ終了！　おつかれさまでした。あなたの成績は、全${questions.length}問中……${score}点！`;
+                nextButton.disabled = true;
+            }
         }
     });
 });
 
 nextButton.addEventListener("click", function () {
-    if (isAnswered) {
-        if (hasNextQuestion()) {
-            currentQuestionIndex++;
-            renderQuestion(getCurrentQuestion());
-            clearFeedback();
-            isAnswered = false;
-            enableAnswerButtons();
-        } else {
-            showResult("クイズ終了！", "おつかれさまでした。");
-        }
-    } else {
+    if (!isAnswered) {
         reason.textContent = "回答してから次に進んでください";
+        return;
+    }
+
+    if (hasNextQuestion()) {
+        currentQuestionIndex++;
+        renderQuestion(getCurrentQuestion());
+        clearFeedback();
+        isAnswered = false;
+        enableAnswerButtons();
     }
 });
