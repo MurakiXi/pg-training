@@ -93,8 +93,10 @@ function enableAnswerButtons() {
 }
 
 function renderFinalScore() {
-    quizScore.textContent = `クイズ終了！　おつかれさまでした。正答数は、全${questions.length}問中……${score}問！`;
+    const correctRate = ((score / questions.length)* 100).toFixed(1);
+    quizScore.textContent = `クイズ終了！　おつかれさまでした。正答数は、全${questions.length}問中……${score}問！　正答率は${correctRate}%です！`;
 }
+
 //5.関数の呼び出し
 renderQuestion(getCurrentQuestion());
 renderScore();
