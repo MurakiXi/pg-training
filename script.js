@@ -121,8 +121,7 @@ answerButtons.forEach(function (answerButton) {
             disableAnswerButtons();
             renderScore();
             if (!hasNextQuestion()) {
-                renderFinalScore();
-                nextButton.disabled = true;
+                nextButton.textContent="結果を見る";
             }
         }
     });
