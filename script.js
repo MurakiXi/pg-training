@@ -89,8 +89,8 @@ function enableAnswerButtons() {
 }
 
 function renderFinalScore() {
-    const correctRate = ((score / questions.length)* 100).toFixed(1);
-    quizScore.textContent = `クイズ終了！　おつかれさまでした。正答数は、全${questions.length}問中……${score}問！　正答率は${correctRate}%です！`;
+    const correctRate = ((score / questions.length) * 100).toFixed(1);
+    quizScore.textContent = `おつかれさまでした！ 全${questions.length}問中${score}問正解！ 正答率は${correctRate}%です！`;
 }
 
 function hideQuizArea() { 
