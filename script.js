@@ -29,7 +29,8 @@ const reason = document.querySelector("#reason");
 const nextButton = document.querySelector("#next-button");
 const progress = document.querySelector("#progress");
 const quizScore = document.querySelector("#quiz-score");
-
+const questionTitle = document.querySelector(".question-title");
+const choices = document.querySelector(".choices")
 
 //4.関数の自作
 function renderQuestion(question) {
@@ -97,6 +98,21 @@ function renderFinalScore() {
     quizScore.textContent = `クイズ終了！　おつかれさまでした。正答数は、全${questions.length}問中……${score}問！　正答率は${correctRate}%です！`;
 }
 
+function hideQuizArea() { 
+    const hideElements = [
+        progress,
+        questionTitle,
+        statement,
+        choices,
+        result,
+        reason,
+        nextButton
+    ];
+    hideElements.forEach(function (element) {
+        element.style.display = "none";
+    });
+}
+
 //5.関数の呼び出し
 renderQuestion(getCurrentQuestion());
 renderScore();
@@ -139,5 +155,8 @@ nextButton.addEventListener("click", function () {
         clearFeedback();
         isAnswered = false;
         enableAnswerButtons();
+    } else {
+        renderFinalScore();
+        hideQuizArea();
     }
 });
