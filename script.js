@@ -46,11 +46,6 @@ function renderProgress() {
     progress.textContent = progressMessage;
 }
 
-function renderScore() {
-    const scoreMessage = `現在：${score}点／回答：${answeredCount}問`;
-    quizScore.textContent = scoreMessage;
-}
-
 function getCurrentQuestion() {
     return questions[currentQuestionIndex];
 }
@@ -115,7 +110,6 @@ function hideQuizArea() {
 
 //5.関数の呼び出し
 renderQuestion(getCurrentQuestion());
-renderScore();
 
 //6.イベントリスナー設定
 answerButtons.forEach(function (answerButton) {
@@ -135,7 +129,6 @@ answerButtons.forEach(function (answerButton) {
             isAnswered = true;
             answeredCount++;
             disableAnswerButtons();
-            renderScore();
             if (!hasNextQuestion()) {
                 nextButton.textContent="結果を見る";
             }
