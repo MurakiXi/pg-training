@@ -20,6 +20,7 @@ let currentQuestionIndex = 0;
 let isAnswered = false;
 let score = 0;
 let answeredCount = 0;
+let quizMode = "answering";
 
 //3.要素の取得
 const answerButtons = document.querySelectorAll(".answer-button");
@@ -116,6 +117,7 @@ function resetQuizState() {
 
 function retryQuiz() {
     resetQuizState();
+    quizMode = "answering";
     quizScore.textContent = "";
     quizScore.style.display = "";
     const hideElements = [
@@ -156,14 +158,15 @@ answerButtons.forEach(function (answerButton) {
             answeredCount++;
             disableAnswerButtons();
             if (!hasNextQuestion()) {
-                nextButton.textContent="結果を見る";
+                nextButton.textContent = "結果を見る";
+                quizMode = "readyToResult";
             }
         }
     });
 });
 
 nextButton.addEventListener("click", function () {
-    if (nextButton.textContent === "もう一度挑戦！") {
+    if (quizMode === "result") {
         retryQuiz();
         return;
     }
@@ -182,6 +185,7 @@ nextButton.addEventListener("click", function () {
         return;
     } 
 
+    quizMode = "result";
     renderFinalScore();
     hideQuizArea();
     nextButton.textContent = "もう一度挑戦！"
