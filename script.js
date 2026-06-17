@@ -19,7 +19,6 @@ const questionCount = questions.length;
 let currentQuestionIndex = 0;
 let isAnswered = false;
 let score = 0;
-let answeredCount = 0;
 let quizMode = "answering";
 
 //3.要素の取得
@@ -112,7 +111,6 @@ function resetQuizState() {
     currentQuestionIndex = 0;
     isAnswered = false;
     score = 0;
-    answeredCount = 0;
 }
 
 function showReusltView() {
@@ -163,7 +161,6 @@ answerButtons.forEach(function (answerButton) {
             }
 
             isAnswered = true;
-            answeredCount++;
             disableAnswerButtons();
             if (!hasNextQuestion()) {
                 nextButton.textContent = "結果を見る";
