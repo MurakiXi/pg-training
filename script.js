@@ -101,13 +101,39 @@ function hideQuizArea() {
         choices,
         result,
         reason,
-        nextButton
     ];
     hideElements.forEach(function (element) {
         element.style.display = "none";
     });
 }
 
+function resetQuizState() {
+    currentQuestionIndex = 0;
+    isAnswered = false;
+    score = 0;
+    answeredCount = 0;
+}
+
+function retryQuiz() {
+    resetQuizState();
+    quizScore.textContent = "";
+    quizScore.style.display = "";
+    const hideElements = [
+        progress,
+        questionTitle,
+        statement,
+        choices,
+        result,
+        reason,
+    ];
+    hideElements.forEach(function (element) {
+        element.style.display = "";
+    });
+    nextButton.textContent = "次の問題"
+    clearFeedback();
+    enableAnswerButtons();
+    renderQuestion(getCurrentQuestion());
+}
 //5.関数の呼び出し
 renderQuestion(getCurrentQuestion());
 
@@ -137,6 +163,11 @@ answerButtons.forEach(function (answerButton) {
 });
 
 nextButton.addEventListener("click", function () {
+    if (nextButton.textContent === "もう一度挑戦！") {
+        retryQuiz();
+        return;
+    }
+
     if (!isAnswered) {
         reason.textContent = "回答してから次に進んでください";
         return;
@@ -148,8 +179,11 @@ nextButton.addEventListener("click", function () {
         clearFeedback();
         isAnswered = false;
         enableAnswerButtons();
-    } else {
-        renderFinalScore();
-        hideQuizArea();
-    }
-});
+        return;
+    } 
+
+    renderFinalScore();
+    hideQuizArea();
+    nextButton.textContent = "もう一度挑戦！"
+    nextButton.style.display = "";
+    });
