@@ -115,6 +115,14 @@ function resetQuizState() {
     answeredCount = 0;
 }
 
+function showReusltView() {
+    quizMode = "result";
+    renderFinalScore();
+    hideQuizArea();
+    nextButton.textContent = "もう一度挑戦！"
+    nextButton.style.display = "";
+}
+
 function retryQuiz() {
     resetQuizState();
     quizMode = "answering";
@@ -171,6 +179,11 @@ nextButton.addEventListener("click", function () {
         return;
     }
 
+    if (quizMode === "readyToResult") {
+        showReusltView();
+        return;
+    };
+
     if (!isAnswered) {
         reason.textContent = "回答してから次に進んでください";
         return;
@@ -184,10 +197,5 @@ nextButton.addEventListener("click", function () {
         enableAnswerButtons();
         return;
     } 
-
-    quizMode = "result";
-    renderFinalScore();
-    hideQuizArea();
-    nextButton.textContent = "もう一度挑戦！"
-    nextButton.style.display = "";
+        showResultView();
     });
