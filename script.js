@@ -15,13 +15,20 @@ const questions = [
 ];
 const questionCount = questions.length;
 
-//2.変数の作成
+//2.定数の作成
+const QUIZ_MODE = {
+    ANSWERING: "answering",
+    READY_TO_RESULT: "readyToResult",
+    RESULT: "result",
+};
+
+//3.変数の作成
 let currentQuestionIndex = 0;
 let isAnswered = false;
 let score = 0;
-let quizMode = "answering";
+let quizMode = QUIZ_MODE.ANSWERING;
 
-//3.要素の取得
+//4.要素の取得
 const answerButtons = document.querySelectorAll(".answer-button");
 const statement = document.querySelector("#statement")
 const result = document.querySelector("#result");
@@ -32,7 +39,7 @@ const quizScore = document.querySelector("#quiz-score");
 const questionTitle = document.querySelector(".question-title");
 const choices = document.querySelector(".choices")
 
-//4.関数の自作
+//5.関数の自作
 function renderQuestion(question) {
     statement.textContent = question.statement;
     answerButtons.forEach(function (answerButton, index) {
@@ -114,7 +121,7 @@ function resetQuizState() {
 }
 
 function showReusltView() {
-    quizMode = "result";
+    quizMode = QUIZ_MODE.RESULT;
     renderFinalScore();
     hideQuizArea();
     nextButton.textContent = "もう一度挑戦！"
@@ -123,7 +130,7 @@ function showReusltView() {
 
 function retryQuiz() {
     resetQuizState();
-    quizMode = "answering";
+    quizMode = QUIZ_MODE.ANSWERING;
     quizScore.textContent = "";
     quizScore.style.display = "";
     const hideElements = [
@@ -142,10 +149,10 @@ function retryQuiz() {
     enableAnswerButtons();
     renderQuestion(getCurrentQuestion());
 }
-//5.関数の呼び出し
+//6.関数の呼び出し
 renderQuestion(getCurrentQuestion());
 
-//6.イベントリスナー設定
+//7.イベントリスナー設定
 answerButtons.forEach(function (answerButton) {
     answerButton.addEventListener("click", function (event) {
         if (!isAnswered){
@@ -164,19 +171,19 @@ answerButtons.forEach(function (answerButton) {
             disableAnswerButtons();
             if (!hasNextQuestion()) {
                 nextButton.textContent = "結果を見る";
-                quizMode = "readyToResult";
+                quizMode = QUIZ_MODE.READY_TO_RESULT;
             }
         }
     });
 });
 
 nextButton.addEventListener("click", function () {
-    if (quizMode === "result") {
+    if (quizMode === QUIZ_MODE.RESULT) {
         retryQuiz();
         return;
     }
 
-    if (quizMode === "readyToResult") {
+    if (quizMode === QUIZ_MODE.READY_TO_RESULT) {
         showReusltView();
         return;
     };
