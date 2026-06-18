@@ -39,6 +39,15 @@ const quizScore = document.querySelector("#quiz-score");
 const questionTitle = document.querySelector(".question-title");
 const choices = document.querySelector(".choices")
 
+const hideElements = [
+    progress,
+    questionTitle,
+    statement,
+    choices,
+    result,
+    reason,
+];
+
 //5.関数の自作
 function renderQuestion(question) {
     statement.textContent = question.statement;
@@ -60,6 +69,23 @@ function updateNextButtonText() {
         nextButton.textContent = "結果を見る";
     } else if (quizMode === QUIZ_MODE.RESULT)
         { nextButton.textContent = "もう一度挑戦！" };
+}
+
+function updateScreenByQuizMode() {
+    if (quizMode === QUIZ_MODE.RESULT) {
+        hideElements.forEach(function (element) {
+            element.style.display = "none";
+        });
+
+        quizScore.style.display = "";
+        return;
+    }
+
+    hideElements.forEach(function (element) {
+        element.style.display = "";
+    });
+
+    quizScore.style.display = "none";
 }
 
 function getCurrentQuestion() {
@@ -109,19 +135,6 @@ function renderFinalScore() {
     quizScore.textContent = `おつかれさまでした！ 全${questions.length}問中${score}問正解！ 正答率は${correctRate}%です！`;
 }
 
-function hideQuizArea() { 
-    const hideElements = [
-        progress,
-        questionTitle,
-        statement,
-        choices,
-        result,
-        reason,
-    ];
-    hideElements.forEach(function (element) {
-        element.style.display = "none";
-    });
-}
 
 function resetQuizState() {
     currentQuestionIndex = 0;
@@ -133,27 +146,15 @@ function showReusltView() {
     quizMode = QUIZ_MODE.RESULT;
     updateNextButtonText();
     renderFinalScore();
-    hideQuizArea();
-    nextButton.style.display = "";
+    updateScreenByQuizMode();
 }
 
 function retryQuiz() {
     resetQuizState();
     quizMode = QUIZ_MODE.ANSWERING;
     updateNextButtonText();
+    updateScreenByQuizMode();
     quizScore.textContent = "";
-    quizScore.style.display = "";
-    const hideElements = [
-        progress,
-        questionTitle,
-        statement,
-        choices,
-        result,
-        reason,
-    ];
-    hideElements.forEach(function (element) {
-        element.style.display = "";
-    });
     clearFeedback();
     enableAnswerButtons();
     renderQuestion(getCurrentQuestion());
@@ -193,7 +194,7 @@ nextButton.addEventListener("click", function () {
     }
 
     if (quizMode === QUIZ_MODE.READY_TO_RESULT) {
-        showReusltView();
+        showResultView();
         return;
     };
 
