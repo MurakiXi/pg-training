@@ -53,6 +53,15 @@ function renderProgress() {
     progress.textContent = progressMessage;
 }
 
+function updateNextButtonText() {
+    if (quizMode === QUIZ_MODE.ANSWERING) {
+        nextButton.textContent = "次の問題";
+    } else if (quizMode === QUIZ_MODE.READY_TO_RESULT) {
+        nextButton.textContent = "結果を見る";
+    } else if (quizMode === QUIZ_MODE.RESULT)
+        { nextButton.textContent = "もう一度挑戦！" };
+}
+
 function getCurrentQuestion() {
     return questions[currentQuestionIndex];
 }
@@ -122,15 +131,16 @@ function resetQuizState() {
 
 function showReusltView() {
     quizMode = QUIZ_MODE.RESULT;
+    updateNextButtonText();
     renderFinalScore();
     hideQuizArea();
-    nextButton.textContent = "もう一度挑戦！"
     nextButton.style.display = "";
 }
 
 function retryQuiz() {
     resetQuizState();
     quizMode = QUIZ_MODE.ANSWERING;
+    updateNextButtonText();
     quizScore.textContent = "";
     quizScore.style.display = "";
     const hideElements = [
@@ -144,7 +154,6 @@ function retryQuiz() {
     hideElements.forEach(function (element) {
         element.style.display = "";
     });
-    nextButton.textContent = "次の問題"
     clearFeedback();
     enableAnswerButtons();
     renderQuestion(getCurrentQuestion());
@@ -170,8 +179,8 @@ answerButtons.forEach(function (answerButton) {
             isAnswered = true;
             disableAnswerButtons();
             if (!hasNextQuestion()) {
-                nextButton.textContent = "結果を見る";
                 quizMode = QUIZ_MODE.READY_TO_RESULT;
+                updateNextButtonText();
             }
         }
     });
