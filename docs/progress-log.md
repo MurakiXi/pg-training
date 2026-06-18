@@ -1836,3 +1836,44 @@
 - Week3 Day3-4 に進む。
 - 次は、`quizMode` の変更と、それに伴う表示更新処理をまとめる。
 - 目的は、`quizMode = ...`、`updateNextButtonText()`、`updateScreenByQuizMode()` を毎回別々に書かなくてもよい形に近づけることである。
+
+## 2026-06-18
+
+### Week3 Day3-4 完了
+
+### 完了したこと
+
+- Week3 Day3-4 として、`quizMode` の変更と、それに伴う表示更新処理をまとめた。
+- `setQuizMode(newMode)` 関数を作成した。
+- `setQuizMode(newMode)` の中で、`quizMode` に `newMode` を代入するようにした。
+- `setQuizMode(newMode)` の中で、`updateNextButtonText()` と `updateScreenByQuizMode()` を呼ぶようにした。
+- これまで `quizMode` を直接変更していた箇所を、`setQuizMode(QUIZ_MODE.xxx)` の呼び出しへ置き換えた。
+- `showResultView()` では、`setQuizMode(QUIZ_MODE.RESULT)` と `renderFinalScore()` を呼ぶ形に整理した。
+- `retryQuiz()` では、再挑戦時に `setQuizMode(QUIZ_MODE.ANSWERING)` を呼ぶ形に整理した。
+- 最終問題回答後は、`setQuizMode(QUIZ_MODE.READY_TO_RESULT)` により、「結果を見る」状態へ切り替えるようにした。
+- `showReusltView` という誤った綴りが残っていないか検索し、0件であることを確認した。
+- ブラウザ上でクイズを3周し、問題表示、正誤判定、結果表示、再挑戦の動作に問題がないことを確認した。
+
+### 学んだこと
+
+- 状態を変更する処理と、その状態に応じた表示更新処理はセットで扱う必要がある。
+- `setQuizMode()` を作ることで、`quizMode` を変更する時にボタン文言と画面表示も同時に更新できる。
+- `updateNextButtonText()` と `updateScreenByQuizMode()` は役割が違うため分けたままにし、`setQuizMode()` の中でまとめて呼ぶ形が自然である。
+- 細かい責任は関数ごとに分けつつ、セットで必要な処理は上位関数で束ねると、呼び忘れを防ぎやすい。
+- `showResultView()` は、結果画面へ移る一連の操作を表す関数として残す意味がある。
+- `===` は比較、`=` は代入であり、状態変更には代入を使う必要がある。
+
+### 詰まった点・注意点
+
+- `quizMode === newMode;` と書くと、比較しているだけで `quizMode` は変更されない。
+- `quizMode = newMode;` と書くことで、初めて `quizMode` の値が変更される。
+- 関数名の綴りが間違っていても、定義名と呼び出し名が一致していればJavaScript上は動くことがある。
+- ただし、人間が読む時の意味が崩れるため、`showResultView()` のように正しい名前へ統一する必要がある。
+- ブラウザ画面上で動いているように見えても、通常ルートでは通らない箇所に未定義関数や誤綴りが残っている可能性がある。
+- 修正後は、画面確認だけでなく検索確認も行うことが重要である。
+
+### 次にやること
+
+- Week3 Day3-5 に進む。
+- 次は、`quizMode` の状態遷移を棚卸しする。
+- 目的は、どの操作で `ANSWERING`、`READY_TO_RESULT`、`RESULT` のどの状態へ移るのかを整理し、状態管理が破綻していないか確認することである。

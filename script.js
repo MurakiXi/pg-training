@@ -88,6 +88,12 @@ function updateScreenByQuizMode() {
     quizScore.style.display = "none";
 }
 
+function setQuizMode(newMode) {
+    quizMode = newMode;
+    updateNextButtonText();
+    updateScreenByQuizMode();
+}
+
 function getCurrentQuestion() {
     return questions[currentQuestionIndex];
 }
@@ -142,18 +148,14 @@ function resetQuizState() {
     score = 0;
 }
 
-function showReusltView() {
-    quizMode = QUIZ_MODE.RESULT;
-    updateNextButtonText();
+function showResultView() {
+    setQuizMode(QUIZ_MODE.RESULT);
     renderFinalScore();
-    updateScreenByQuizMode();
 }
 
 function retryQuiz() {
     resetQuizState();
-    quizMode = QUIZ_MODE.ANSWERING;
-    updateNextButtonText();
-    updateScreenByQuizMode();
+    setQuizMode(QUIZ_MODE.ANSWERING);
     quizScore.textContent = "";
     clearFeedback();
     enableAnswerButtons();
@@ -180,8 +182,7 @@ answerButtons.forEach(function (answerButton) {
             isAnswered = true;
             disableAnswerButtons();
             if (!hasNextQuestion()) {
-                quizMode = QUIZ_MODE.READY_TO_RESULT;
-                updateNextButtonText();
+                setQuizMode(QUIZ_MODE.READY_TO_RESULT);
             }
         }
     });
