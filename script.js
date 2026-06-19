@@ -10,7 +10,7 @@ const questions = [
     statement: "乾電池の＋極と－極を導線でつなぎ、回路ができると何が流れるでしょうか？",
     correctAnswer: "電気",
     reasonText: "乾電池の＋極と－極をつなぐと電気の通り道ができ、電気が流れます。",
-    choices: ["電気", "水", "空気", "光"],
+    choices: ["電気", "水", "空気", "光"]
     }
 ];
 const questionCount = questions.length;
