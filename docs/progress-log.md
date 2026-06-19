@@ -1960,3 +1960,61 @@
 - Week4では、`fetch`、JSON、エラー処理の基礎に入る。
 - まずは、現在JavaScript内に直接書いている `questions` データを、外部データとして扱う準備を行う。
 - 目的は、問題データと画面処理を分け、将来的にAPIやJSONファイルから問題を読み込める構造へ近づけることである。
+
+## 2026-06-19
+
+### Week4 Day1-1〜Day1-8 完了
+
+### 完了したこと
+
+- Week4 Day1として、クイズの問題データを外部JSONファイルから読み込む準備と実装を行った。
+- 現在の `questions` 配列に含まれる情報を棚卸しした。
+- 1問あたりのデータとして、`statement`、`correctAnswer`、`reasonText`、`choices` が必要であることを確認した。
+- `statement` は問題文表示、`choices` は選択肢表示、`correctAnswer` は正誤判定、`reasonText` は解説表示に使うことを確認した。
+- JavaScriptオブジェクトとJSONの違いを確認した。
+- JSONではキー名を `"statement"` のようにダブルクォーテーションで囲む必要があることを確認した。
+- JSONファイルには `const questions =` のような変数宣言やセミコロンを書かないことを確認した。
+- `questions.json` を `index.html` と同じ階層に作成した。
+- `questions.json` に問題データを移した。
+- JSONでは、問題データ全体を配列として持ち、各問題をオブジェクトとして並べる形にした。
+- `script.js` 側の `questions` を、外部JSONから後で代入するために `let questions = [];` の形に変更した。
+- `loadQuestionsData()` 関数を作成した。
+- `loadQuestionsData()` の中で `fetch("questions.json")` を使い、`questions.json` を読み込むようにした。
+- `response.json()` を使って、Responseの本文をJavaScriptで扱える配列に変換するようにした。
+- 読み込んだ配列を、外側の `questions` に代入するようにした。
+- 問題データを読み込んだ後に、`renderQuestion(getCurrentQuestion())` を呼んで1問目を表示するようにした。
+- これまで最初に直接呼んでいた `renderQuestion(getCurrentQuestion())` を、`loadQuestionsData()` の呼び出しに置き換えた。
+- `hasNextQuestion()` が、読み込み前に固定された `questionCount` ではなく、現在の `questions.length` を見る形に修正した。
+- 修正後、クイズを3周して、問題表示、正誤判定、次問遷移、結果表示、再挑戦が正しく動作することを確認した。
+
+### 学んだこと
+
+- JSONはJavaScriptに似ているが、JavaScriptコードそのものではなく、データだけを書く形式である。
+- JSONでは、キー名と文字列をダブルクォーテーションで囲む必要がある。
+- JSONでは、変数宣言、関数、コメント、セミコロン、末尾の余計なカンマを書けない。
+- `fetch()` は外部ファイルを取りに行く処理であり、取得結果として最初に返るのは問題データそのものではなくResponseオブジェクトである。
+- `response.json()` は、Responseの本文をJSONとして読み取り、JavaScriptで使える配列やオブジェクトに変換する処理である。
+- `fetch` と `response.json()` は完了を待つ必要があるため、`async` と `await` を使う。
+- 外部JSONから読み込む場合、`questions` は最初から中身を持つ配列ではなく、最初は空の配列として用意し、読み込み後に代入する。
+- 関数の中で `let questions = ...` と書くと、外側の `questions` とは別のローカル変数を作ってしまう。
+- 外側の `questions` に読み込んだデータを入れたい場合は、`questions = await response.json();` のように代入する必要がある。
+- `renderQuestion(getCurrentQuestion())` 自体の考え方は、外部JSON化しても大きく変わらない。
+- 変わるのは、`questions` が最初から存在するのではなく、読み込み完了後に使えるようになる点である。
+- `questions.length` のように後から変わる値を、読み込み前に `const questionCount = questions.length;` として固定してしまうと、古い値のままになってしまう。
+- 外部データを使う場合は、現在のデータ状態をその都度見る処理にする必要がある。
+
+### 詰まった点・注意点
+
+- `let questions = await response.json();` と書いたため、関数内だけの別の `questions` が作られ、外側の `questions` が空のままになった。
+- 外側の `questions` が空のまま `renderQuestion(getCurrentQuestion())` を呼ぶと、`getCurrentQuestion()` が `undefined` を返し、`question.statement` を読もうとしてエラーになった。
+- `questions.json` の読み込み自体は成功していても、読み込んだデータを正しい変数に代入できていなければ、画面表示には使えない。
+- `const questionCount = questions.length;` を読み込み前に書くと、`questionCount` が `0` のまま固定され、1問目の時点で次の問題がないと判定されてしまった。
+- `hasNextQuestion()` では、固定された `questionCount` ではなく、現在の `questions.length` を使う必要がある。
+- `fetch("questions.json")` は、`index.html` をファイルとして直接開いている場合に失敗することがあるため、必要に応じてLive Serverなどで `http://...` として開く必要がある。
+- 一時確認用の `console.log(questions);` は、確認が終わったら削除する。
+
+### 次にやること
+
+- Week4 Day1-9 に進む。
+- 次は、`questions.json` が見つからない場合やJSONの形式が壊れている場合に備え、読み込み失敗時のエラー処理を整理する。
+- 目的は、読み込みに失敗した時に画面が無反応になるのではなく、ユーザーに分かる形でエラーメッセージを表示できるようにすることである。

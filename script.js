@@ -1,34 +1,18 @@
-//1.配列の作成
-const questions = [
-    {
-    statement: "水を熱し続けると、水は何になって空気中へ出ていくでしょうか？",
-    correctAnswer: "水蒸気",
-    reasonText: "水を熱し続けると、水は気体になって空気中へ出ていきます。この気体になった水を水蒸気と呼びます。",
-    choices: ["氷", "水蒸気", "砂", "光"]
-},
-    {
-    statement: "乾電池の＋極と－極を導線でつなぎ、回路ができると何が流れるでしょうか？",
-    correctAnswer: "電気",
-    reasonText: "乾電池の＋極と－極をつなぐと電気の通り道ができ、電気が流れます。",
-    choices: ["電気", "水", "空気", "光"]
-    }
-];
-const questionCount = questions.length;
-
-//2.定数の作成
+//1.配列・定数・変数の作成
 const QUIZ_MODE = {
     ANSWERING: "answering",
     READY_TO_RESULT: "readyToResult",
     RESULT: "result",
 };
 
-//3.変数の作成
 let currentQuestionIndex = 0;
 let isAnswered = false;
 let score = 0;
 let quizMode = QUIZ_MODE.ANSWERING;
+let questions = [];
+const questionCount = questions.length;
 
-//4.要素の取得
+//2.要素の取得
 const answerButtons = document.querySelectorAll(".answer-button");
 const statement = document.querySelector("#statement")
 const result = document.querySelector("#result");
@@ -99,11 +83,7 @@ function getCurrentQuestion() {
 }
 
 function hasNextQuestion() {
-    if (currentQuestionIndex < questionCount - 1) {
-        return true;
-    } else {
-        return false;
-    }
+    return currentQuestionIndex < questions.length - 1;
 }
 
 function isCorrectAnswer(answerText, question) {
@@ -161,8 +141,16 @@ function retryQuiz() {
     enableAnswerButtons();
     renderQuestion(getCurrentQuestion());
 }
+
+async function loadQuestionsData() {
+    const response = await fetch("questions.json");
+    questions = await response.json();
+    renderQuestion(getCurrentQuestion());
+};
+
+
 //6.関数の呼び出し
-renderQuestion(getCurrentQuestion());
+loadQuestionsData();
 
 //7.イベントリスナー設定
 answerButtons.forEach(function (answerButton) {
