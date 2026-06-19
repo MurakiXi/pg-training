@@ -189,12 +189,12 @@ answerButtons.forEach(function (answerButton) {
 });
 
 nextButton.addEventListener("click", function () {
-    if (quizMode === QUIZ_MODE.RESULT) {
+    if (quizMode = QUIZ_MODE.RESULT) {
         retryQuiz();
         return;
     }
 
-    if (quizMode === QUIZ_MODE.READY_TO_RESULT) {
+    if (quizMode = QUIZ_MODE.READY_TO_RESULT) {
         showResultView();
         return;
     };
