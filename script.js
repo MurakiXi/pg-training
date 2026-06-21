@@ -144,6 +144,8 @@ function retryQuiz() {
 
 async function loadQuestionsData() {
     try {
+        statement.textContent = "問題を読み込んでいます……";
+        disableAnswerButtons();
         const response = await fetch("questions.json");
         if (!response.ok) {
             statement.textContent = "データ読み込みに失敗しました"
@@ -151,6 +153,7 @@ async function loadQuestionsData() {
         }
         questions = await response.json();
         renderQuestion(getCurrentQuestion());
+        enableAnswerButtons();
     } catch (error) {
         statement.textContent = "データ読み込み中にエラーが発生しました";
         console.error(error);
