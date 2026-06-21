@@ -2092,3 +2092,56 @@
 - Week4 Day1-12 に進む。
 - 次は、外部JSON読み込み後の構成を棚卸しし、`script.js` 側に残すべき処理と `questions.json` 側に置くべきデータが分離できているか確認する。
 - 目的は、Day1で行った外部JSON化・読み込み・エラー処理・読み込み中状態を整理し、不要な処理や確認用コードが残っていないか確認することである。
+
+## 2026-06-21
+
+### Week4 Day1-12 完了
+
+### 完了したこと
+
+- Week4 Day1-12 として、外部JSON読み込み後の構成を棚卸しした。
+- `script.js` に古い `questions` 配列の問題データ本体が残っていないことを確認した。
+- `questions` が、外部JSONから読み込んだ配列を後から代入できるように `let questions = [];` の形になっていることを確認した。
+- `questions.json` が配列形式になっており、各問題データがオブジェクトとして並んでいることを確認した。
+- `loadQuestionsData()` の中で、読み込み中表示、回答ボタン無効化、`fetch`、`response.ok` 確認、`response.json()`、`questions` への代入、1問目表示、回答ボタン有効化の順番になっていることを確認した。
+- 一時確認用の `setTimeout` や `console.log` が残っていないことを確認した。
+- `hasNextQuestion()` が、固定された `questionCount` ではなく、現在の `questions.length` を見て判定していることを確認した。
+- ページ初期表示用として `renderQuestion(getCurrentQuestion())` を直接呼び出している箇所が残っていないことを確認した。
+- 初期処理として `loadQuestionsData()` が呼ばれていることを確認した。
+- 通常状態でクイズを3周し、問題表示、正誤判定、次問遷移、結果表示、再挑戦が正しく動くことを確認した。
+
+### 学んだこと
+
+- 外部JSON化後は、ページ読み込み直後に直接 `renderQuestion(getCurrentQuestion())` を呼ぶのではなく、`loadQuestionsData()` による読み込み完了後に呼ぶ必要がある。
+- `renderQuestion(getCurrentQuestion())` 自体が不要になるわけではなく、呼び出すタイミングと場所が重要である。
+- `loadQuestionsData()` 内の `renderQuestion(getCurrentQuestion())` は、JSON読み込み完了後に1問目を表示するために必要である。
+- `retryQuiz()` 内の `renderQuestion(getCurrentQuestion())` は、再挑戦時に1問目を表示し直すために必要である。
+- `nextButton` のイベントリスナー内の `renderQuestion(getCurrentQuestion())` は、次の問題へ進む時に必要である。
+- 初期表示・再挑戦・次問遷移では、同じ `renderQuestion(getCurrentQuestion())` を使っていても、それぞれ役割が異なる。
+- `questions.json` は問題データを持ち、`script.js` は読み込み、表示、正誤判定、状態管理などの処理を持つ、という分担に整理できた。
+
+### 詰まった点・注意点
+
+- 「最初に直接 `renderQuestion(getCurrentQuestion())` を呼ばない」という確認は、すべての `renderQuestion(getCurrentQuestion())` を削除するという意味ではない。
+- 初期表示前は `questions` がまだ空の可能性があるため、直接呼び出すと危険である。
+- 一方、JSON読み込み後、再挑戦時、次問遷移時には、現在の問題を表示するために `renderQuestion(getCurrentQuestion())` が必要である。
+- 外部JSON化後も、既存の表示関数や正誤判定関数の考え方は大きく変わらない。
+- 変わったのは、問題データが「最初から存在する」のではなく、「読み込み完了後に使える」ようになった点である。
+
+### Week4 Day1 でできるようになったこと
+
+- JavaScript内に直接書いていた問題データを、`questions.json` へ分離できるようになった。
+- JSONの基本的な書き方を確認できた。
+- `fetch()` を使って外部JSONファイルを読み込めるようになった。
+- `response.json()` を使って、Responseの本文をJavaScriptの配列として扱える形に変換できるようになった。
+- 読み込んだ問題データを `questions` に代入し、既存の `renderQuestion()` や `isCorrectAnswer()` と組み合わせて使えるようになった。
+- `response.ok` を使って、ファイルが見つからない場合などの読み込み失敗を扱えるようになった。
+- `try...catch` を使って、JSONの形式不正など `response.ok` だけでは拾えないエラーを扱えるようになった。
+- 読み込み中メッセージと回答ボタン無効化により、データ読み込み中にユーザーが操作できない状態を作れるようになった。
+- 外部データ読み込み後も、次問遷移、結果表示、再挑戦の既存機能を維持できるようになった。
+
+### 次にやること
+
+- Week4 Day2 に進む。
+- 次は、外部JSONから読み込む問題データの件数を増やし、データ追加時に `script.js` を変更しなくてもクイズ内容を増やせることを確認する。
+- 目的は、問題データとアプリ処理の分離をさらに実感し、JSON側のデータ追加だけでアプリが拡張できる状態を確認することである。
