@@ -143,13 +143,18 @@ function retryQuiz() {
 }
 
 async function loadQuestionsData() {
-    const response = await fetch("questions.json");
-    if (!response.ok) {
-        statement.textContent = "データ読み込みに失敗しました"
-        return;
+    try {
+        const response = await fetch("questions.json");
+        if (!response.ok) {
+            statement.textContent = "データ読み込みに失敗しました"
+            return;
+        }
+        questions = await response.json();
+        renderQuestion(getCurrentQuestion());
+    } catch (error) {
+        statement.textContent = "データ読み込み中にエラーが発生しました";
+        console.error(error);
     }
-    questions = await response.json();
-    renderQuestion(getCurrentQuestion());
 };
 
 
