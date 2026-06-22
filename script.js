@@ -207,16 +207,21 @@ async function loadQuestionsData() {
         const loadedQuestions = await response.json();
 
         if (!Array.isArray(loadedQuestions)) {
-            showLoadError("読み込んだデータに問題が発見されました。");
+            showLoadError("読み込んだデータが配列になっていません。");
             return;
         }
 
         if (loadedQuestions.length === 0) {
-            showLoadError("読み込んだデータに問題が発見されました。");
+            showLoadError("読み込んだデータに問題が入っていません。");
             return;
         }
 
         if (!loadedQuestions.every(isValidQuestion)) {
+            loadedQuestions.forEach(function (question, index) {
+                if (!isValidQuestion(question)){
+                    console.error(`${index + 1}問目のデータに問題があります。`);
+                }
+            });
             showLoadError("読み込んだデータに問題が発見されました。");
             return;
         }
