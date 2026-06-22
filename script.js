@@ -190,38 +190,42 @@ function isValidQuestion(question) {
     return true;
 }
 
+function showLoadError(message) {
+    statement.textContent = message;
+}
+
 async function loadQuestionsData() {
     try {
         statement.textContent = "問題を読み込んでいます……";
         disableAnswerButtons();
         const response = await fetch("questions.json");
         if (!response.ok) {
-            statement.textContent = "データ読み込みに失敗しました"
+            showLoadError("データ読み込みに失敗しました。");
             return;
         }
 
-        const loadedquestions = await response.json();
+        const loadedQuestions = await response.json();
 
-        if (!Array.isArray(loadedquestions)) {
-            statement.textContent = "読み込んだデータに問題が発見されました。";
+        if (!Array.isArray(loadedQuestions)) {
+            showLoadError("読み込んだデータに問題が発見されました。");
             return;
         }
 
-        if (loadedquestions.length === 0) {
-            statement.textContent = "読み込んだデータに問題が発見されました。";
-        return;
+        if (loadedQuestions.length === 0) {
+            showLoadError("読み込んだデータに問題が発見されました。");
+            return;
         }
 
-        if (!loadedquestions.every(isValidQuestion)) {
-            statement.textContent = "読み込んだデータに問題が発見されました。";
-        return;
+        if (!loadedQuestions.every(isValidQuestion)) {
+            showLoadError("読み込んだデータに問題が発見されました。");
+            return;
         }
 
-        questions = loadedquestions;
+        questions = loadedQuestions;
         renderQuestion(getCurrentQuestion());
         enableAnswerButtons();
     } catch (error) {
-        statement.textContent = "データ読み込み中にエラーが発生しました";
+        showLoadError("データ読み込み中にエラーが発生しました。");
         console.error(error);
     }
 };
