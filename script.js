@@ -121,7 +121,6 @@ function renderFinalScore() {
     quizScore.textContent = `おつかれさまでした！ 全${questions.length}問中${score}問正解！ 正答率は${correctRate}%です！`;
 }
 
-
 function resetQuizState() {
     currentQuestionIndex = 0;
     isAnswered = false;
@@ -155,43 +154,43 @@ function isNonEmptyString(value) {
 }
 
 function isValidQuestion(question) {
-    if (typeof question !== "object" || question === null) {
-        return false;
-    }
-
-    if (!isNonEmptyString(question.statement)) {
-        return false;
-    }
-
-    if (!isNonEmptyString(question.correctAnswer)) {
-        return false;
-    }
-
-    if (!isNonEmptyString(question.reasonText)) {
-        return false;
-    }
-
-    if (!Array.isArray(question.choices)) {
-        return false;
-    }
-
-    if (question.choices.length !== answerButtons.length) {
-        return false;
-    }
-
-    if (!question.choices.every(isNonEmptyString)) {
-        return false;
-    }
-
-    if (!question.choices.includes(question.correctAnswer)) {
-        return false;
-    }
-
-    return true;
+    return getQuestionValidationErrors(question).length === 0;
 }
 
 function showLoadError(message) {
     statement.textContent = message;
+}
+
+function getQuestionValidationErrors(question) {
+    const errors = [];
+    if (typeof question !== "object") {
+        errors.push('問題データがオブジェクトになっていません。');
+        return errors;
+    }
+    if (!isNonEmptyString(question.statement)) {
+        errors.push("問題文が空か、または文字列になっていません。");
+    }
+    if (!isNonEmptyString(question.correctAnswer)) {
+        errors.push("正解が空か、または文字列になっていません。")
+    }
+    if (!isNonEmptyString(question.reasonText)) {
+        errors.push("解説文が空か、または文字列になっていません。");
+    }
+    if (!Array.isArray(question.choices)) {
+        errors.push("選択肢が配列になっていません。");
+    } else {
+        if (question.choices.length !== answerButtons.length) {
+            errors.push("選択肢の数がボタンの数と一致していません。");
+        }
+        if (!question.choices.every(isNonEmptyString)) {
+            errors.push("選択肢の中に空、または文字列ではない値があります。");
+        }
+        if (!question.choices.includes(question.correctAnswer)) {
+            errors.push("正解が選択肢の中に含まれていません。")
+        }
+    }
+
+    return errors;
 }
 
 async function loadQuestionsData() {
@@ -218,8 +217,14 @@ async function loadQuestionsData() {
 
         if (!loadedQuestions.every(isValidQuestion)) {
             loadedQuestions.forEach(function (question, index) {
-                if (!isValidQuestion(question)){
+                const errors = getQuestionValidationErrors(question);
+
+                if (errors.length > 0) {
                     console.error(`${index + 1}問目のデータに問題があります。`);
+
+                    errors.forEach(function (errorMessage) {
+                        console.error(`- ${errorMessage}`);
+                    })
                 }
             });
             showLoadError("読み込んだデータに問題が発見されました。");

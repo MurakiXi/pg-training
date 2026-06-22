@@ -2313,3 +2313,37 @@
 
 - Week4 Day3-4 に進む。
 - 次は、Consoleに「何問目」だけでなく、「どの項目が不正なのか」まで出せる構成を考える。
+
+## 2026-06-22
+
+### Week4 Day3-5 完了
+
+### 完了したこと
+
+- `getQuestionValidationErrors(question)` を作成し、1問分の問題データに含まれる不備をエラー文の配列として返せるようにした。
+- `isValidQuestion(question)` を、`getQuestionValidationErrors(question).length === 0` を返す形に整理した。
+- `isValidQuestion()` は有効かどうかの判定だけを担当し、詳細なエラー内容の判定は `getQuestionValidationErrors()` に任せる形にした。
+- `loadQuestionsData()` 内の `forEach` で `getQuestionValidationErrors(question)` を呼び、エラーがある問題について Console に問題番号と詳細メッセージを表示するようにした。
+- 正常な3問構成では Console にエラーが出ず、クイズを3周できることを確認した。
+- 2問目の `statement` を一時的に空文字にし、Console に想定通りの詳細エラーが出ることを確認した。
+- 2問目の `correctAnswer` を `choices` に存在しない値にし、Console に想定通りの詳細エラーが出ることを確認した。
+- テスト後、`questions.json` を正常な3問構成に戻した。
+
+### 学んだこと
+
+- `true / false` だけを返す関数では、どの項目が不正なのかまでは分からない。
+- エラー文の配列を返す関数を作ると、1問分のデータに複数の不備があってもまとめて確認できる。
+- `isValidQuestion()` は、詳細な検証結果の配列が空かどうかを見るだけにすると簡潔になる。
+- Console には、利用者向け画面よりも詳しい開発者向け情報を出すと、データ修正がしやすくなる。
+- `!` の有無ひとつで、正常データを不正扱いしてしまうことがあるため、条件式の向きに注意する必要がある。
+
+### 詰まった点・注意点
+
+- `getQuestionValidationErrors()` の条件式で `!` が抜けると、正常な問題データにもエラーが出てしまう。
+- `choices` が配列かどうかを確認する前に、`choices.length` や `choices.includes()` を使わないよう順番に注意する。
+- Console に配列をそのまま出すより、`forEach` で1行ずつエラーメッセージを表示した方が読みやすい。
+
+### 次にやること
+
+- Week4 Day3-6 に進む。
+- 次は、詳細なデータ検証処理を最終確認し、問題数を増やしても管理しやすい構成になっているか棚卸しする。
