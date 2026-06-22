@@ -142,32 +142,32 @@ function retryQuiz() {
     renderQuestion(getCurrentQuestion());
 }
 
+function isNonEmptyString(value) {
+    if (typeof value !== "string") {
+        return false;
+    }
+
+    if (value.trim() === "") {
+        return false;
+    }
+
+    return true;
+}
+
 function isValidQuestion(question) {
     if (typeof question !== "object" || question === null) {
         return false;
     }
 
-    if (typeof question.statement !== "string") {
+    if (!isNonEmptyString(question.statement)) {
         return false;
     }
 
-    if (question.statement.trim() === "") {
+    if (!isNonEmptyString(question.correctAnswer)) {
         return false;
     }
 
-    if (typeof question.correctAnswer !== "string") {
-        return false;
-    }
-
-    if (question.correctAnswer.trim() === "") {
-        return false;
-    }
-
-    if (typeof question.reasonText !== "string") {
-        return false;
-    }
-
-    if (question.reasonText.trim() === "") {
+    if (!isNonEmptyString(question.reasonText)) {
         return false;
     }
 
@@ -179,9 +179,7 @@ function isValidQuestion(question) {
         return false;
     }
 
-    if (!question.choices.every(function (choice) {
-        return typeof choice === "string" && choice.trim() !== "";
-    })) {
+    if (!question.choices.every(isNonEmptyString)) {
         return false;
     }
 
@@ -216,7 +214,7 @@ async function loadQuestionsData() {
 
         if (!loadedquestions.every(isValidQuestion)) {
             statement.textContent = "読み込んだデータに問題が発見されました。";
-            return;
+        return;
         }
 
         questions = loadedquestions;
