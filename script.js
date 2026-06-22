@@ -142,6 +142,56 @@ function retryQuiz() {
     renderQuestion(getCurrentQuestion());
 }
 
+function isValidQuestion(question) {
+    if (typeof question !== "object" || question === null) {
+        return false;
+    }
+
+    if (typeof question.statement !== "string") {
+        return false;
+    }
+
+    if (question.statement.trim() === "") {
+        return false;
+    }
+
+    if (typeof question.correctAnswer !== "string") {
+        return false;
+    }
+
+    if (question.correctAnswer.trim() === "") {
+        return false;
+    }
+
+    if (typeof question.reasonText !== "string") {
+        return false;
+    }
+
+    if (question.reasonText.trim() === "") {
+        return false;
+    }
+
+    if (!Array.isArray(question.choices)) {
+        return false;
+    }
+
+    if (question.choices.length !== answerButtons.length) {
+        return false;
+    }
+
+    if (!question.choices.every(function (choice) {
+        return typeof choice === "string" && choice.trim() !== "";
+    })) {
+        return false;
+    }
+
+    if (!question.choices.includes(question.correctAnswer)) {
+        return false;
+    }
+
+    return true;
+}
+
 async function loadQuestionsData() {
     try {
         statement.textContent = "問題を読み込んでいます……";
@@ -151,7 +201,25 @@ async function loadQuestionsData() {
             statement.textContent = "データ読み込みに失敗しました"
             return;
         }
-        questions = await response.json();
+
+        const loadedquestions = await response.json();
+
+        if (!Array.isArray(loadedquestions)) {
+            statement.textContent = "読み込んだデータに問題が発見されました。";
+            return;
+        }
+
+        if (loadedquestions.length === 0) {
+            statement.textContent = "読み込んだデータに問題が発見されました。";
+        return;
+        }
+
+        if (!loadedquestions.every(isValidQuestion)) {
+            statement.textContent = "読み込んだデータに問題が発見されました。";
+            return;
+        }
+
+        questions = loadedquestions;
         renderQuestion(getCurrentQuestion());
         enableAnswerButtons();
     } catch (error) {
@@ -159,7 +227,6 @@ async function loadQuestionsData() {
         console.error(error);
     }
 };
-
 
 //6.関数の呼び出し
 loadQuestionsData();
