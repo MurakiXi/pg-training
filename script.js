@@ -167,6 +167,9 @@ function getQuestionValidationErrors(question) {
         errors.push('問題データがオブジェクトになっていません。');
         return errors;
     }
+    if (!isNonEmptyString(question.id)) {
+        errors.push("IDが空か、または文字列になっていません。");
+    }
     if (!isNonEmptyString(question.statement)) {
         errors.push("問題文が空か、または文字列になっていません。");
     }
