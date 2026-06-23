@@ -2347,3 +2347,37 @@
 
 - Week4 Day3-6 に進む。
 - 次は、詳細なデータ検証処理を最終確認し、問題数を増やしても管理しやすい構成になっているか棚卸しする。
+
+## 2026-06-22
+
+### Week4 Day3-6 完了
+
+### 完了したこと
+
+- Week4 Day3で追加した詳細エラー表示まわりを棚卸しした。
+- `getQuestionValidationErrors(question)` が、1問分の問題データを受け取り、エラー文の配列を返す関数であることを確認した。
+- `getQuestionValidationErrors(question)` が空配列を返す場合は、その1問分の問題データが正しい形式であると整理した。
+- `isValidQuestion(question)` は、`getQuestionValidationErrors(question).length === 0` によって、1問分の問題データが有効かどうかを判定する関数であると確認した。
+- `loadedQuestions.every(isValidQuestion)` は、読み込んだ全問題が正しい形式かどうかを確認する処理であると整理した。
+- `forEach(function (question, index) { ... })` は、不正な問題が何問目かを Console に表示するために使っていると確認した。
+- 画面表示は利用者向け、Console表示は開発者向けとして役割を分ける理由を整理した。
+- `choices` が配列かどうかを確認する前に、`length`、`every()`、`includes()` を使うと危険であることを確認した。
+
+### 学んだこと
+
+- `true / false` の判定と、詳細なエラー診断は分けて考えると見通しがよくなる。
+- `getQuestionValidationErrors()` は「どこが悪いか」を診断する関数であり、`isValidQuestion()` は「有効かどうか」だけを判断する関数である。
+- `isValidQuestion(question)` は1問分の判定を行い、`loadedQuestions.every(isValidQuestion)` は全問題の判定を行う。
+- 利用者には簡潔なエラー文を表示し、開発者には Console で問題番号と詳細エラーを表示すると、混乱を避けつつ修正しやすくなる。
+- 問題数が10問、20問と増えても、Console に「何問目のどの項目が悪いか」が出れば、データ不備を見つけやすい。
+
+### 詰まった点・注意点
+
+- `isValidQuestion(question)` と `loadedQuestions.every(isValidQuestion)` では、見ている範囲が違う。
+- `choices` が配列か確認する前に、`choices.length`、`choices.every()`、`choices.includes()` を呼ぶと、意味の違う判定になったり、エラーで止まったりする可能性がある。
+- Console に出す情報は開発者向けなので詳しくてよいが、画面に出す情報は利用者向けに簡潔にする。
+
+### 次にやること
+
+- Week4 Day4 に進む。
+- 次は、外部JSON化とデータ検証を前提に、問題追加・保守・表示まわりをさらに扱いやすくする。
