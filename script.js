@@ -161,6 +161,27 @@ function showLoadError(message) {
     statement.textContent = message;
 }
 
+function findDuplicateQuestionIds(questions) {
+    const checkedIds = [];
+    const duplicateIds = [];
+
+    questions.forEach(function (question) {
+        if (!isNonEmptyString(question.id)) {
+            return;
+        }
+
+        if (checkedIds.includes(question.id)) {
+            if (!duplicateIds.includes(question.id)) {
+                duplicateIds.push(question.id);
+            }
+        } else {
+            checkedIds.push(question.id);
+        }
+    });
+
+    return duplicateIds;
+}
+
 function getQuestionValidationErrors(question) {
     const errors = [];
     if (typeof question !== "object") {
@@ -234,6 +255,17 @@ async function loadQuestionsData() {
                         console.error(`- ${errorMessage}`);
                     });
                 }
+            });
+
+            showLoadError("読み込んだデータに問題が発見されました。");
+            return;
+        }
+
+        const duplicateIds = findDuplicateQuestionIds(loadedQuestions);
+        
+        if (duplicateIds.length > 0) {
+            duplicateIds.forEach(function (duplicateId) {
+                console.error(`id: ${duplicateId} が重複しています。`);
             });
 
             showLoadError("読み込んだデータに問題が発見されました。");
