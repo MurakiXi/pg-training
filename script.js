@@ -223,13 +223,19 @@ async function loadQuestionsData() {
                 const errors = getQuestionValidationErrors(question);
 
                 if (errors.length > 0) {
-                    console.error(`${index + 1}問目のデータに問題があります。`);
+                    const questionLabel =
+                        typeof question === "object" && question !== null && isNonEmptyString(question.id)
+                            ? question.id
+                            : `${index + 1}問目`;
+
+                    console.error(`${questionLabel} のデータに問題があります。`);
 
                     errors.forEach(function (errorMessage) {
                         console.error(`- ${errorMessage}`);
-                    })
+                    });
                 }
             });
+
             showLoadError("読み込んだデータに問題が発見されました。");
             return;
         }
