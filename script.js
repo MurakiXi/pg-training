@@ -32,7 +32,7 @@ const hideElements = [
     reason,
 ];
 
-//5.関数の自作
+//2.関数の自作
 function renderQuestion(question) {
     statement.textContent = question.statement;
     answerButtons.forEach(function (answerButton, index) {
@@ -220,6 +220,7 @@ function getQuestionValidationErrors(question) {
 async function loadQuestionsData() {
     try {
         statement.textContent = "問題を読み込んでいます……";
+        hideNextButton();
         disableAnswerButtons();
         const response = await fetch("questions.json");
         if (!response.ok) {
@@ -275,16 +276,25 @@ async function loadQuestionsData() {
         questions = loadedQuestions;
         renderQuestion(getCurrentQuestion());
         enableAnswerButtons();
+        showNextButton();
     } catch (error) {
         showLoadError("データ読み込み中にエラーが発生しました。");
         console.error(error);
     }
 };
 
-//6.関数の呼び出し
+function hideNextButton() {
+    nextButton.style.display = "none";
+}
+
+function showNextButton() {
+    nextButton.style.display = "";
+}
+
+//3.関数の呼び出し
 loadQuestionsData();
 
-//7.イベントリスナー設定
+//4.イベントリスナー設定
 answerButtons.forEach(function (answerButton) {
     answerButton.addEventListener("click", function (event) {
         if (!isAnswered){
