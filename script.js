@@ -221,6 +221,7 @@ async function loadQuestionsData() {
     try {
         statement.textContent = "問題を読み込んでいます……";
         hideNextButton();
+        hideChoicesArea();
         disableAnswerButtons();
         const response = await fetch("questions.json");
         if (!response.ok) {
@@ -277,6 +278,7 @@ async function loadQuestionsData() {
         renderQuestion(getCurrentQuestion());
         enableAnswerButtons();
         showNextButton();
+        showChoicesArea();
     } catch (error) {
         showLoadError("データ読み込み中にエラーが発生しました。");
         console.error(error);
@@ -289,6 +291,14 @@ function hideNextButton() {
 
 function showNextButton() {
     nextButton.style.display = "";
+}
+
+function hideChoicesArea() {
+    choices.style.display = "none";
+}
+
+function showChoicesArea() {
+    choices.style.display = "";
 }
 
 //3.関数の呼び出し
