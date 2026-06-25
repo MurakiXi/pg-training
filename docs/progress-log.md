@@ -2629,3 +2629,29 @@
 
 - Week4 Day5-5 に進む。
 - 次は、読み込みエラー時に何度も出てくる `setQuizMode(QUIZ_MODE.LOAD_ERROR)` と `showLoadError(...)` の扱いを整理する。
+
+## 2026-06-25
+
+### Week4 Day5-5 完了
+
+### 完了したこと
+
+- 読み込みエラー時に繰り返し書いていた `setQuizMode(QUIZ_MODE.LOAD_ERROR)` と `showLoadError(...)` を、`showErrorScreen(errorDetail)` に切り出した。
+- `showErrorScreen(errorDetail)` の中で、画面モードを `LOAD_ERROR` に切り替えたうえで、`statement` にエラーメッセージを表示するようにした。
+- `loadQuestionsData()` 内の各エラー箇所を `showErrorScreen(...)` に置き換えた。
+- 各エラー箇所の `return` は、呼び出し元である `loadQuestionsData()` 側に残した。
+- `questions.json` のファイル名ミス、空配列、問題形式不正、id重複の各パターンで、想定通りエラー画面になることを確認した。
+- テスト後、`questions.json` を正常形に戻し、通常通りクイズが動作することを確認した。
+
+### 学んだこと
+
+- 同じ処理の組み合わせが複数箇所に出てくる場合は、関数に切り出すと読みやすくなる。
+- `showLoadError()` はエラーメッセージを表示するだけの関数である。
+- `showErrorScreen()` は、画面モードをエラー状態に切り替えたうえで、エラーメッセージを表示する関数である。
+- `return` は書いた関数だけを終了するため、`showErrorScreen()` の中ではなく、`loadQuestionsData()` 側に残す必要がある。
+- エラー処理を関数化すると、画面モード切り替えとメッセージ表示の抜け漏れを防ぎやすくなる。
+
+### 次にやること
+
+- Week4 Day5-6 に進む。
+- 次は、読み込み成功時の処理も整理し、正常にクイズを開始する処理を関数としてまとめられるか検討する。

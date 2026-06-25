@@ -177,6 +177,12 @@ function showLoadError(message) {
     statement.textContent = message;
 }
 
+function showErrorScreen(errorDetail) {
+    setQuizMode(QUIZ_MODE.LOAD_ERROR);
+    showLoadError(errorDetail);
+}
+
+
 function findDuplicateQuestionIds(questions) {
     const checkedIds = [];
     const duplicateIds = [];
@@ -242,22 +248,19 @@ async function loadQuestionsData() {
         disableAnswerButtons();
         const response = await fetch("questions.json");
         if (!response.ok) {
-            setQuizMode(QUIZ_MODE.LOAD_ERROR);
-            showLoadError("データ読み込みに失敗しました。");
+            showErrorScreen("データ読み込みに失敗しました。");
             return;
         }
 
         const loadedQuestions = await response.json();
 
         if (!Array.isArray(loadedQuestions)) {
-            setQuizMode(QUIZ_MODE.LOAD_ERROR);
-            showLoadError("読み込んだデータが配列になっていません。");
+            showErrorScreen("読み込んだデータが配列になっていません。");
             return;
         }
 
         if (loadedQuestions.length === 0) {
-            setQuizMode(QUIZ_MODE.LOAD_ERROR);
-            showLoadError("読み込んだデータに問題が入っていません。");
+            showErrorScreen("読み込んだデータに問題が入っていません。");
             return;
         }
 
@@ -278,8 +281,8 @@ async function loadQuestionsData() {
                     });
                 }
             });
-            setQuizMode(QUIZ_MODE.LOAD_ERROR);
-            showLoadError("読み込んだデータに問題が発見されました。");
+
+            showErrorScreen("読み込んだデータに問題が発見されました。");
             return;
         }
 
@@ -289,8 +292,7 @@ async function loadQuestionsData() {
             duplicateIds.forEach(function (duplicateId) {
                 console.error(`id: ${duplicateId} が重複しています。`);
             });
-            setQuizMode(QUIZ_MODE.LOAD_ERROR);
-            showLoadError("読み込んだデータに問題が発見されました。");
+            showErrorScreen("読み込んだデータに問題が発見されました。");
             return;
         }
 
@@ -301,8 +303,7 @@ async function loadQuestionsData() {
         showChoicesArea();
         setQuizMode(QUIZ_MODE.ANSWERING);
     } catch (error) {
-        setQuizMode(QUIZ_MODE.LOAD_ERROR);
-        showLoadError("データ読み込み中にエラーが発生しました。");
+        showErrorScreen("データ読み込み中にエラーが発生しました。");
         console.error(error);
     }
 };
