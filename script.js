@@ -3,12 +3,14 @@ const QUIZ_MODE = {
     ANSWERING: "answering",
     READY_TO_RESULT: "readyToResult",
     RESULT: "result",
+    LOADING: "loading",
+    LOAD_ERROR: "loadError"
 };
 
 let currentQuestionIndex = 0;
 let isAnswered = false;
 let score = 0;
-let quizMode = QUIZ_MODE.ANSWERING;
+let quizMode = QUIZ_MODE.LOADING;
 let questions = [];
 const questionCount = questions.length;
 
@@ -26,7 +28,6 @@ const choices = document.querySelector(".choices")
 const hideElements = [
     progress,
     questionTitle,
-    statement,
     choices,
     result,
     reason,
@@ -56,11 +57,24 @@ function updateNextButtonText() {
 }
 
 function updateScreenByQuizMode() {
+    if (quizMode === QUIZ_MODE.LOADING || quizMode === QUIZ_MODE.LOAD_ERROR) {
+        hideElements.forEach(function (element) {
+            element.style.display = "none";
+        });
+
+        statement.style.display = "";
+        nextButton.style.display = "none";
+        quizScore.style.display = "none";
+        return;
+    }
+
     if (quizMode === QUIZ_MODE.RESULT) {
         hideElements.forEach(function (element) {
             element.style.display = "none";
         });
 
+        statement.style.display = "none";
+        nextButton.style.display = "";
         quizScore.style.display = "";
         return;
     }
@@ -69,6 +83,8 @@ function updateScreenByQuizMode() {
         element.style.display = "";
     });
 
+    statement.style.display = "";
+    nextButton.style.display = "";
     quizScore.style.display = "none";
 }
 
@@ -219,12 +235,14 @@ function getQuestionValidationErrors(question) {
 
 async function loadQuestionsData() {
     try {
+        setQuizMode(QUIZ_MODE.LOADING);
         statement.textContent = "問題を読み込んでいます……";
         hideNextButton();
         hideChoicesArea();
         disableAnswerButtons();
         const response = await fetch("questions.json");
         if (!response.ok) {
+            setQuizMode(QUIZ_MODE.LOAD_ERROR);
             showLoadError("データ読み込みに失敗しました。");
             return;
         }
@@ -232,11 +250,13 @@ async function loadQuestionsData() {
         const loadedQuestions = await response.json();
 
         if (!Array.isArray(loadedQuestions)) {
+            setQuizMode(QUIZ_MODE.LOAD_ERROR);
             showLoadError("読み込んだデータが配列になっていません。");
             return;
         }
 
         if (loadedQuestions.length === 0) {
+            setQuizMode(QUIZ_MODE.LOAD_ERROR);
             showLoadError("読み込んだデータに問題が入っていません。");
             return;
         }
@@ -258,7 +278,7 @@ async function loadQuestionsData() {
                     });
                 }
             });
-
+            setQuizMode(QUIZ_MODE.LOAD_ERROR);
             showLoadError("読み込んだデータに問題が発見されました。");
             return;
         }
@@ -269,7 +289,7 @@ async function loadQuestionsData() {
             duplicateIds.forEach(function (duplicateId) {
                 console.error(`id: ${duplicateId} が重複しています。`);
             });
-
+            setQuizMode(QUIZ_MODE.LOAD_ERROR);
             showLoadError("読み込んだデータに問題が発見されました。");
             return;
         }
@@ -279,7 +299,9 @@ async function loadQuestionsData() {
         enableAnswerButtons();
         showNextButton();
         showChoicesArea();
+        setQuizMode(QUIZ_MODE.ANSWERING);
     } catch (error) {
+        setQuizMode(QUIZ_MODE.LOAD_ERROR);
         showLoadError("データ読み込み中にエラーが発生しました。");
         console.error(error);
     }
@@ -300,6 +322,11 @@ function hideChoicesArea() {
 function showChoicesArea() {
     choices.style.display = "";
 }
+
+function hideQuizContentDuringLoad() { }
+    const quizContent = 
+
+function showQuizContentDuringLoad(){}
 
 //3.関数の呼び出し
 loadQuestionsData();
