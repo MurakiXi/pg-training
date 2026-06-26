@@ -2749,3 +2749,67 @@
 - 次は、TypeScript導入に向けて現在のJavaScriptコードの構造を棚卸しする。
 - まずは型を付ける対象として、問題データ、状態変数、DOM要素、関数の引数と戻り値を分類する。
 - 目的は、いきなり `script.ts` に書き換えるのではなく、どこにどの型が必要になるかを事前に見通せるようにすることである。
+
+## 2026-06-26
+
+### Week5 Day1-2 完了
+
+### 完了したこと
+
+- TypeScript化に入る前に、現在の `script.js` の値や関数を分類した。
+- 問題データに関係するものとして、`questions`、`id`、`statement`、`correctAnswer`、`reasonText`、`choices`、データ検証関数、読み込み関数を挙げた。
+- クイズの状態に関係するものとして、`currentQuestionIndex`、`isAnswered`、`score`、`quizMode`、`resetQuizState()` を挙げた。
+- DOM要素に関係するものとして、`answerButtons`、`statement`、`result`、`reason`、`nextButton`、`progress`、`quizScore`、`questionTitle`、`choices`、`hideElements` などを挙げた。
+- 関数の引数・戻り値については、まだ分類に不安があることを確認した。
+- TypeScriptについて、現時点では変換、型チェック、型推論、any、関数引数の型注釈が必要になりやすいことを理解していると整理した。
+
+### 学んだこと
+
+- TypeScript化では、値を「問題データ」「状態」「DOM要素」「関数の引数・戻り値」に分けて見ると整理しやすい。
+- `id`、`statement`、`correctAnswer`、`reasonText`、`choices` は1問分の問題データの中身である。
+- `questions` は問題データの配列である。
+- `quizMode` は現在の状態を表し、`QUIZ_MODE` は状態名の候補をまとめた定数である。
+- DOM要素は、TypeScriptでは `null` の可能性を考える必要がある。
+- 関数の型を見る時は、変数名を拾うだけでなく、「何を受け取り、何を返すか」を見る必要がある。
+- 外部JSONから読み込んだデータは、読み込んだ時点では信用せず、検証後に初めて期待する形として扱う必要がある。
+
+### 次にやること
+
+- Week5 Day1-3 に進む。
+- 次は、関数の引数と戻り値に注目して、現在の関数を「受け取る値」と「返す値」で整理する。
+- 目的は、TypeScriptで `string`、`boolean`、`void`、問題データ型などを付ける前に、関数ごとの入口と出口を読めるようにすることである。
+
+## 2026-06-26
+
+### Week5 Day1-3 完了
+
+### 完了したこと
+
+- TypeScript化に備えて、現在の関数を「受け取る値」と「返す値」で整理した。
+- `renderQuestion(question)` は1問分の問題データを受け取り、画面を書き換えるが、値は返さないと確認した。
+- `setQuizMode(newMode)` は変更後のクイズ状態を受け取り、状態変更と画面更新を行うが、値は返さないと確認した。
+- `getCurrentQuestion()` は引数を受け取らず、現在の問題データを返すと確認した。
+- `hasNextQuestion()` は引数を受け取らず、次の問題があるかどうかを `true / false` で返すと確認した。
+- `isCorrectAnswer(answerText, question)` は選択肢の文字列と問題データを受け取り、正解かどうかを `true / false` で返すと確認した。
+- `showResult(judge, explanation)`、`showLoadError(message)`、`showErrorScreen(errorDetail)` は画面を書き換える関数であり、値は返さないと確認した。
+- `isNonEmptyString(value)` と `isValidQuestion(question)` は、検証結果を `true / false` で返す関数だと確認した。
+- `getQuestionValidationErrors(question)` は、検証エラーメッセージの配列を返す関数だと確認した。
+- `findDuplicateQuestionIds(questions)` は、重複しているIDの配列を返す関数だと確認した。
+- `loadQuestionsData()` は `async` 関数であり、通常の意味では値を返さないが、TypeScriptでは `Promise<void>` と考える必要があると確認した。
+
+### 学んだこと
+
+- TypeScriptで関数を見る時は、「何をする関数か」だけでなく、「何を受け取り、何を返すか」を見る必要がある。
+- 画面を書き換える関数や状態を変更する関数は、処理は行うが値を返さない場合が多い。
+- 値を返さない関数は、TypeScriptでは `void` として扱う候補になる。
+- `true / false` を返す関数は、TypeScriptでは戻り値が `boolean` になる。
+- `getQuestionValidationErrors()` のように配列を返す関数は、戻り値の中身が何の配列かを考える必要がある。
+- `async` 関数は、値を返していないように見えても、TypeScriptでは `Promise<void>` のように考える必要がある。
+- 外部データを検証する関数では、最初から正しい問題データと決めつけず、「問題データらしきもの」を受け取って検証すると考える必要がある。
+
+### 次にやること
+
+- Week5 Day1-4 に進む。
+- 次は、今回整理した「受け取る値」と「返す値」を、TypeScriptの型候補に置き換える。
+- まずは `string`、`number`、`boolean`、`void`、`Promise<void>`、`string[]`、問題データ型の候補を、日本語で対応させる。
+- 目的は、いきなりコードに型注釈を書く前に、現在の関数へどの型が必要になるかを判断できるようにすることである。
