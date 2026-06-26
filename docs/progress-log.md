@@ -2718,3 +2718,34 @@
 
 - Week5 に進む。
 - 次は、ここまで作ったクイズアプリを土台に、見た目・ユーザー操作・回答後の表示改善など、利用者にとって分かりやすいUIへ整えていく。
+
+## 2026-06-26
+
+### Week5 Day1-1 完了
+
+### 完了したこと
+
+- TypeScript導入前の準備として、`script.js` に残っていた未使用・未整理の関数を削除した。
+- `hideNextButton()`、`showNextButton()`、`hideChoicesArea()`、`showChoicesArea()`、`hideQuizContentDuringLoad()`、`showQuizContentDuringLoad()` を削除した。
+- 書きかけの `const quizContent =` を削除した。
+- DOM取得部分のセミコロン抜けを修正した。
+- `updateNextButtonText()` の `QUIZ_MODE.RESULT` 分岐を、波括弧つきの読みやすい形に整えた。
+- `getQuestionValidationErrors(question)` で、`question` が `null` の場合も不正データとして扱えるようにした。
+- 不要な `questionCount` を削除した。
+- 正常な `questions.json` で、クイズを3周しても正しく動作することを確認した。
+- `questions.json` のファイル名ミス、空配列、問題形式不正、ID重複の各ケースで、想定通りエラー表示が出ることを確認した。
+- テスト後、`questions.json` を正常な状態に戻した。
+
+### 学んだこと
+
+- TypeScript導入前には、未使用関数や書きかけコードを整理しておく必要がある。
+- 使っていない変数や関数が残っていると、型付け時に余計な判断材料が増え、学習効率が落ちる。
+- `typeof null` は `"object"` になるため、外部データを検証する時は `question === null` も明示的に確認する必要がある。
+- 正常系だけでなく、読み込み失敗・空配列・形式不正・ID重複などの異常系も確認すると、整理後の安全性を確かめられる。
+
+### 次にやること
+
+- Week5 Day1-2 に進む。
+- 次は、TypeScript導入に向けて現在のJavaScriptコードの構造を棚卸しする。
+- まずは型を付ける対象として、問題データ、状態変数、DOM要素、関数の引数と戻り値を分類する。
+- 目的は、いきなり `script.ts` に書き換えるのではなく、どこにどの型が必要になるかを事前に見通せるようにすることである。

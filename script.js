@@ -12,18 +12,17 @@ let isAnswered = false;
 let score = 0;
 let quizMode = QUIZ_MODE.LOADING;
 let questions = [];
-const questionCount = questions.length;
 
 //2.要素の取得
 const answerButtons = document.querySelectorAll(".answer-button");
-const statement = document.querySelector("#statement")
+const statement = document.querySelector("#statement");
 const result = document.querySelector("#result");
 const reason = document.querySelector("#reason");
 const nextButton = document.querySelector("#next-button");
 const progress = document.querySelector("#progress");
 const quizScore = document.querySelector("#quiz-score");
 const questionTitle = document.querySelector(".question-title");
-const choices = document.querySelector(".choices")
+const choices = document.querySelector(".choices");
 
 const hideElements = [
     progress,
@@ -52,8 +51,9 @@ function updateNextButtonText() {
         nextButton.textContent = "次の問題";
     } else if (quizMode === QUIZ_MODE.READY_TO_RESULT) {
         nextButton.textContent = "結果を見る";
-    } else if (quizMode === QUIZ_MODE.RESULT)
-        { nextButton.textContent = "もう一度挑戦！" };
+    } else if (quizMode === QUIZ_MODE.RESULT) {
+        nextButton.textContent = "もう一度挑戦！";
+    }
 }
 
 function updateScreenByQuizMode() {
@@ -206,7 +206,7 @@ function findDuplicateQuestionIds(questions) {
 
 function getQuestionValidationErrors(question) {
     const errors = [];
-    if (typeof question !== "object") {
+    if (typeof question !== "object" || question === null) {
         errors.push('問題データがオブジェクトになっていません。');
         return errors;
     }
@@ -302,27 +302,6 @@ async function loadQuestionsData() {
         console.error(error);
     }
 };
-
-function hideNextButton() {
-    nextButton.style.display = "none";
-}
-
-function showNextButton() {
-    nextButton.style.display = "";
-}
-
-function hideChoicesArea() {
-    choices.style.display = "none";
-}
-
-function showChoicesArea() {
-    choices.style.display = "";
-}
-
-function hideQuizContentDuringLoad() { }
-    const quizContent = 
-
-function showQuizContentDuringLoad(){}
 
 //3.関数の呼び出し
 loadQuestionsData();
