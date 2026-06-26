@@ -243,9 +243,6 @@ async function loadQuestionsData() {
     try {
         setQuizMode(QUIZ_MODE.LOADING);
         statement.textContent = "問題を読み込んでいます……";
-        hideNextButton();
-        hideChoicesArea();
-        disableAnswerButtons();
         const response = await fetch("questions.json");
         if (!response.ok) {
             showErrorScreen("データ読み込みに失敗しました。");
@@ -299,8 +296,6 @@ async function loadQuestionsData() {
         questions = loadedQuestions;
         renderQuestion(getCurrentQuestion());
         enableAnswerButtons();
-        showNextButton();
-        showChoicesArea();
         setQuizMode(QUIZ_MODE.ANSWERING);
     } catch (error) {
         showErrorScreen("データ読み込み中にエラーが発生しました。");

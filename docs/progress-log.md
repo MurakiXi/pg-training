@@ -2655,3 +2655,28 @@
 
 - Week4 Day5-6 に進む。
 - 次は、読み込み成功時の処理も整理し、正常にクイズを開始する処理を関数としてまとめられるか検討する。
+
+## 2026-06-26
+
+### Week4 Day5-6 完了
+
+### 完了したこと
+
+- `LOADING` / `LOAD_ERROR` の画面制御を `updateScreenByQuizMode()` に集約した。
+- `loadQuestionsData()` の冒頭に残っていた `hideNextButton()`、`hideChoicesArea()`、`disableAnswerButtons()` を削除した。
+- 読み込み成功時に残っていた `showNextButton()`、`showChoicesArea()` も、`setQuizMode(QUIZ_MODE.ANSWERING)` による表示制御と重複するため削除した。
+- JSONファイル名ミス、空配列、問題形式エラー、id重複の各パターンで、エラー画面が想定通り表示されることを確認した。
+- テスト後、`questions.json` を正常形に戻し、クイズを3周できることを確認した。
+
+### 学んだこと
+
+- 画面表示の制御を `quizMode` と `updateScreenByQuizMode()` に寄せると、個別に `style.display` を操作する必要が減る。
+- 同じ表示制御を複数の場所で行うと、どこが画面状態の責任を持っているのか分かりにくくなる。
+- `hideNextButton()` や `hideChoicesArea()` のような個別関数は便利だが、状態管理が整理された後は不要になる場合がある。
+- 関数化は常に正解ではなく、再利用性・責務の分離・可読性のどれに効くのかを判断して行う必要がある。
+- 一度しか出てこない短い処理は、無理に関数化しない方が読みやすい場合がある。
+
+### 次にやること
+
+- Week4 Day5-7 に進む。
+- Day5全体の棚卸しを行い、`LOADING`、`LOAD_ERROR`、`ANSWERING`、`READY_TO_RESULT`、`RESULT` の役割を整理する。
