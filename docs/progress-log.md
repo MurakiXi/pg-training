@@ -2898,3 +2898,30 @@
 - 次は、TypeScriptをJavaScriptへ変換するための準備を行う。
 - まずは TypeScript コンパイラを使える状態か確認し、必要に応じてプロジェクトに TypeScript を導入する。
 - 目的は、`script.ts` を書いた後に、実行用の `script.js` へ変換できる流れを作ることである。
+
+## 2026-06-26
+
+### Week5 Day1-8 完了
+
+### 完了したこと
+
+- TypeScriptコンパイラを使う準備を行った。
+- `npx tsc --version` 実行時に `tsc@2.0.4` のインストールを求められたため、その場ではインストールせず中止した。
+- `tsc` パッケージではなく、TypeScript本体である `typescript` パッケージを導入する必要があることを確認した。
+- `npm install --save-dev typescript` を実行し、TypeScriptを開発用依存として追加した。
+- `npx tsc --version` を再実行し、TypeScriptコンパイラのバージョンが表示されることを確認した。
+
+### 学んだこと
+
+- TypeScriptのコンパイラ `tsc` は、`typescript` パッケージに含まれている。
+- `npx tsc --version` で `tsc@2.0.4` のインストールを求められた場合、そのまま進めるのは適切ではない。
+- プロジェクトでは、`npm install --save-dev typescript` により TypeScript を開発用依存として導入する。
+- `npx tsc --version` でバージョンが表示されれば、TypeScriptをJavaScriptへ変換する準備ができている。
+- `node_modules/` は依存パッケージ本体が入るフォルダであり、通常は Git 管理に含めない。
+
+### 次にやること
+
+- Week5 Day1-9 に進む。
+- 次は、`node_modules/` が Git 管理に入らないように `.gitignore` を確認する。
+- その後、TypeScript導入により追加された `package.json`、`package-lock.json` などを適切にコミットする。
+- 目的は、TypeScriptを導入した状態を、不要な依存フォルダを含めずにリポジトリへ記録することである。
