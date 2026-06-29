@@ -2870,3 +2870,31 @@
 - 次は、現在の `script.js` をすぐ全面的に書き換えるのではなく、TypeScript用ファイルを作る準備に入る。
 - `script.ts` を作成し、まずは `Question` 型だけを書いて、TypeScriptの型定義を実ファイル上で扱う入口に進む。
 - 目的は、JavaScriptの実行コードとTypeScriptの型定義を混同せず、段階的にTypeScript化を始めることである。
+
+## 2026-06-26
+
+### Week5 Day1-7 完了
+
+### 完了したこと
+
+- TypeScript化の入口として、`script.ts` を新規作成した。
+- `script.ts` の先頭に `Question` 型を定義した。
+- `Question` 型には、`id`、`statement`、`correctAnswer`、`reasonText`、`choices` を持たせた。
+- `id`、`statement`、`correctAnswer`、`reasonText` は `string` とした。
+- `choices` は複数の選択肢文字列を持つため、`string[]` とした。
+- 既存の `script.js` はまだ変更しなかった。
+- `index.html` の `script src` もまだ変更しなかった。
+
+### 学んだこと
+
+- TypeScript化では、いきなり既存のJavaScriptを全面的に書き換えず、型定義から段階的に始められる。
+- `script.ts` はTypeScriptとして書く元ファイルであり、ブラウザが直接実行する完成ファイルではない。
+- 現時点では、ブラウザで動いているのは従来通り `script.js` である。
+- `Question` 型を先に作ることで、今後 `questions`、`renderQuestion()`、`isCorrectAnswer()` などに型を付ける準備ができる。
+
+### 次にやること
+
+- Week5 Day1-8 に進む。
+- 次は、TypeScriptをJavaScriptへ変換するための準備を行う。
+- まずは TypeScript コンパイラを使える状態か確認し、必要に応じてプロジェクトに TypeScript を導入する。
+- 目的は、`script.ts` を書いた後に、実行用の `script.js` へ変換できる流れを作ることである。
