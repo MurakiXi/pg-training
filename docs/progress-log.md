@@ -2925,3 +2925,27 @@
 - 次は、`node_modules/` が Git 管理に入らないように `.gitignore` を確認する。
 - その後、TypeScript導入により追加された `package.json`、`package-lock.json` などを適切にコミットする。
 - 目的は、TypeScriptを導入した状態を、不要な依存フォルダを含めずにリポジトリへ記録することである。
+
+## 2026-06-26
+
+### Week5 Day1-10 完了
+
+### 完了したこと
+
+- `npx tsc --init` を実行し、`tsconfig.json` を作成した。
+- `npx tsc --showConfig` を実行し、TypeScriptが設定を読み込めることを確認した。
+- `index.html` は変更せず、引き続き `script.js` を読み込む状態のままにした。
+- `script.js` も変更しなかった。
+
+### 学んだこと
+
+- `tsconfig.json` は、TypeScriptをどの設定でコンパイルするかを管理する設定ファイルである。
+- `npx tsc --init` により、TypeScript用の設定ファイルを作成できる。
+- `npx tsc --showConfig` により、TypeScriptが認識している設定を確認できる。
+- TypeScript導入時も、既存の動作している `script.js` をすぐ置き換えず、段階的に進める方が安全である。
+
+### 次にやること
+
+- Week5 Day1-11 に進む。
+- 次は、TypeScriptをコンパイルした時に既存の `script.js` を上書きしないよう、出力先を確認・設定する。
+- 目的は、`script.ts` を安全に JavaScript へ変換できる準備を整えることである。
