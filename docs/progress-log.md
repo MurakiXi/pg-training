@@ -2813,3 +2813,32 @@
 - 次は、今回整理した「受け取る値」と「返す値」を、TypeScriptの型候補に置き換える。
 - まずは `string`、`number`、`boolean`、`void`、`Promise<void>`、`string[]`、問題データ型の候補を、日本語で対応させる。
 - 目的は、いきなりコードに型注釈を書く前に、現在の関数へどの型が必要になるかを判断できるようにすることである。
+
+## 2026-06-26
+
+### Week5 Day1-5 完了
+
+### 完了したこと
+
+- `questions.json` の1問分を見ながら、`Question` 型に必要な項目を整理した。
+- `id` は文字列なので `string` と考えた。
+- `statement` は問題文の文字列なので `string` と考えた。
+- `correctAnswer` は正解の文字列なので `string` と考えた。
+- `reasonText` は解説文の文字列なので `string` と考えた。
+- `choices` は複数の選択肢文字列を持つ配列なので `string[]` と考えた。
+- `Question` はTypeScriptに最初からある型ではなく、自分で作る型名であることを確認した。
+
+### 学んだこと
+
+- TypeScriptでは、1問分のデータの形に名前を付けて、自作型として扱える。
+- `string` は1つの文字列を表す。
+- `string[]` は文字列が複数入った配列を表す。
+- `choices` は1つの文字列ではなく、複数の選択肢を配列として持つため、`string` ではなく `string[]` になる。
+- `Question` は1問分の問題データの型であり、`Question[]` は問題データが複数入った配列の型である。
+
+### 次にやること
+
+- Week5 Day1-6 に進む。
+- 次は、実際に `script.js` の冒頭付近へ `Question` 型の形をTypeScriptとして書く準備をする。
+- まずは `type Question = { ... }` の書き方を確認し、`id`、`statement`、`correctAnswer`、`reasonText`、`choices` に型を付ける。
+- 目的は、問題データの形をTypeScript上で明示できるようにすることである。
