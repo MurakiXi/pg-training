@@ -2842,3 +2842,31 @@
 - 次は、実際に `script.js` の冒頭付近へ `Question` 型の形をTypeScriptとして書く準備をする。
 - まずは `type Question = { ... }` の書き方を確認し、`id`、`statement`、`correctAnswer`、`reasonText`、`choices` に型を付ける。
 - 目的は、問題データの形をTypeScript上で明示できるようにすることである。
+
+## 2026-06-26
+
+### Week5 Day1-6 完了
+
+### 完了したこと
+
+- `Question` 型を TypeScript の形で書く練習をした。
+- `type Question = { ... };` の形で、1問分の問題データの型を表せることを確認した。
+- `id`、`statement`、`correctAnswer`、`reasonText` は `string` とした。
+- `choices` は複数の選択肢文字列を持つ配列なので `string[]` とした。
+- `Question` はTypeScriptに最初から用意されている型ではなく、自分で定義する型名であることを確認した。
+- `Question` は1問分の問題データ、`Question[]` は問題データが複数入った配列を表すことを確認した。
+
+### 学んだこと
+
+- `type` を使うと、オブジェクトの形に名前を付けられる。
+- `Question` 型は、実際の値を書くものではなく、問題データが持つべき項目と型を示すものである。
+- `id: string;` は、`id` には文字列が入るべきだという意味である。
+- `choices: string[];` は、`choices` が文字列の配列であることを示す。
+- TypeScriptでは、配列を扱う時に「何が入った配列か」まで考える必要がある。
+
+### 次にやること
+
+- Week5 Day1-7 に進む。
+- 次は、現在の `script.js` をすぐ全面的に書き換えるのではなく、TypeScript用ファイルを作る準備に入る。
+- `script.ts` を作成し、まずは `Question` 型だけを書いて、TypeScriptの型定義を実ファイル上で扱う入口に進む。
+- 目的は、JavaScriptの実行コードとTypeScriptの型定義を混同せず、段階的にTypeScript化を始めることである。
