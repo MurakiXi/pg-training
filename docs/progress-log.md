@@ -2949,3 +2949,30 @@
 - Week5 Day1-11 に進む。
 - 次は、TypeScriptをコンパイルした時に既存の `script.js` を上書きしないよう、出力先を確認・設定する。
 - 目的は、`script.ts` を安全に JavaScript へ変換できる準備を整えることである。
+
+## 2026-06-26
+
+### Week5 Day1-11 完了
+
+### 完了したこと
+
+- TypeScriptのコンパイル結果が既存の `script.js` を上書きしないように、`tsconfig.json` を設定した。
+- `compilerOptions` に `"rootDir": "."` を追加した。
+- `compilerOptions` に `"outDir": "./dist"` を追加した。
+- TypeScriptの対象ファイルを限定するため、`include` を `["script.ts"]` にした。
+- `include` は `compilerOptions` の外側に置くことを確認した。
+- 不要な末尾カンマを削除し、設定ファイルの形を整えた。
+
+### 学んだこと
+
+- `outDir` を設定すると、TypeScriptから生成されるJavaScriptの出力先を指定できる。
+- 既存の `script.js` がある状態で `outDir` を設定しないと、将来的にファイル上書きの危険がある。
+- `rootDir` はTypeScriptの元ファイルがある基準位置を表す。
+- `include` はTypeScriptが対象にするファイルを指定する設定であり、`compilerOptions` の中ではなく外側に書く。
+- TypeScript導入時は、既存の動作品を壊さないように、出力先を分けて進める必要がある。
+
+### 次にやること
+
+- Week5 Day1-12 に進む。
+- 次は、初めて `npx tsc` を実行し、`script.ts` が `dist/` 配下に変換されるか確認する。
+- 目的は、既存の `script.js` を守ったまま、TypeScriptからJavaScriptを生成できることを確認することである。
