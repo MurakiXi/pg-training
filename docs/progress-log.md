@@ -3237,3 +3237,30 @@
 - Week5 Day1-23 に進む。
 - 次は、`QuizMode` 型が本当に不正な値を弾くかを確認する。
 - 目的は、TypeScriptの型が「ありえない状態名」を開発中に検出できることを体験することである。
+
+## 2026-06-26
+
+### Week5 Day1-23 完了
+
+### 完了したこと
+
+- `quizMode` に不正な値を入れた場合、TypeScriptがエラーを出すか確認した。
+- 一時的に `let quizMode: QuizMode = "結果";` と変更し、`npm run build` を実行した。
+- `Type '"結果"' is not assignable to type 'QuizMode'.` というエラーが出ることを確認した。
+- `"結果"` は `QuizMode` 型に含まれないため、`quizMode` には代入できないと理解した。
+- 確認後、`quizMode` の初期値を `QUIZ_MODE.LOADING` に戻した。
+- 元に戻した後、`npm run build` がエラーなく通ることを確認した。
+
+### 学んだこと
+
+- TypeScriptは、決められた型に合わない値を開発中に検出できる。
+- `QuizMode` 型を使うことで、`quizMode` に入れてよい状態名を制限できる。
+- `"結果"` のような任意の文字列は、`QuizMode` 型に含まれないため代入できない。
+- `as const` を付けた `QUIZ_MODE.LOADING` は `"loading"` として扱われるため、`QuizMode` 型に代入できる。
+- 型を作る、変数に型を付ける、不正な値を弾く、というTypeScriptの基本的な安全確認の流れを体験した。
+
+### 次にやること
+
+- Week5 Day1-24 に進む。
+- 次は、`QuizMode` 型、`QUIZ_MODE`、`as const`、`quizMode` の役割分担を整理する。
+- 目的は、今回作った型と定数と変数の関係を、自分の言葉で説明できるようにすることである。
