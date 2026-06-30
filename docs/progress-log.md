@@ -3295,3 +3295,44 @@
 - Week5 Day1-25 に進む。
 - 次は、Week5 Day1全体の棚卸しを行う。
 - 目的は、TypeScript導入、型定義、文字列リテラル型、`as const`、`npm run build` の理解を確認し、問題なければ Week5 Day1 を完了して Day2 へ進むことである。
+
+## 2026-06-26
+
+### Week5 Day1-25 完了
+
+### 完了したこと
+
+- Week5 Day1全体の棚卸しを行った。
+- TypeScriptを導入する目的を整理した。
+- `script.ts`、`dist/script.js`、`package.json`、`tsconfig.json`、`.gitignore` の役割を確認した。
+- `npm run build` が、現時点では `tsc` を実行して TypeScript を JavaScript に変換する処理であると確認した。
+- `dist/script.js` は `script.ts` から生成されるJavaScriptであり、現時点では圧縮や最適化までは行っていないと確認した。
+- `dist/` は `npm run build` で再生成できる出力物なので Git に入れないと確認した。
+- `type Question` は問題データの形を表す型であると確認した。
+- `type QuizMode` は `quizMode` に入れてよい状態名を制限する型であると確認した。
+- `QUIZ_MODE` は状態名の文字列を直接手書きせず、名前付きで安全に扱うための定数一覧であると確認した。
+- `as const` は `QUIZ_MODE` の各値を広い `string` ではなく、固定の文字列として扱わせるための指定であると確認した。
+- `QUIZ_MODE.LOADING` が `quizMode: QuizMode` に代入できるのは、値が `"loading"` であり、`QuizMode` 型に含まれているからだと確認した。
+- TypeScriptの `type` はコンパイル時の確認用であり、JavaScriptには出力されないと確認した。
+- `questions.json` のような外部JSONは実行時に読み込まれるため、TypeScriptの型だけでは完全には守れず、検証処理が必要であると確認した。
+
+### 学んだこと
+
+- TypeScriptは、JavaScriptの実行前に型の不一致を検出し、意図しない動作を減らすために使う。
+- TypeScriptの型は、実行時のデータそのものを自動で守るものではない。
+- `script.ts` はTypeScriptで書く元ファイルであり、今後アプリ本体の処理を移していく対象である。
+- `dist/script.js` はTypeScriptから生成されたJavaScriptであり、手で編集する元ファイルではない。
+- `npm run build` の中身はプロジェクトごとに異なり、今回の build は `tsc` による変換だけを行っている。
+- 型、定数、変数、生成物はそれぞれ役割が違う。
+- 状態管理では、ただの `string` ではなく、許可された文字列だけを扱う型を作ると安全性が上がる。
+- 外部データに対しては、TypeScriptの型と実行時の検証処理を組み合わせる必要がある。
+
+### Week5 Day1 完了
+
+TypeScript導入の土台を作り、型を作る、変数に型を付ける、不正な値を弾く、という最小サイクルを確認した。
+
+### 次にやること
+
+- Week5 Day2 に進む。
+- Day2では、既存の `script.js` から状態変数や小さな関数を `script.ts` に移し、数値・真偽値・戻り値の型を扱う。
+- 目的は、TypeScriptの型を使いながら、既存アプリの処理を壊さずに少しずつ移行していくことである。
