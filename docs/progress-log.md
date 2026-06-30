@@ -3109,3 +3109,81 @@
 - Week5 Day1-18 に進む。
 - 次は、`script.ts` に `QUIZ_MODE` と `quizMode` を移し、まずは現在のJavaScriptと同じ形でTypeScript上に状態定数を置く。
 - 目的は、既存アプリの動作を壊さずに、小さな範囲からTypeScript化を始めることである。
+
+## 2026-06-26
+
+### Week5 Day1-18 完了
+
+### 完了したこと
+
+- `script.ts` に `QUIZ_MODE` と `quizMode` を追加した。
+- 既存の `script.js` から、現在のクイズ状態を表す定数と状態変数を小さく移した。
+- `npm run build` を実行し、大きなエラーが出ないことを確認した。
+- `dist/script.js` に `QUIZ_MODE` と `quizMode` が出力されることを確認した。
+- 直下の `script.js` は変更しなかった。
+- `index.html` の読み込み先も変更しなかった。
+
+### 学んだこと
+
+- TypeScript化は、既存コード全体を一度に移すのではなく、小さな範囲から進められる。
+- `script.ts` に処理を書き、`npm run build` を実行すると、`dist/script.js` にJavaScriptとして出力される。
+- TypeScriptの `type` はJavaScriptには残らないが、`const` や `let` で書いた実行用コードはJavaScriptへ出力される。
+- 現時点では、ブラウザで動いているのはまだ直下の `script.js` である。
+- 一時的に `script.js` と `script.ts` の両方に `QUIZ_MODE` が存在するが、これは移行途中の状態として扱う。
+- 将来的には、`script.ts` 側へ処理を集約し、`index.html` が生成後のJavaScriptを読むように切り替える必要がある。
+
+### 次にやること
+
+- Week5 Day1-19 に進む。
+- 次は、`quizMode` をただの `string` として扱うのではなく、許可された状態名だけを持てるようにする考え方へ進む。
+- 目的は、TypeScriptで「文字列なら何でもよい」のではなく、「決められた文字列だけを許す」型の考え方を学ぶことである。
+
+## 2026-06-26
+
+### Week5 Day1-19 完了
+
+### 完了したこと
+
+- `quizMode` に入ってよい値を整理した。
+- `quizMode` に入ってよい値は、`"answering"`、`"readyToResult"`、`"result"`、`"loading"`、`"loadError"` の5つであると確認した。
+- `quizMode` をただの `string` として扱うと、`"結果"` や綴り間違いの文字列も許容されてしまう危険があると確認した。
+- 理想としては、決められた文字列だけを許し、それ以外の文字列や数値などを弾く型にしたいと整理した。
+
+### 学んだこと
+
+- `quizMode` は文字列ではあるが、どんな文字列でもよいわけではない。
+- `string` 型は広すぎる場合がある。
+- 状態管理では、許可された状態名だけを扱えるようにすると安全性が上がる。
+- 綴り間違いの状態名が入ると、条件分岐が意図通りに動かない危険がある。
+- TypeScriptでは、決められた文字列だけを許す型を作ることで、この危険を減らせる。
+
+### 次にやること
+
+- Week5 Day1-20 に進む。
+- 次は、`quizMode` に入ってよい文字列だけを表す `QuizMode` 型を作る。
+- 目的は、ただの `string` ではなく、許可された状態名だけを扱う型の考え方を学ぶことである。
+
+## 2026-06-26
+
+### Week5 Day1-20 完了
+
+### 完了したこと
+
+- `script.ts` に `QuizMode` 型を追加した。
+- `QuizMode` 型では、`"answering"`、`"readyToResult"`、`"result"`、`"loading"`、`"loadError"` の5つだけを許可する形にした。
+- `npm run build` を実行し、エラーが出ないことを確認した。
+- `dist/script.js` に `type QuizMode` が出力されないことを確認した。
+
+### 学んだこと
+
+- `type QuizMode = ...` は、`quizMode` に入れてよい文字列を制限するための型である。
+- TypeScriptでは、決められた文字列だけを許す型を作れる。
+- `string` 型は広すぎる場合があり、状態管理では本来ありえない文字列を防ぐために専用の型を作ると安全性が上がる。
+- `type` で定義した型情報は、JavaScriptへ変換された後には残らない。
+- 型は実行時の処理ではなく、開発中にコードの矛盾を見つけるための情報である。
+
+### 次にやること
+
+- Week5 Day1-21 に進む。
+- 次は、`quizMode` 変数に `QuizMode` 型を付ける。
+- 目的は、変数に入れてよい値をTypeScriptで制限できるようにすることである。

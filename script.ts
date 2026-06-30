@@ -14,3 +14,10 @@ const QUIZ_MODE = {
 };
 
 let quizMode = QUIZ_MODE.LOADING;
+
+type QuizMode =
+    | "answering"
+    | "readyToResult"
+    | "result"
+    | "loading"
+    | "loadError";
