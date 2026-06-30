@@ -3187,3 +3187,53 @@
 - Week5 Day1-21 に進む。
 - 次は、`quizMode` 変数に `QuizMode` 型を付ける。
 - 目的は、変数に入れてよい値をTypeScriptで制限できるようにすることである。
+
+## 2026-06-26
+
+### Week5 Day1-21 完了
+
+### 完了したこと
+
+- `quizMode` 変数に `QuizMode` 型を付けた。
+- `let quizMode: QuizMode = QUIZ_MODE.LOADING;` と変更して、`npm run build` を実行した。
+- `Type 'string' is not assignable to type 'QuizMode'.` というエラーが出ることを確認した。
+- `QUIZ_MODE.LOADING` が `"loading"` そのものではなく、TypeScript上では `string` として扱われていることを確認した。
+
+### 学んだこと
+
+- `QuizMode` 型は、決められた5つの文字列だけを許す型である。
+- `string` 型は広すぎるため、`QuizMode` 型にはそのまま代入できない。
+- `"loading"` は `QuizMode` に含まれるが、`string` は `"abc"` など他の文字列も含むため安全とは言えない。
+- `const QUIZ_MODE = { ... }` と書いても、オブジェクトの中の値まで必ず固定値として推論されるとは限らない。
+- TypeScriptのエラーは、型の考え方を確認するための重要な手がかりになる。
+
+### 次にやること
+
+- Week5 Day1-22 に進む。
+- 次は、`QUIZ_MODE` に `as const` を付けて、各値をただの `string` ではなく固定の文字列として扱えるようにする。
+- 目的は、`QUIZ_MODE.LOADING` を `QuizMode` 型に安全に代入できるようにすることである。
+
+## 2026-06-26
+
+### Week5 Day1-22 完了
+
+### 完了したこと
+
+- `QUIZ_MODE` に `as const` を追加した。
+- `npm run build` を実行し、`quizMode: QuizMode = QUIZ_MODE.LOADING;` のエラーが消えることを確認した。
+- `dist/script.js` に `as const` が出力されないことを確認した。
+
+### 学んだこと
+
+- `as const` は、TypeScriptに値をより具体的な固定値として扱わせるための指定である。
+- `const QUIZ_MODE = { ... }` だけでは、オブジェクト内の値が広い `string` として推論される場合がある。
+- `as const` を付けると、`QUIZ_MODE.LOADING` は `string` ではなく `"loading"` として扱われる。
+- `"loading"` は `QuizMode` 型に含まれるため、`quizMode: QuizMode` に安全に代入できる。
+- `as const` はTypeScriptの型チェック用の記述なので、JavaScriptに変換されると消える。
+- `as const` は実行時にオブジェクトを凍結するものではなく、TypeScript上の型推論を助けるものである。
+
+### 次にやること
+
+- Week5 Day1-23 に進む。
+- 次は、`QuizMode` 型が本当に不正な値を弾くかを確認する。
+- 目的は、TypeScriptの型が「ありえない状態名」を開発中に検出できることを体験することである。

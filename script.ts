@@ -11,9 +11,9 @@ const QUIZ_MODE = {
     RESULT: "result",
     LOADING: "loading",
     LOAD_ERROR: "loadError"
-};
+} as const;
 
-let quizMode = QUIZ_MODE.LOADING;
+let quizMode : QuizMode = QUIZ_MODE.LOADING;
 
 type QuizMode =
     | "answering"
