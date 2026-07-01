@@ -51,3 +51,7 @@ function getCurrentQuestion(): Question {
 function hasNextQuestion(): boolean {
     return currentQuestionIndex < questions.length - 1;
 }
+
+function isCorrectAnswer(answerText: string, question: Question): boolean {
+    return answerText === question.correctAnswer;
+}
