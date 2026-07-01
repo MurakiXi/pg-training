@@ -38,3 +38,16 @@ function resetQuizState(): void{
     score = 0;
 }
 
+function getCurrentQuestion(): Question {
+    const currentQuestion = questions[currentQuestionIndex];
+
+    if (currentQuestion === undefined) {
+        throw new Error("現在の問題が見つかりません。");
+    }
+
+    return currentQuestion;
+}
+
+function hasNextQuestion(): boolean {
+    return currentQuestionIndex < questions.length - 1;
+}
