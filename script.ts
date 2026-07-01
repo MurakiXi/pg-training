@@ -55,3 +55,36 @@ function hasNextQuestion(): boolean {
 function isCorrectAnswer(answerText: string, question: Question): boolean {
     return answerText === question.correctAnswer;
 }
+
+function isNonEmptyString(value: unknown): boolean {
+    if (typeof value !== "string") {
+        return false;
+    }
+
+    if (value.trim() === "") {
+        return false;
+    }
+
+    return true;
+}
+
+function findDuplicateQuestionIds(questions: Question[]): string[] {
+    const checkedIds: string[] = [];
+    const duplicateIds: string[] = [];
+
+    questions.forEach(function (question) {
+        if (!isNonEmptyString(question.id)) {
+            return;
+        }
+
+        if (checkedIds.includes(question.id)) {
+            if (!duplicateIds.includes(question.id)) {
+                duplicateIds.push(question.id);
+            }
+        } else {
+            checkedIds.push(question.id);
+        }
+    });
+
+    return duplicateIds;
+}
