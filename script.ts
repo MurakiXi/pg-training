@@ -25,6 +25,7 @@ let quizMode: QuizMode = QUIZ_MODE.LOADING;
 let currentQuestionIndex: number = 0;
 let isAnswered: boolean = false;
 let score: number = 0;
+let questions: Question[] = [];
 
 function setQuizMode(newMode: QuizMode): void {
     quizMode = newMode;
@@ -36,3 +37,4 @@ function resetQuizState(): void{
     isAnswered = false;
     score = 0;
 }
+
