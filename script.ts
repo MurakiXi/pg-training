@@ -13,11 +13,15 @@ const QUIZ_MODE = {
     LOAD_ERROR: "loadError"
 } as const;
 
-let quizMode : QuizMode = QUIZ_MODE.LOADING;
-
 type QuizMode =
     | "answering"
     | "readyToResult"
     | "result"
     | "loading"
     | "loadError";
+
+let quizMode: QuizMode = QUIZ_MODE.LOADING;
+
+let currentQuestionIndex: number = 0;
+let isAnswered: boolean = false;
+let score: number = 0;
