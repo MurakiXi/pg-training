@@ -25,3 +25,8 @@ let quizMode: QuizMode = QUIZ_MODE.LOADING;
 let currentQuestionIndex: number = 0;
 let isAnswered: boolean = false;
 let score: number = 0;
+
+function setQuizMode(newMode: QuizMode): void {
+    quizMode = newMode;
+    // TODO: 後で updateNextButtonText() と updateVisibilityByMode() を追加する
+}
