@@ -30,3 +30,9 @@ function setQuizMode(newMode: QuizMode): void {
     quizMode = newMode;
     // TODO: 後で updateNextButtonText() と updateVisibilityByMode() を追加する
 }
+
+function resetQuizState(): void{
+    currentQuestionIndex = 0;
+    isAnswered = false;
+    score = 0;
+}
