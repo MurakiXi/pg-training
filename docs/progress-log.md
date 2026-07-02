@@ -4016,3 +4016,32 @@ TypeScript導入の土台を作り、型を作る、変数に型を付ける、�
 - Week5 Day3-6 に進む。
 - 次は、`showResult(judge: string, explanation: string): void` を `script.ts` に追加する。
 - 目的は、安全に取得したDOM要素を使い、正誤判定と解説文を表示する関数をTypeScriptで書けるようにすることである。
+
+## 2026-07-01
+
+### Week5 Day3-6 完了
+
+### 完了したこと
+
+- `script.ts` に `showResult(judge: string, explanation: string): void` を追加した。
+- `judge` は正誤判定の表示文言として `string` 型にした。
+- `explanation` は解説文として `string` 型にした。
+- `showResult()` は値を返さず、DOM表示を書き換える関数なので戻り値を `void` にした。
+- `result.textContent` に正誤判定文言を代入する形にした。
+- `reason.textContent` に解説文を代入する形にした。
+- `npm run build` を実行し、エラーが出ないことを確認した。
+- `dist/script.js` に `showResult()` が出力されることを確認した。
+
+### 学んだこと
+
+- DOM要素を安全に取得しておけば、表示用の関数では `textContent` を直接書き換えやすくなる。
+- `showResult()` のようにDOM表示を書き換える関数は、値を返さないため戻り値は `void` になる。
+- 引数には、それぞれの役割に合った型を付ける。
+- `judge` と `explanation` はどちらも画面に表示する文字列なので `string` 型で扱う。
+- `showResult()` と `clearFeedback()` は、結果表示を入れる処理と消す処理として対になる関数である。
+
+### 次にやること
+
+- Week5 Day3-7 に進む。
+- 次は、`clearFeedback()` を `script.ts` に追加する。
+- 目的は、正誤判定と解説文を空に戻すDOM操作関数をTypeScriptで書けるようにすることである。

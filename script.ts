@@ -101,3 +101,8 @@ function getRequiredElement(selector: string): HTMLElement {
 
 const result = getRequiredElement("#result");
 const reason = getRequiredElement("#reason");
+
+function showResult(judge: string, explanation: string): void {
+    result.textContent = judge;
+    reason.textContent = explanation;
+}
