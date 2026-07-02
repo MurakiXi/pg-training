@@ -3882,3 +3882,58 @@ TypeScript導入の土台を作り、型を作る、変数に型を付ける、�
 - Week5 Day3 に進む。
 - Day3では、`Question` 型を使う表示・結果表示系の関数へ進む。
 - ただし、DOM取得や `null` 対応が絡む関数は慎重に扱い、必要に応じて先に依存関係を整理する。
+
+## 2026-07-01
+
+### Week5 Day3-1 完了
+
+### 完了したこと
+
+- DOMを扱う表示系関数を、DOM依存の強さで分類した。
+- `renderProgress()`、`showResult()`、`clearFeedback()`、`updateNextButtonText()` はDOM依存が比較的軽い関数として整理した。
+- `renderQuestion()`、`renderFinalScore()`、`disableAnswerButtons()`、`enableAnswerButtons()` はDOM依存が中くらいの関数として整理した。
+- `updateScreenByQuizMode()` は、複数要素の表示・非表示、`style.display`、`quizMode` 分岐が絡むため、DOM依存が重い関数として整理した。
+- 最初にTypeScriptへ移す関数として、`showResult(judge, explanation)` を選んだ。
+- `showResult()` は `result.textContent` と `reason.textContent` の2か所を書き換えるだけなので、DOM系関数の入口として扱いやすいと確認した。
+
+### 学んだこと
+
+- DOMを扱う関数は、いきなり全部移すのではなく、依存の強さで分類すると安全に進められる。
+- DOM要素の数、`forEach` の有無、`style.display` の切り替え、状態分岐の有無によって難度が変わる。
+- `updateScreenByQuizMode()` はDOM依存が重いため、最初に移す対象には向かない。
+- `showResult()` のように、使うDOM要素が少なく、引数も単純な関数からTypeScript化すると安全である。
+- ただし、DOM要素を扱う以上、`querySelector()` が `null` を返す可能性は考える必要がある。
+
+### 次にやること
+
+- Week5 Day3-2 に進む。
+- 次は、`showResult()` を移す前に、`result` と `reason` のDOM取得をTypeScriptでどう扱うか整理する。
+- 目的は、`querySelector()` の戻り値に `null` の可能性があることを理解し、DOM要素を安全に扱う準備をすることである。
+
+## 2026-07-01
+
+### Week5 Day3-2 完了
+
+### 完了したこと
+
+- `showResult()` をTypeScriptへ移す前に、`result` と `reason` のDOM取得について整理した。
+- `result` は正誤判定を表示する要素であると確認した。
+- `reason` は解説文を表示する要素であると確認した。
+- `document.querySelector("#result")` や `document.querySelector("#reason")` は、要素が見つからない場合に `null` を返す可能性があると確認した。
+- HTML上に現在は `#result` と `#reason` が存在していても、TypeScriptは実行時に必ず存在するとは保証しないと確認した。
+- `result.textContent = ...` をそのまま書くと、`result` が `null` だった場合に実行時エラーになる危険があると確認した。
+- DOM要素を安全に扱うためには、要素が存在するか確認し、存在しなければ処理を止める必要があると確認した。
+
+### 学んだこと
+
+- `document.querySelector()` の戻り値には、要素が見つからなかった場合の `null` が含まれる。
+- TypeScriptでは、「HTML上にあるはず」と思っている要素でも、`null` の可能性を考える必要がある。
+- DOM要素を使う前には、取得に失敗した場合の処理を用意する必要がある。
+- `null` の可能性を処理してからでないと、安全に `textContent` などを書き換えられない。
+- DOM取得を安全に行うための小さなヘルパー関数を用意すると、以後の表示系関数を移しやすくなる。
+
+### 次にやること
+
+- Week5 Day3-3 に進む。
+- 次は、DOM要素を安全に取得するための `getRequiredElement()` 関数の役割と型を整理する。
+- 目的は、`querySelector()` の `null` 可能性を関数内で処理し、呼び出し側では安全にDOM要素を扱えるようにすることである。
