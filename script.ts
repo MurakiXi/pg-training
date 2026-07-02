@@ -130,3 +130,16 @@ function updateNextButtonText(): void {
         nextButton.textContent = "もう一度挑戦！";
     }
 }
+
+const statement = getRequiredElement("#statement");
+const quizScore = getRequiredElement("#quiz-score");
+const questionTitle = getRequiredElement(".question-title");
+const choices = getRequiredElement(".choices");
+
+const hideElements: HTMLElement[] = [
+    progress,
+    questionTitle,
+    choices,
+    result,
+    reason,
+];

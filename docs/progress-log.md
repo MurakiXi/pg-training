@@ -4129,3 +4129,62 @@ TypeScript導入の土台を作り、型を作る、変数に型を付ける、�
 - Week5 Day3-10 に進む。
 - 次は、`updateScreenByQuizMode()` を移す前に、必要なDOM要素と処理内容を整理する。
 - 目的は、複数のDOM要素、`hideElements`、`style.display`、`quizMode` 分岐が絡む重い関数を、安全にTypeScript化する準備をすることである。
+
+## 2026-07-01
+
+### Week5 Day3-10 完了
+
+### 完了したこと
+
+- `updateScreenByQuizMode()` の役割と必要なDOM要素を整理した。
+- `updateScreenByQuizMode()` は、`quizMode` に応じて画面上のDOM要素を表示・非表示に切り替える関数であると確認した。
+- `updateScreenByQuizMode()` は引数を受け取らず、戻り値もないため、戻り値の型候補は `void` であると確認した。
+- この関数では、`hideElements` 配列を `forEach` で操作するだけでなく、`statement`、`nextButton`、`quizScore` も個別に操作するため、DOM依存が重いと整理した。
+- 表示・非表示を切り替えるDOM要素は、`progress`、`questionTitle`、`choices`、`result`、`reason`、`statement`、`nextButton`、`quizScore` であると確認した。
+- `hideElements` に入るDOM要素は、`progress`、`questionTitle`、`choices`、`result`、`reason` であると確認した。
+- 先に取得しておく必要があるDOM要素は、`statement`、`quizScore`、`questionTitle`、`choices` であると確認した。
+- `choices` は選択肢ボタン群ではなく、`.choices` の親要素であると整理した。
+
+### 学んだこと
+
+- DOM依存が重い関数を移す前には、必要なDOM要素を先に整理する必要がある。
+- `hideElements` のような配列を作る場合、配列に入るDOM要素はすべて先に取得済みでなければならない。
+- `choices` と `answerButtons` は役割が違う。
+- `choices` は表示・非表示を切り替える親要素であり、`answerButtons` は個々の選択肢ボタンである。
+- `updateScreenByQuizMode()` は画面全体の表示状態に影響するため、いきなり実装せず、DOM要素取得、`hideElements` 作成、関数本体、`setQuizMode()` との接続を段階的に進める方が安全である。
+
+### 次にやること
+
+- Week5 Day3-11 に進む。
+- 次は、`statement`、`quizScore`、`questionTitle`、`choices` を `getRequiredElement()` で取得し、`hideElements: HTMLElement[]` を作成する。
+- 目的は、`updateScreenByQuizMode()` 本体を追加する前に、必要なDOM要素を安全に準備することである。
+
+## 2026-07-01
+
+### Week5 Day3-11 完了
+
+### 完了したこと
+
+- `script.ts` に `statement`、`quizScore`、`questionTitle`、`choices` のDOM取得処理を追加した。
+- `statement` を `getRequiredElement("#statement")` で取得した。
+- `quizScore` を `getRequiredElement("#quiz-score")` で取得した。
+- `questionTitle` を `getRequiredElement(".question-title")` で取得した。
+- `choices` を `getRequiredElement(".choices")` で取得した。
+- `hideElements: HTMLElement[]` を作成した。
+- `hideElements` に `progress`、`questionTitle`、`choices`、`result`、`reason` を入れた。
+- `npm run build` を実行し、エラーが出ないことを確認した。
+- `dist/script.js` に、追加したDOM取得処理と `hideElements` が出力されることを確認した。
+
+### 学んだこと
+
+- `updateScreenByQuizMode()` のような重いDOM操作関数は、先に必要なDOM要素をすべて取得してから実装すると安全に進められる。
+- `hideElements` の中身を `HTMLElement[]` としてそろえることで、`style.display` を扱いやすくなる。
+- `choices` は選択肢ボタン群ではなく、`.choices` の親要素である。
+- DOM要素をまとめて扱う配列を作る場合は、宣言順に注意する必要がある。
+- `getRequiredElement()` を使うことで、DOM要素が存在しなかった場合に早い段階で処理を止められる。
+
+### 次にやること
+
+- Week5 Day3-12 に進む。
+- 次は、`updateScreenByQuizMode(): void` を `script.ts` に追加する。
+- 目的は、`quizMode` に応じて各DOM要素の表示・非表示を切り替える関数をTypeScriptで書けるようにすることである。
