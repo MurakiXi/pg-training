@@ -29,7 +29,7 @@ let questions: Question[] = [];
 
 function setQuizMode(newMode: QuizMode): void {
     quizMode = newMode;
-    // TODO: 後で updateNextButtonText() と updateVisibilityByMode() を追加する
+    // TODO: updateScreenByQuizMode() を追加した後、updateNextButtonText() とあわせて呼び出す
 }
 
 function resetQuizState(): void{
@@ -117,4 +117,16 @@ const progress = getRequiredElement("#progress");
 function renderProgress(): void {
     const progressMessage = `第${currentQuestionIndex + 1}問／全${questions.length}問`;
     progress.textContent = progressMessage;
+}
+
+const nextButton = getRequiredElement("#next-button");
+
+function updateNextButtonText(): void {
+    if (quizMode === QUIZ_MODE.ANSWERING) {
+        nextButton.textContent = "次の問題";
+    } else if (quizMode === QUIZ_MODE.READY_TO_RESULT) {
+        nextButton.textContent = "結果を見る";
+    } else if (quizMode === QUIZ_MODE.RESULT) {
+        nextButton.textContent = "もう一度挑戦！";
+    }
 }

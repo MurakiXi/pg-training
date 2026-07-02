@@ -4099,3 +4099,33 @@ TypeScript導入の土台を作り、型を作る、変数に型を付ける、�
 - Week5 Day3-9 に進む。
 - 次は、`nextButton` を `getRequiredElement("#next-button")` で取得し、`updateNextButtonText(): void` を `script.ts` に追加する。
 - 目的は、`quizMode` に応じて次へ進むボタンの文言を切り替える関数をTypeScriptで書けるようにすることである。
+
+## 2026-07-01
+
+### Week5 Day3-9 完了
+
+### 完了したこと
+
+- `script.ts` に `nextButton` のDOM取得処理を追加した。
+- `getRequiredElement("#next-button")` を使って、次へ進むボタンを取得した。
+- `updateNextButtonText(): void` を追加した。
+- `quizMode` が `QUIZ_MODE.ANSWERING` の場合、ボタン文言を「次の問題」にする形にした。
+- `quizMode` が `QUIZ_MODE.READY_TO_RESULT` の場合、ボタン文言を「結果を見る」にする形にした。
+- `quizMode` が `QUIZ_MODE.RESULT` の場合、ボタン文言を「もう一度挑戦！」にする形にした。
+- `npm run build` を実行し、エラーが出ないことを確認した。
+- `dist/script.js` に `nextButton` と `updateNextButtonText()` が出力されることを確認した。
+- `setQuizMode()` の TODO は、`updateScreenByQuizMode()` が追加されてからまとめて処理する方針にした。
+
+### 学んだこと
+
+- DOM要素が1つだけで済む関数は、比較的安全にTypeScriptへ移しやすい。
+- `updateNextButtonText()` は、`quizMode` の値に応じて `nextButton.textContent` を切り替える関数である。
+- `QuizMode` 型と `QUIZ_MODE` 定数を使うことで、状態名の分岐を安全に扱いやすくなる。
+- 関連する関数がすべてそろっていない場合、呼び出し元の TODO を急いで片付けない方が分かりやすい場合がある。
+- `setQuizMode()` は最終的には、状態変更だけでなく、ボタン文言更新と画面表示更新もまとめて行う関数に戻す予定である。
+
+### 次にやること
+
+- Week5 Day3-10 に進む。
+- 次は、`updateScreenByQuizMode()` を移す前に、必要なDOM要素と処理内容を整理する。
+- 目的は、複数のDOM要素、`hideElements`、`style.display`、`quizMode` 分岐が絡む重い関数を、安全にTypeScript化する準備をすることである。
