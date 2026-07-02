@@ -4045,3 +4045,57 @@ TypeScript導入の土台を作り、型を作る、変数に型を付ける、�
 - Week5 Day3-7 に進む。
 - 次は、`clearFeedback()` を `script.ts` に追加する。
 - 目的は、正誤判定と解説文を空に戻すDOM操作関数をTypeScriptで書けるようにすることである。
+
+## 2026-07-01
+
+### Week5 Day3-7 完了
+
+### 完了したこと
+
+- `script.ts` に `clearFeedback(): void` を追加した。
+- `clearFeedback()` は、正誤判定表示と解説文表示を空文字に戻す関数として扱った。
+- `result.textContent` と `reason.textContent` に空文字を代入する形にした。
+- `clearFeedback()` は値を返さないため、戻り値の型を `void` にした。
+- `npm run build` を実行し、エラーが出ないことを確認した。
+- `dist/script.js` に `clearFeedback()` が出力されることを確認した。
+
+### 学んだこと
+
+- `showResult()` と `clearFeedback()` は、結果表示を入れる処理と消す処理として対になる。
+- 引数を受け取らず、DOM表示だけを書き換える関数の戻り値は `void` になる。
+- `getRequiredElement()` で取得済みのDOM要素であれば、関数内で `textContent` を安全に書き換えやすい。
+- DOM操作関数は、使う要素が少ないものから移すと安全に進められる。
+
+### 次にやること
+
+- Week5 Day3-8 に進む。
+- 次は、`progress` 要素を取得し、`renderProgress(): void` を `script.ts` に追加する。
+- 目的は、現在の問題番号と全問題数を使って進捗表示を更新する関数をTypeScriptで書けるようにすることである。
+
+## 2026-07-01
+
+### Week5 Day3-8 完了
+
+### 完了したこと
+
+- `script.ts` に `progress` のDOM取得処理を追加した。
+- `getRequiredElement("#progress")` を使って、進捗表示用のDOM要素を取得した。
+- `renderProgress(): void` を追加した。
+- `currentQuestionIndex + 1` と `questions.length` を使って、現在の問題番号と全問題数を表示する文言を作成した。
+- `progress.textContent` に進捗文を代入する形にした。
+- `npm run build` を実行し、エラーが出ないことを確認した。
+- `dist/script.js` に `progress` と `renderProgress()` が出力されることを確認した。
+
+### 学んだこと
+
+- 状態変数と配列の長さを使って、DOM表示用の文字列を作れる。
+- `renderProgress()` は値を返さず、進捗表示を書き換える関数なので戻り値は `void` になる。
+- `getRequiredElement()` でDOM要素を取得しておけば、`textContent` を安全に書き換えやすくなる。
+- `renderQuestion()` は `answerButtons` や `question.choices[index]` が絡むため、`updateNextButtonText()` より少し難度が高い。
+- 次は、DOM要素が1つだけで済み、既存の `QuizMode` 型ともつながる `updateNextButtonText()` を先に扱う。
+
+### 次にやること
+
+- Week5 Day3-9 に進む。
+- 次は、`nextButton` を `getRequiredElement("#next-button")` で取得し、`updateNextButtonText(): void` を `script.ts` に追加する。
+- 目的は、`quizMode` に応じて次へ進むボタンの文言を切り替える関数をTypeScriptで書けるようにすることである。

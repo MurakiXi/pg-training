@@ -106,3 +106,15 @@ function showResult(judge: string, explanation: string): void {
     result.textContent = judge;
     reason.textContent = explanation;
 }
+
+function clearFeedback(): void {
+    result.textContent = "";
+    reason.textContent = "";
+}
+
+const progress = getRequiredElement("#progress");
+
+function renderProgress(): void {
+    const progressMessage = `第${currentQuestionIndex + 1}問／全${questions.length}問`;
+    progress.textContent = progressMessage;
+}
