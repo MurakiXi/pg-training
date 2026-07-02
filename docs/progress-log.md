@@ -3991,3 +3991,28 @@ TypeScript導入の土台を作り、型を作る、変数に型を付ける、�
 - Week5 Day3-5 に進む。
 - 次は、`getRequiredElement()` を使って `result` と `reason` を取得する。
 - 目的は、`showResult()` をTypeScriptへ移す前に、必要なDOM要素を安全に扱えるようにすることである。
+
+## 2026-07-01
+
+### Week5 Day3-5 完了
+
+### 完了したこと
+
+- `script.ts` に `result` と `reason` のDOM取得処理を追加した。
+- `getRequiredElement("#result")` を使って、正誤判定表示用の要素を取得した。
+- `getRequiredElement("#reason")` を使って、解説文表示用の要素を取得した。
+- `npm run build` を実行し、エラーが出ないことを確認した。
+- `dist/script.js` に `result` と `reason` の取得処理が出力されることを確認した。
+
+### 学んだこと
+
+- `document.querySelector()` を直接使う代わりに、`getRequiredElement()` を使うことで `null` の可能性を関数内で処理できる。
+- `getRequiredElement()` で取得した要素は、呼び出し側では `HTMLElement` として扱える。
+- `result` と `reason` を先に安全に取得しておくことで、`showResult()` の中では `textContent` を書き換えやすくなる。
+- DOMを扱う関数をTypeScriptへ移すときは、関数本体より先に必要なDOM要素の取得方法を整理すると安全である。
+
+### 次にやること
+
+- Week5 Day3-6 に進む。
+- 次は、`showResult(judge: string, explanation: string): void` を `script.ts` に追加する。
+- 目的は、安全に取得したDOM要素を使い、正誤判定と解説文を表示する関数をTypeScriptで書けるようにすることである。
