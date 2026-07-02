@@ -3807,3 +3807,78 @@ TypeScript導入の土台を作り、型を作る、変数に型を付ける、�
 - Week5 Day2-19 に進む。
 - 次は、Day2で移した状態変数と小さな関数の関係を棚卸しする。
 - 目的は、Day3で `Question` 型を使う表示・判定系の関数へ進む前に、状態変数、配列、戻り値、引数の型を整理することである。
+
+## 2026-07-01
+
+### Week5 Day2-19 完了
+
+### 完了したこと
+
+- Week5 Day2で扱った状態変数と小さな関数の型を棚卸しした。
+- `currentQuestionIndex` は `number` 型で、現在表示している問題が `questions` 配列の何番目かを表すと確認した。
+- `isAnswered` は `boolean` 型で、現在の問題に回答済みかどうかを表すと確認した。
+- `score` は `number` 型で、ここまでの正解数を表すと確認した。
+- `questions` は `Question` ではなく `Question[]` 型であり、問題データ全体を保持する配列だと確認した。
+- `getCurrentQuestion()` は `currentQuestionIndex` を使って、`questions` 配列から現在の1問分の `Question` を取得する関数だと確認した。
+- `hasNextQuestion()` は、次の問題が存在するかどうかを `boolean` で返す関数だと確認した。
+- `isCorrectAnswer()` は、`answerText: string` と `question: Question` を受け取り、`boolean` を返す関数だと確認した。
+- `isNonEmptyString()` は、`value: unknown` を受け取り、`boolean` を返す関数だと確認した。
+- `findDuplicateQuestionIds()` は、`questions: Question[]` を受け取り、重複IDの配列である `string[]` を返す関数だと確認した。
+
+### 学んだこと
+
+- `Question` は1問分の問題データを表す。
+- `Question[]` は、1問分の問題データが複数入った配列を表す。
+- `string` は文字列1つを表し、`string[]` は文字列が複数入った配列を表す。
+- 関数の戻り値の型を考えるときは、実際に `return` している値が単体なのか配列なのかを見る必要がある。
+- `getCurrentQuestion()` は引数を受け取らず、内部で `currentQuestionIndex` を使って現在の問題を取り出す。
+- 配列の中身の型が `Question` でも、配列アクセスでは `undefined` の可能性を考える必要がある。
+- Day2で特に混同しやすい点は、`Question` と `Question[]` の違いである。
+
+### 次にやること
+
+- Week5 Day2-20 に進む。
+- 次は、Week5 Day2全体の最終確認を行う。
+- 目的は、状態変数、配列、戻り値、引数の型が整理できているか確認し、問題なければ Week5 Day2 を完了して Day3 へ進むことである。
+
+## 2026-07-01
+
+### Week5 Day2-20 完了
+
+### 完了したこと
+
+- Week5 Day2全体の最終確認を行った。
+- `Question` は1問分の問題データ、`Question[]` は問題データ全体の配列であると確認した。
+- `string` は文字列1つ、`string[]` は文字列が複数入る配列であると確認した。
+- `any` はTypeScriptの型チェックを弱め、何でも扱えてしまうため危険であると確認した。
+- `unknown` は何型か分からない値であり、使う前に型チェックが必要であると確認した。
+- `getCurrentQuestion(): Question` では、`questions` が空配列である可能性や `currentQuestionIndex` が範囲外である可能性があるため、`undefined` 対策が必要であると確認した。
+- `setQuizMode(newMode: QuizMode): void` は、`QuizMode` 型の値を受け取り、状態を変更するが、値は返さない関数であると確認した。
+- `isCorrectAnswer(answerText: string, question: Question): boolean` は、選択肢の文字列と1問分の問題データを受け取り、正解かどうかを真偽値で返す関数であると確認した。
+- `setQuizMode()` と `resetQuizState()` は、値を返さず状態を変更する関数であると確認した。
+- `hasNextQuestion()`、`isCorrectAnswer()`、`isNonEmptyString()` は `boolean` を返す関数であると確認した。
+- `findDuplicateQuestionIds()` は `Question[]` を受け取り、重複IDの配列である `string[]` を返す関数であると確認した。
+- `setQuizMode()` に残している TODO コメントは、まだDOM系関数を移していないため現時点では残してよいと確認した。
+
+### 学んだこと
+
+- TypeScriptでは、変数や関数の役割から型を考える必要がある。
+- 配列型では、単体の型と配列の型を区別する必要がある。
+- `Question`、`Question[]`、`string`、`string[]` はそれぞれ意味が違う。
+- `unknown` は安全寄りの型であり、値を使う前に確認が必要である。
+- `any` はTypeScriptのチェックを弱めるため、できるだけ避ける。
+- `void` は値を返さない関数の戻り値として使う。
+- `boolean` は条件判定や検証結果を返す関数に使う。
+- `string[]` は文字列の配列を返す関数に使う。
+- 配列アクセスでは、配列の中身の型だけでなく、要素が存在しない可能性も考える必要がある。
+- 既存JavaScriptをTypeScriptへ移すときは、まだ移していないDOM系関数を無理に呼ばず、TODOで後続作業として残す判断も有効である。
+
+### Week5 Day2 完了
+
+状態変数、小さなヘルパー関数、配列、引数、戻り値の型を整理し、TypeScriptで安全に扱う基礎を確認した。
+
+### 次にやること
+
+- Week5 Day3 に進む。
+- Day3では、`Question` 型を使う表示・結果表示系の関数へ進む。
+- ただし、DOM取得や `null` 対応が絡む関数は慎重に扱い、必要に応じて先に依存関係を整理する。
