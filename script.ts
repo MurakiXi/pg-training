@@ -88,3 +88,16 @@ function findDuplicateQuestionIds(questions: Question[]): string[] {
 
     return duplicateIds;
 }
+
+function getRequiredElement(selector: string): HTMLElement {
+    const element = document.querySelector(selector);
+
+    if (element === null) {
+        throw new Error(`${selector} が見つかりません。`);
+    }
+
+    return element as HTMLElement;
+}
+
+const result = getRequiredElement("#result");
+const reason = getRequiredElement("#reason");

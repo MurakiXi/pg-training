@@ -3937,3 +3937,57 @@ TypeScript導入の土台を作り、型を作る、変数に型を付ける、�
 - Week5 Day3-3 に進む。
 - 次は、DOM要素を安全に取得するための `getRequiredElement()` 関数の役割と型を整理する。
 - 目的は、`querySelector()` の `null` 可能性を関数内で処理し、呼び出し側では安全にDOM要素を扱えるようにすることである。
+
+## 2026-07-01
+
+### Week5 Day3-3 完了
+
+### 完了したこと
+
+- DOM要素を安全に取得するための `getRequiredElement()` の役割と型候補を整理した。
+- `getRequiredElement()` は、指定されたCSSセレクタに一致するDOM要素を取得する関数であると確認した。
+- DOM要素が見つからなかった場合は `throw` して処理を止める必要があると確認した。
+- DOM要素が見つかった場合は、`true / false` ではなく、取得できたDOM要素そのものを返す必要があると確認した。
+- `getRequiredElement()` が受け取る値はCSSセレクタ文字列なので、引数の型候補は `string` であると確認した。
+- `getRequiredElement()` の戻り値の型候補は `boolean` ではなく `HTMLElement` であると確認した。
+
+### 学んだこと
+
+- DOM要素の存在確認だけでは、`textContent` などを書き換える処理には使えない。
+- `showResult()` で必要なのは、存在するかどうかの真偽値ではなく、実際に取得できたDOM要素である。
+- `querySelector()` は要素が見つからない場合に `null` を返す。
+- `null` の場合に `throw` すれば、その後の処理ではDOM要素が存在する前提で扱いやすくなる。
+- DOM取得用のヘルパー関数を作ると、以後の表示系関数で `null` 対応を繰り返さずに済む。
+
+### 次にやること
+
+- Week5 Day3-4 に進む。
+- 次は、`getRequiredElement(selector: string): HTMLElement` を `script.ts` に追加する。
+- 目的は、`querySelector()` の `null` 可能性を関数内で処理し、呼び出し側ではDOM要素を安全に扱えるようにすることである。
+
+## 2026-07-01
+
+### Week5 Day3-4 完了
+
+### 完了したこと
+
+- `script.ts` に `getRequiredElement(selector: string): HTMLElement` を追加した。
+- `document.querySelector(selector)` でDOM要素を取得する処理を書いた。
+- DOM要素が見つからず `null` だった場合は、`throw new Error(...)` で処理を止めるようにした。
+- DOM要素が見つかった場合は、`HTMLElement` として返す形にした。
+- `npm run build` を実行し、エラーが出ないことを確認した。
+- `dist/script.js` に `getRequiredElement()` が出力されることを確認した。
+
+### 学んだこと
+
+- `document.querySelector()` は、要素が見つからない場合に `null` を返す。
+- TypeScriptでは、DOM要素を使う前に `null` の可能性を処理する必要がある。
+- `getRequiredElement()` の中で `null` を処理しておくと、呼び出し側では取得済みのDOM要素として扱いやすくなる。
+- `throw` を使うことで、必要なDOM要素が存在しない異常な状態で後続処理へ進むことを防げる。
+- DOM取得用のヘルパー関数を用意すると、以後の表示系関数をTypeScriptへ移しやすくなる。
+
+### 次にやること
+
+- Week5 Day3-5 に進む。
+- 次は、`getRequiredElement()` を使って `result` と `reason` を取得する。
+- 目的は、`showResult()` をTypeScriptへ移す前に、必要なDOM要素を安全に扱えるようにすることである。
