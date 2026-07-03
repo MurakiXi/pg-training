@@ -4347,3 +4347,48 @@ TypeScript導入の土台を作り、型を作る、変数に型を付ける、�
 - Week5 Day3-19 に進む。
 - 次は、`disableAnswerButtons()` と `enableAnswerButtons()` を `script.ts` に追加する。
 - 目的は、回答後に選択肢ボタンを無効化し、次の問題や再挑戦時に再び有効化する処理をTypeScriptで書けるようにすることである。
+
+## 2026-07-03
+
+### Week5 Day3-19 完了
+
+### 完了したこと
+
+- `script.ts` に `disableAnswerButtons(): void` を追加した。
+- `answerButtons.forEach(...)` を使い、各選択肢ボタンの `disabled` に `true` を代入する形にした。
+- `script.ts` に `enableAnswerButtons(): void` を追加した。
+- `answerButtons.forEach(...)` を使い、各選択肢ボタンの `disabled` に `false` を代入する形にした。
+- `answerButtons` は `document.querySelectorAll<HTMLButtonElement>(".answer-button")` で取得済みなので、`disabled` を安全に扱えることを確認した。
+- `npm run build` を実行し、エラーが出ないことを確認した。
+- `dist/script.js` に `disableAnswerButtons()` と `enableAnswerButtons()` が出力されることを確認した。
+
+### Week5 Day3 完了
+
+### 完了したこと
+
+- DOMを扱う関数を、依存の軽いものから順に `script.ts` へ移行した。
+- `showResult()`、`clearFeedback()`、`renderProgress()`、`updateNextButtonText()` のような軽めのDOM操作関数をTypeScript化した。
+- `updateScreenByQuizMode()` のような重いDOM操作関数を、必要なDOM要素取得と `hideElements` の準備をしてからTypeScript化した。
+- `renderQuestion(question: Question): void` を追加し、問題文、選択肢ボタン、進捗表示を更新できるようにした。
+- `renderFinalScore(): void` を追加し、正解数、全問題数、正答率を表示できるようにした。
+- `questions.length === 0` の場合に正答率を計算しない防御処理を追加した。
+- `disableAnswerButtons()` と `enableAnswerButtons()` を追加し、回答後のボタン無効化と再有効化をTypeScript側で扱えるようにした。
+- `setQuizMode()` から `updateNextButtonText()` と `updateScreenByQuizMode()` を呼び出す形に戻し、状態変更と画面更新を接続した。
+
+### 学んだこと
+
+- `document.querySelector()` は `null` を返す可能性があるため、DOM要素を使う前に存在確認が必要である。
+- `getRequiredElement()` を使うことで、DOM取得時の `null` 対応を共通化できる。
+- `HTMLElement` として取得しておくと、`style.display` や `textContent` を扱いやすい。
+- ボタンの `disabled` を扱う場合は、`HTMLButtonElement` として取得すると安全である。
+- `style.display = ""` はCSSやHTML要素本来の表示に戻す処理であり、`style.display = "block"` はblock表示に固定する処理である。
+- TypeScript化の途中で表示仕様を変えないためには、現行コードの挙動を確認しながら移す必要がある。
+- 配列の `index` アクセスでは、値が `undefined` になる可能性を考える必要がある。
+- DOM依存が重い関数は、必要なDOM要素、配列、状態分岐を整理してから移すと安全に進められる。
+
+### 次にやること
+
+- Week5 Day4 に進む。
+- 次は、問題データ検証系の関数をTypeScriptへ移す。
+- 候補は `getQuestionValidationErrors()`、`isValidQuestion()`、`findDuplicateQuestionIds()`、`loadQuestionsData()` 周辺である。
+- 特に、外部JSONから読み込んだデータはTypeScriptの型だけでは安全にならないため、実行時検証をどう扱うかを確認する。
