@@ -194,3 +194,8 @@ function renderQuestion(question: Question): void {
 
     renderProgress();
 }
+
+function renderFinalScore():void {
+    const correctRate:string = ((score / questions.length) * 100).toFixed(1);
+    quizScore.textContent = `おつかれさまでした！ 全${questions.length}問中${score}問正解！ 正答率は${correctRate}%です！`;
+}

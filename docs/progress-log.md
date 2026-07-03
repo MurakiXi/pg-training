@@ -4268,3 +4268,31 @@ TypeScript導入の土台を作り、型を作る、変数に型を付ける、�
 - Week5 Day3-16 に進む。
 - 次は、`renderFinalScore(): void` を `script.ts` に追加する。
 - 目的は、正解数、全問題数、正答率を使って、最終結果表示をTypeScriptで書けるようにすることである。
+
+## 2026-07-01
+
+### Week5 Day3-16 完了
+
+### 完了したこと
+
+- `script.ts` に `renderFinalScore(): void` を追加した。
+- `score` と `questions.length` を使って正答率を計算した。
+- `toFixed(1)` を使って、正答率を小数第1位までの文字列に整形した。
+- `correctRate` は `toFixed(1)` の戻り値であるため、`string` 型として扱った。
+- `quizScore.textContent` に、全問題数、正解数、正答率を含む最終結果文を代入した。
+- `npm run build` を実行し、エラーが出ないことを確認した。
+- `dist/script.js` に `renderFinalScore()` が出力されることを確認した。
+
+### 学んだこと
+
+- `toFixed()` の戻り値は `number` ではなく `string` である。
+- DOM表示を書き換えるだけで値を返さない関数の戻り値は `void` になる。
+- `renderFinalScore()` は、状態変数 `score` と問題配列 `questions` を使って、最終結果を表示する関数である。
+- 表示文言は、機能上の意味が同じでも、現行コードと完全一致させるか、自然な文言に調整するかを判断する余地がある。
+- 正答率計算では、`questions.length` が `0` になる可能性を考える必要がある。
+
+### 次にやること
+
+- Week5 Day3-17 に進む。
+- 次は、`renderFinalScore()` に `questions.length === 0` の防御を入れるべきか判断する。
+- 目的は、問題数が0件の状態で正答率を計算してしまう危険を理解し、防御処理の要否を判断できるようにすることである。
