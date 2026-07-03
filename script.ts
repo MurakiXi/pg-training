@@ -29,7 +29,8 @@ let questions: Question[] = [];
 
 function setQuizMode(newMode: QuizMode): void {
     quizMode = newMode;
-    // TODO: updateScreenByQuizMode() を追加した後、updateNextButtonText() とあわせて呼び出す
+    updateNextButtonText();
+    updateScreenByQuizMode();
 }
 
 function resetQuizState(): void{
@@ -143,3 +144,35 @@ const hideElements: HTMLElement[] = [
     result,
     reason,
 ];
+
+function updateScreenByQuizMode(): void {
+    if (quizMode === QUIZ_MODE.LOADING || quizMode === QUIZ_MODE.LOAD_ERROR) {
+        hideElements.forEach(function (element) {
+            element.style.display = "none";
+        });
+
+        statement.style.display = "";
+        nextButton.style.display = "none";
+        quizScore.style.display = "none";
+        return;
+    }
+
+    if (quizMode === QUIZ_MODE.RESULT) {
+        hideElements.forEach(function (element) {
+            element.style.display = "none";
+        });
+
+        statement.style.display = "none";
+        nextButton.style.display = "";
+        quizScore.style.display = "";
+        return;
+    }
+
+    hideElements.forEach(function (element) {
+        element.style.display = "";
+    });
+
+    statement.style.display = "";
+    nextButton.style.display = "";
+    quizScore.style.display = "none";
+}

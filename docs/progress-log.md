@@ -4188,3 +4188,29 @@ TypeScript導入の土台を作り、型を作る、変数に型を付ける、�
 - Week5 Day3-12 に進む。
 - 次は、`updateScreenByQuizMode(): void` を `script.ts` に追加する。
 - 目的は、`quizMode` に応じて各DOM要素の表示・非表示を切り替える関数をTypeScriptで書けるようにすることである。
+
+## 2026-07-01
+
+### Week5 Day3-13 完了
+
+### 完了したこと
+
+- `setQuizMode()` の TODO コメントを削除した。
+- `setQuizMode(newMode: QuizMode): void` の中で、`quizMode = newMode;` の後に `updateNextButtonText();` を呼ぶ形にした。
+- `updateNextButtonText();` の後に `updateScreenByQuizMode();` を呼ぶ形にした。
+- `npm run build` を実行し、エラーが出ないことを確認した。
+- `dist/script.js` の `setQuizMode()` に、`updateNextButtonText()` と `updateScreenByQuizMode()` の呼び出しが出力されることを確認した。
+
+### 学んだこと
+
+- `setQuizMode()` は、単に `quizMode` の値を変えるだけでなく、状態変更に伴う画面更新もまとめて行う関数である。
+- `updateNextButtonText()` は、現在の `quizMode` に応じて次ボタンの文言を更新する。
+- `updateScreenByQuizMode()` は、現在の `quizMode` に応じて画面上のDOM要素の表示・非表示を更新する。
+- 状態変更と画面更新を `setQuizMode()` に集約すると、呼び出し側で毎回表示更新を忘れにくくなる。
+- 関連する関数がそろってから TODO を回収すると、途中状態の混乱を避けやすい。
+
+### 次にやること
+
+- Week5 Day3-14 に進む。
+- 次は、`renderQuestion(question)` を移す前に、選択肢ボタン群 `answerButtons` を TypeScript 側で取得する。
+- 目的は、`querySelectorAll()` の戻り値と `HTMLButtonElement` 型を確認し、複数ボタンを安全に扱う準備をすることである。
