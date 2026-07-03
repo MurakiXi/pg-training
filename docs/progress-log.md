@@ -4238,3 +4238,33 @@ TypeScript導入の土台を作り、型を作る、変数に型を付ける、�
 - Week5 Day3-15 に進む。
 - 次は、`renderQuestion(question: Question): void` を `script.ts` に追加する。
 - 目的は、問題文と選択肢ボタンの文言を更新し、進捗表示も更新する関数をTypeScriptで書けるようにすることである。
+
+## 2026-07-01
+
+### Week5 Day3-15 完了
+
+### 完了したこと
+
+- `script.ts` に `renderQuestion(question: Question): void` を追加した。
+- `statement.textContent` に `question.statement` を代入する形にした。
+- `answerButtons.forEach(...)` を使って、各選択肢ボタンの文言を更新する形にした。
+- `question.choices[index]` を直接代入せず、一度 `choice` に取り出す形にした。
+- `choice` が `undefined` の場合は `throw` して処理を止めるようにした。
+- `answerButton.textContent` に `choice` を代入する形にした。
+- 最後に `renderProgress();` を呼び、問題表示と進捗表示を合わせて更新する形にした。
+- `npm run build` を実行し、エラーが出ないことを確認した。
+- `dist/script.js` に `renderQuestion()` が出力されることを確認した。
+
+### 学んだこと
+
+- TypeScriptでは、配列の `index` アクセス結果が存在しない可能性を考える必要がある。
+- `question.choices[index]` は、JSON側の選択肢数が不足している場合に `undefined` になる可能性がある。
+- `undefined` の場合に `throw` することで、不正な問題データのまま画面表示を進めることを防げる。
+- `renderQuestion()` は、問題文、選択肢ボタン、進捗表示をまとめて更新する関数である。
+- DOM操作とデータ配列の参照が絡む関数は、軽い表示関数より慎重に移す必要がある。
+
+### 次にやること
+
+- Week5 Day3-16 に進む。
+- 次は、`renderFinalScore(): void` を `script.ts` に追加する。
+- 目的は、正解数、全問題数、正答率を使って、最終結果表示をTypeScriptで書けるようにすることである。

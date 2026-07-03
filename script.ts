@@ -178,3 +178,19 @@ function updateScreenByQuizMode(): void {
 }
 
 const answerButtons = document.querySelectorAll<HTMLButtonElement>(".answer-button");
+
+function renderQuestion(question: Question): void {
+    statement.textContent = question.statement;
+
+    answerButtons.forEach(function (answerButton, index) {
+        const choice = question.choices[index];
+
+        if (choice === undefined) {
+            throw new Error("選択肢ボタンが見つかりません。");
+        }
+
+        answerButton.textContent = choice;
+    });
+
+    renderProgress();
+}
