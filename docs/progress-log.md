@@ -4214,3 +4214,27 @@ TypeScript導入の土台を作り、型を作る、変数に型を付ける、�
 - Week5 Day3-14 に進む。
 - 次は、`renderQuestion(question)` を移す前に、選択肢ボタン群 `answerButtons` を TypeScript 側で取得する。
 - 目的は、`querySelectorAll()` の戻り値と `HTMLButtonElement` 型を確認し、複数ボタンを安全に扱う準備をすることである。
+
+## 2026-07-01
+
+### Week5 Day3-14 完了
+
+### 完了したこと
+
+- `script.ts` に `answerButtons` の取得処理を追加した。
+- `document.querySelectorAll<HTMLButtonElement>(".answer-button")` を使って、選択肢ボタン群を取得した。
+- `npm run build` を実行し、エラーが出ないことを確認した。
+- `dist/script.js` に `answerButtons` の取得処理が出力されることを確認した。
+
+### 学んだこと
+
+- `querySelectorAll()` で複数のDOM要素を取得できる。
+- `document.querySelectorAll<HTMLButtonElement>(".answer-button")` と書くことで、取得した要素をボタン要素の集まりとして扱える。
+- `textContent` だけなら広いDOM型でも扱えるが、`disabled` はボタン要素固有のプロパティなので、`HTMLButtonElement` として取得しておくと後で扱いやすい。
+- `renderQuestion()` や `disableAnswerButtons()`、`enableAnswerButtons()` では、選択肢ボタン群を `forEach` で操作する必要がある。
+
+### 次にやること
+
+- Week5 Day3-15 に進む。
+- 次は、`renderQuestion(question: Question): void` を `script.ts` に追加する。
+- 目的は、問題文と選択肢ボタンの文言を更新し、進捗表示も更新する関数をTypeScriptで書けるようにすることである。

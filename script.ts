@@ -176,3 +176,5 @@ function updateScreenByQuizMode(): void {
     nextButton.style.display = "";
     quizScore.style.display = "none";
 }
+
+const answerButtons = document.querySelectorAll<HTMLButtonElement>(".answer-button");
