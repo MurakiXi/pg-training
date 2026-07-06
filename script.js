@@ -182,7 +182,6 @@ function showErrorScreen(errorDetail) {
     showLoadError(errorDetail);
 }
 
-
 function findDuplicateQuestionIds(questions) {
     const checkedIds = [];
     const duplicateIds = [];

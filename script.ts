@@ -215,3 +215,126 @@ function enableAnswerButtons(): void {
         answerButton.disabled = false;
     });
 }
+
+function getQuestionValidationErrors(question: unknown):string[] {
+    const errors:string[] = [];
+    if (typeof question !== "object" || question === null) {
+        errors.push('問題データが空か、またはオブジェクトになっていません。');
+        return errors;
+    }
+    const questionRecord = question as Record<string, unknown>;
+    if (!isNonEmptyString(questionRecord.id)) {
+        errors.push("IDが空か、または文字列になっていません。");
+    }
+    if (!isNonEmptyString(questionRecord.statement)) {
+        errors.push("問題文が空か、または文字列になっていません。");
+    }
+    if (!isNonEmptyString(questionRecord.correctAnswer)) {
+        errors.push("正解が空か、または文字列になっていません。")
+    }
+    if (!isNonEmptyString(questionRecord.reasonText)) {
+        errors.push("解説文が空か、または文字列になっていません。");
+    }
+    if (!Array.isArray(questionRecord.choices)) {
+        errors.push("選択肢が配列になっていません。");
+    } else {
+        if (questionRecord.choices.length !== answerButtons.length) {
+            errors.push("選択肢の数がボタンの数と一致していません。");
+        }
+        if (!questionRecord.choices.every(isNonEmptyString)) {
+            errors.push("選択肢の中に空、または文字列ではない値があります。");
+        }
+        const areChoicesValid = questionRecord.choices.every(isNonEmptyString);
+        const isCorrectAnswerValid = isNonEmptyString(questionRecord.correctAnswer);
+
+        if (areChoicesValid && isCorrectAnswerValid) {
+            if (!questionRecord.choices.includes(questionRecord.correctAnswer)) {
+            errors.push("正解が選択肢の中に含まれていません。");
+            }
+        }
+    }
+
+    return errors;
+}
+
+function isValidQuestion(question: unknown): question is Question {
+    return getQuestionValidationErrors(question).length === 0;
+}
+
+function showLoadError(message:string):void {
+    statement.textContent = message;
+}
+
+function showErrorScreen(errorDetail: string):void {
+    setQuizMode(QUIZ_MODE.LOAD_ERROR);
+    showLoadError(errorDetail);
+}
+
+async function loadQuestionsData():Promise<void> {
+    try {
+        setQuizMode(QUIZ_MODE.LOADING);
+        statement.textContent = "問題を読み込んでいます……";
+        const response = await fetch("questions.json");
+        if (!response.ok) {
+            showErrorScreen("データ読み込みに失敗しました。");
+            return;
+        }
+
+        const loadedQuestions: unknown = await response.json();
+
+        if (!Array.isArray(loadedQuestions)) {
+            showErrorScreen("読み込んだデータが配列になっていません。");
+            return;
+        }
+
+        if (loadedQuestions.length === 0) {
+            showErrorScreen("読み込んだデータに問題が入っていません。");
+            return;
+        }
+
+        if (!loadedQuestions.every(isValidQuestion)) {
+            loadedQuestions.forEach(function (question: unknown, index: number) {
+                const errors = getQuestionValidationErrors(question);
+
+                const questionRecord =
+                    typeof question === "object" && question !== null
+                        ? question as Record<string, unknown>
+                        : null;
+
+                if (errors.length > 0) {
+                    const questionLabel =
+                        questionRecord !== null && isNonEmptyString(questionRecord.id)
+                            ? questionRecord.id
+                            : `${index + 1}問目`;
+
+                    console.error(`${questionLabel} のデータに問題があります。`);
+
+                    errors.forEach(function (errorMessage) {
+                        console.error(`- ${errorMessage}`);
+                    });
+                }
+            });
+
+            showErrorScreen("読み込んだデータに問題が発見されました。");
+            return;
+        }
+
+        const duplicateIds = findDuplicateQuestionIds(loadedQuestions);
+        
+        if (duplicateIds.length > 0) {
+            duplicateIds.forEach(function (duplicateId) {
+                console.error(`id: ${duplicateId} が重複しています。`);
+            });
+            showErrorScreen("読み込んだデータに問題が発見されました。");
+            return;
+        }
+
+        questions = loadedQuestions;
+        renderQuestion(getCurrentQuestion());
+        enableAnswerButtons();
+        setQuizMode(QUIZ_MODE.ANSWERING);
+    } catch (error) {
+        showErrorScreen("データ読み込み中にエラーが発生しました。");
+        console.error(error);
+    }
+}

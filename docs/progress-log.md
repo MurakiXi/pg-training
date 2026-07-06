@@ -4392,3 +4392,52 @@ TypeScript導入の土台を作り、型を作る、変数に型を付ける、�
 - 次は、問題データ検証系の関数をTypeScriptへ移す。
 - 候補は `getQuestionValidationErrors()`、`isValidQuestion()`、`findDuplicateQuestionIds()`、`loadQuestionsData()` 周辺である。
 - 特に、外部JSONから読み込んだデータはTypeScriptの型だけでは安全にならないため、実行時検証をどう扱うかを確認する。
+
+## 2026-07-06
+
+### Week5 Day4-3 完了
+
+### 完了したこと
+
+- `isValidQuestion()` の戻り値を、単なる `boolean` ではなく型述語 `question is Question` に変更した。
+- 型述語により、検証に成功した値を以後 `Question` 型として扱えるようにした。
+- `showLoadError()` をTypeScriptへ移行し、引数を `string`、戻り値を `void` とした。
+- `showErrorScreen()` をTypeScriptへ移行し、引数を `string`、戻り値を `void` とした。
+- `loadQuestionsData()` をTypeScriptへ移行した。
+- `loadQuestionsData()` の戻り値を `Promise<void>` とした。
+- `response.json()` の戻り値を、検証前の外部データとして `unknown` で受け取るようにした。
+- `Array.isArray()` により、読み込んだデータが配列であることを確認してから、`length`、`every()`、`forEach()` を使用する形にした。
+- 空配列の場合はエラー画面を表示し、後続処理へ進まないようにした。
+- `loadedQuestions.every(isValidQuestion)` により、配列内の全要素が `Question` 型として有効か検証するようにした。
+- 不正な問題データをConsoleへ表示する処理では、各要素を `unknown` として受け取るようにした。
+- `question` がオブジェクトかつ `null` でない場合だけ、`Record<string, unknown>` として読み替える中間変数 `questionRecord` を作成した。
+- `questionRecord` の `id` が空でない文字列の場合は問題IDを、不正な場合は「○問目」をConsole用ラベルとして使用するようにした。
+- 全問題の形式検証と重複ID検出を通過した後だけ、`loadedQuestions` を `questions` へ代入する形を維持した。
+- `npm run build` を実行し、型エラーなくコンパイルできることを確認した。
+
+### 学んだこと
+
+- `boolean` は真偽だけを返すが、`question is Question` は、`true` の場合に引数を `Question` 型として扱えることまでTypeScriptへ伝える。
+- `response.json()` から取得した外部データは、TypeScriptの型チェックを通っていないため、最初から `Question[]` として信用してはいけない。
+- 外部データは `unknown` で受け取り、実行時検証を通過した後にアプリ内部の型として扱う必要がある。
+- `Record<string, unknown>` の `string` はプロパティ名・キーの型を表し、`unknown` はプロパティ値の型を表す。
+- `Record<string, unknown>` は特定のプロパティの存在や値の型を保証せず、文字列キーで検証対象のプロパティへアクセスできる形に読み替えるために使う。
+- 型アサーション `as Record<string, unknown>` はデータを検証したことにはならず、その後の検証コードが必要である。
+- 三項演算子の結果が `Record<string, unknown>` または `null` であるため、`questionRecord` の型は `Record<string, unknown> | null` になる。
+- プロパティへアクセスする前には、アクセス対象の変数そのものが `null` でないことを確認すると、TypeScriptが型を絞り込める。
+- 空配列に対する `every()` は `true` を返すため、空配列かどうかは別途確認する必要がある。
+
+### 詰まった点・注意点
+
+- `Question` 型として正しいか検証する関数の引数を、最初から `Question` 型にすると、検証前のデータを正しいものとして扱う矛盾が生じる。
+- `unknown` 型の値には、オブジェクトであることを確認しただけでは任意のプロパティへ直接アクセスできない。
+- `Record<string, unknown>` は「値が文字列である」という意味ではなく、文字列をプロパティ名としてアクセスできるという意味である。
+- `question` が安全であることを確認しても、別変数である `questionRecord` の `null` 可能性が自動的に消えるとは限らない。
+- `questionRecord.id` へアクセスする場合は、`questionRecord !== null` を先に確認する必要がある。
+- `npm run build` の成功はTypeScriptのコンパイル成功を表すが、現在ブラウザがルートの `script.js` を読み込んでいるため、TypeScript版のブラウザ動作確認とは区別する。
+
+### 次にやること
+
+- Week5 Day4-4 に進む。
+- 次は、Day4で移行した問題データ検証・読み込み処理の型と責務を棚卸しする。
+- 必要に応じて、`loadQuestionsData()` 内の型の絞り込みとConsole用ラベル作成処理を読みやすく整理する。
