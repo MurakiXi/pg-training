@@ -352,3 +352,30 @@ function retryQuiz(): void {
     enableAnswerButtons();
     setQuizMode(QUIZ_MODE.ANSWERING);
 }
+
+answerButtons.forEach(function (answerButton) {
+    answerButton.addEventListener("click", function () {
+        if (!isAnswered){
+            const answerText = answerButton.textContent;
+            if (answerText === null) {
+                return;
+            }
+            const trimmedAnswerText = answerText.trim();
+            const currentQuestion = getCurrentQuestion();
+            const isCorrect = isCorrectAnswer(trimmedAnswerText, currentQuestion);
+            
+            if (isCorrect) {
+                showResult("正解！", currentQuestion.reasonText);
+                score++;
+            } else {
+                showResult("残念！", currentQuestion.reasonText);
+            }
+
+            isAnswered = true;
+            disableAnswerButtons();
+            if (!hasNextQuestion()) {
+                setQuizMode(QUIZ_MODE.READY_TO_RESULT);
+            }
+        }
+    });
+});
