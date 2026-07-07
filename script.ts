@@ -33,7 +33,7 @@ function setQuizMode(newMode: QuizMode): void {
     updateScreenByQuizMode();
 }
 
-function resetQuizState(): void{
+function resetQuizState(): void {
     currentQuestionIndex = 0;
     isAnswered = false;
     score = 0;
@@ -216,7 +216,7 @@ function enableAnswerButtons(): void {
     });
 }
 
-function getQuestionValidationErrors(question: unknown):string[] {
+function getQuestionValidationErrors(question: unknown): string[] {
     const errors:string[] = [];
     if (typeof question !== "object" || question === null) {
         errors.push('問題データが空か、またはオブジェクトになっていません。');
@@ -339,7 +339,7 @@ async function loadQuestionsData():Promise<void> {
     }
 }
 
-function showResultView():void {
+function showResultView(): void {
     renderFinalScore();
     setQuizMode(QUIZ_MODE.RESULT);
 }
@@ -407,4 +407,4 @@ nextButton.addEventListener("click", function () {
     showResultView();
     });
 
-    loadQuestionsData();
+loadQuestionsData();
