@@ -379,3 +379,30 @@ answerButtons.forEach(function (answerButton) {
         }
     });
 });
+
+nextButton.addEventListener("click", function () {
+    if (quizMode === QUIZ_MODE.RESULT) {
+        retryQuiz();
+        return;
+    }
+
+    if (quizMode === QUIZ_MODE.READY_TO_RESULT) {
+        showResultView();
+        return;
+    }
+
+    if (!isAnswered) {
+        reason.textContent = "回答してから次に進んでください";
+        return;
+    }
+
+    if (hasNextQuestion()) {
+        currentQuestionIndex++;
+        isAnswered = false;
+        clearFeedback();
+        renderQuestion(getCurrentQuestion());
+        enableAnswerButtons();
+        return;
+    } 
+    showResultView();
+    });
