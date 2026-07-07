@@ -406,3 +406,5 @@ nextButton.addEventListener("click", function () {
     } 
     showResultView();
     });
+
+    loadQuestionsData();
