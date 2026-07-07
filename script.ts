@@ -343,3 +343,12 @@ function showResultView():void {
     renderFinalScore();
     setQuizMode(QUIZ_MODE.RESULT);
 }
+
+function retryQuiz(): void {
+    resetQuizState();
+    quizScore.textContent = "";
+    clearFeedback();
+    renderQuestion(getCurrentQuestion());
+    enableAnswerButtons();
+    setQuizMode(QUIZ_MODE.ANSWERING);
+}
