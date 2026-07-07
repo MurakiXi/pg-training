@@ -338,3 +338,8 @@ async function loadQuestionsData():Promise<void> {
         console.error(error);
     }
 }
+
+function showResultView():void {
+    renderFinalScore();
+    setQuizMode(QUIZ_MODE.RESULT);
+}
