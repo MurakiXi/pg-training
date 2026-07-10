@@ -1,15 +1,16 @@
-function QuizHeader() {
+function QuizHeader({ title }: { title: string }) {
   return (
       <header>
-        <div className="header__logo">Science Quiz</div>
+      <div className="header__logo">{title}</div>
       </header>
   )
 }
+
 function App() {
 
   return (
     <>
-      <QuizHeader />
+      <QuizHeader title="Science Quiz"/>
       <main>
         <div id="progress">第1問／全3問</div>
         <div className="question-title">問題：</div>
