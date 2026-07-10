@@ -4865,3 +4865,47 @@ TypeScript導入の土台を作り、型を作る、変数に型を付ける、�
 - 問題データを表す`Question`型をReact側で定義する。
 - 問題文や進行表示を担当する子コンポーネントを検討する。
 - 複数の値をPropsとして親から子へ渡す方法を学ぶ。
+
+## 2026-07-10
+
+### 完了したこと
+
+- Week6 Day2-4として、問題表示を担当する`QuestionView`コンポーネントを作成した。
+- 問題データの型として`Question`を定義した。
+- `Question`に、`string`型の`statement`プロパティを定義した。
+- `QuestionView`が受け取るPropsの型として`QuestionViewProps`を定義した。
+- `QuestionViewProps`に、`current: number`、`total: number`、`question: Question`を定義した。
+- `QuestionView`の引数で、`current`、`total`、`question`を分割代入した。
+- 進行表示、問題タイトル、問題文を`App`から`QuestionView`へ移動した。
+- 進行表示を`第{current}問／全{total}問`として表示した。
+- 問題文を`question.statement`から表示した。
+- `App`内で`firstQuestion`という`Question`型のオブジェクトを作成した。
+- `App`から`QuestionView`へ、現在番号、全問題数、問題オブジェクトをPropsとして渡した。
+- 変更前後でブラウザ表示が同じであることを確認した。
+- Consoleにエラーがないことを確認した。
+
+### 学んだこと
+
+- Propsには文字列だけでなく、数値やオブジェクトも渡せる。
+- 数値や変数をPropsとして渡す場合は、`current={1}`や`question={firstQuestion}`のように波括弧を使う。
+- `current="1"`は文字列であり、`current={1}`は数値である。
+- 親コンポーネントで実際のデータを作り、子コンポーネントは受け取ったデータを表示できる。
+- オブジェクトをPropsとして渡す場合、親はオブジェクト全体を渡し、子は必要なプロパティを読み取る。
+- JSXでは、固定文字列と変数を`第{current}問`のように混在させて表示できる。
+- コンポーネントが複数の最上位要素を返す場合は、Fragmentなどで一つにまとめる必要がある。
+
+### 詰まった点・注意点
+
+- `question.statement`をProps名として指定することはできず、`question`というPropsへオブジェクト全体を渡す。
+- `question={firstQuestion}`は親がデータを渡す記述であり、`question.statement`は子がデータを読み取る記述である。
+- JSX要素内の固定文字列には引用符を付けない。
+- `QuestionView`へ移動した進行表示、問題タイトル、問題文は、`App`側から削除しないと二重表示になる。
+- `Question`は問題データの型であり、`QuestionViewProps`はコンポーネントへ渡すProps全体の型である。
+
+### 次にやること
+
+- Week6 Day2-5に進む。
+- 選択肢を問題データの配列として扱う。
+- 選択肢表示を子コンポーネントへ分離する。
+- 配列の`map`を使って複数のボタンを描画する。
+- Reactで一覧を描画するときに必要な`key`の役割を学ぶ。
