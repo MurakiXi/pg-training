@@ -1,10 +1,15 @@
-function QuizHeader({ title }: { title: string }) {
+type QuizHeaderProps = {
+  title: string
+}
+
+function QuizHeader({ title }: QuizHeaderProps) {
   return (
       <header>
       <div className="header__logo">{title}</div>
       </header>
   )
 }
+
 
 function App() {
 

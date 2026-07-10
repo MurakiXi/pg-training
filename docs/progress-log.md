@@ -4830,3 +4830,38 @@ TypeScript導入の土台を作り、型を作る、変数に型を付ける、�
 - 関数引数へ直接記述したPropsの型を、名前付きの型として分離する。
 - `QuizHeaderProps`という型の役割を理解する。
 - Propsの受け取り方と型定義を区別して説明できるようにする。
+
+## 2026-07-10
+
+### 完了したこと
+
+- Week6 Day2-3として、`QuizHeader`のProps型を名前付きの型へ分離した。
+- `QuizHeaderProps`という型を定義した。
+- `QuizHeaderProps`に、`string`型の`title`プロパティを定義した。
+- `QuizHeader`の関数引数へ直接記述していたインライン型を削除した。
+- `QuizHeader`が受け取るPropsの型として`QuizHeaderProps`を指定した。
+- 型定義を`QuizHeader`コンポーネントより前に配置した。
+- 変更前後でブラウザ表示が同じであることを確認した。
+- Consoleにエラーがないことを確認した。
+
+### 学んだこと
+
+- `type`を使うことで、オブジェクトの型へ名前を付けられる。
+- Propsの型を名前付きで分離すると、関数の引数部分を簡潔にできる。
+- `QuizHeaderProps`は実際の値ではなく、Propsオブジェクトが満たすべき形を表す型である。
+- `function QuizHeader({ title }: QuizHeaderProps)`では、`{ title }`が分割代入、`QuizHeaderProps`がProps全体の型指定である。
+- 型定義を使用箇所より前に置くことで、上から順にコードを読みやすくできる。
+
+### 詰まった点・注意点
+
+- 型定義と実際に渡される値は別物である。
+- `{ title: "Science Quiz" }`は実際の値であり、`{ title: string }`はその値の型である。
+- TypeScript上は型を使用箇所より後に定義できる場合もあるが、可読性を考えて先に定義する。
+- `title:string`でも構文上は動作するが、通常は`title: string`のように空白を入れる。
+
+### 次にやること
+
+- Week6 Day2-4に進む。
+- 問題データを表す`Question`型をReact側で定義する。
+- 問題文や進行表示を担当する子コンポーネントを検討する。
+- 複数の値をPropsとして親から子へ渡す方法を学ぶ。
