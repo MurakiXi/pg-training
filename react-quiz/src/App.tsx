@@ -4,12 +4,17 @@ type QuizHeaderProps = {
 
 type Question = {
   statement: string
+  choices: string[]
 }
 
 type QuestionViewProps = {
   current: number
   total: number
   question: Question
+}
+
+type AnswerChoicesProps = {
+  choices: string[]
 }
 
 function QuizHeader({ title }: QuizHeaderProps) {
@@ -30,9 +35,20 @@ function QuestionView({ current, total, question }: QuestionViewProps) {
   )
 }
 
+function AnswerChoices({ choices }: AnswerChoicesProps) {
+  return (
+    <div className="choices">
+      {choices.map((choice) => (
+        <button key={choice} className="answer-button">{choice}</button>
+      ))}
+    </div>
+  )
+}
+
 function App() {
 const firstQuestion: Question = {
-  statement: "水を熱し続けると、水は何になって空気中へ出ていくでしょうか？"
+  statement: "水を熱し続けると、水は何になって空気中へ出ていくでしょうか？",
+  choices: ["氷","水蒸気","砂","光"]
 }
   return (
     <>
@@ -40,12 +56,8 @@ const firstQuestion: Question = {
       <main>
         <QuestionView current={1} total={3} question={firstQuestion} />
         
-        <div className="choices">
-            <button className="answer-button">氷</button>
-            <button className="answer-button">水蒸気</button>
-            <button className="answer-button">砂</button>
-            <button className="answer-button">光</button>
-        </div>
+        <AnswerChoices choices={firstQuestion.choices} />
+
         <p id="result">ここに結果が表示されます</p>
         <p id="reason">ここに解説が表示されます</p>
         <button id="next-button">次の問題</button>
