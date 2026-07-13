@@ -1,3 +1,5 @@
+import { useState } from 'react'
+
 type QuizHeaderProps = {
   title: string
 }
@@ -50,6 +52,9 @@ const firstQuestion: Question = {
   statement: "水を熱し続けると、水は何になって空気中へ出ていくでしょうか？",
   choices: ["氷","水蒸気","砂","光"]
 }
+
+const [selectedAnswer, setSelectedAnswer] = useState<string | null>(null)
+  
   return (
     <>
       <QuizHeader title="Science Quiz"/>

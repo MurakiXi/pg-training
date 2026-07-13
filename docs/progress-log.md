@@ -4909,3 +4909,45 @@ TypeScript導入の土台を作り、型を作る、変数に型を付ける、�
 - 選択肢表示を子コンポーネントへ分離する。
 - 配列の`map`を使って複数のボタンを描画する。
 - Reactで一覧を描画するときに必要な`key`の役割を学ぶ。
+
+## 2026-07-13
+
+### 完了したこと
+
+- Week6 Day3-1として、ReactのStateの基本を確認した。
+- `App.tsx`の冒頭で、Reactから`useState`をimportした。
+- `App`コンポーネント内に、`selectedAnswer` Stateを作成した。
+- `selectedAnswer`の型を`string | null`にした。
+- 初期値を、まだ何も選択していない状態を表す`null`にした。
+- まだ`setSelectedAnswer`はクリック処理へ接続しなかった。
+- まだ`AnswerChoices`へイベント用Propsは追加しなかった。
+- ブラウザ表示が変更前と同じであることを確認した。
+- Consoleにエラーがないことを確認した。
+
+### 学んだこと
+
+- Stateは、ユーザー操作などによって変化し、その変化に応じて画面を再描画したい値である。
+- 通常の変数を書き換えるだけでは、Reactは画面を再描画しない。
+- `useState`を使うことで、Reactに管理させる値を作成できる。
+- `const [selectedAnswer, setSelectedAnswer] = useState<string | null>(null)`では、現在値と更新関数を受け取っている。
+- `selectedAnswer`は現在選ばれている答えを表す。
+- `setSelectedAnswer`は`selectedAnswer`を更新するための関数である。
+- 初期値を`null`にすることで、まだ何も選んでいない状態を表せる。
+- 選択された答えは、選択肢表示だけでなく結果表示や正誤判定にも関係するため、親の`App`で持つのが適切である。
+- `key`は画面全体の書き換えポイントを管理するものではなく、`map`で生成された兄弟要素をReactが区別するための識別札である。
+
+### 詰まった点・注意点
+
+- Reactでは、従来のJavaScriptのようにDOM要素を取得して直接書き換えるのではなく、StateやPropsから画面を導く。
+- `AnswerChoices`は、選択肢ボタンを表示し、クリックされた選択肢を親へ通知する役割を持つ。
+- 正誤判定や結果表示は、選択肢表示だけの責務ではないため、`App`側に置く。
+- 子コンポーネントが親のStateを直接書き換えるのではなく、親から渡された関数を呼び出して通知する形にする。
+- 現時点では`selectedAnswer`や`setSelectedAnswer`が未使用でも、Day3-2でクリック処理につなげる予定である。
+
+### 次にやること
+
+- Week6 Day3-2に進む。
+- `AnswerChoices`にクリック時の通知用Propsを追加する。
+- 親の`App`から、選択された答えを受け取る関数を子へ渡す。
+- 子のボタンがクリックされたとき、対応する`choice`を親へ渡す。
+- `setSelectedAnswer`を使って、選ばれた答えをStateへ保存する。
