@@ -4951,3 +4951,41 @@ TypeScript導入の土台を作り、型を作る、変数に型を付ける、�
 - 親の`App`から、選択された答えを受け取る関数を子へ渡す。
 - 子のボタンがクリックされたとき、対応する`choice`を親へ渡す。
 - `setSelectedAnswer`を使って、選ばれた答えをStateへ保存する。
+
+## 2026-07-13
+
+### 完了したこと
+
+- Week6 Day3-2として、選択肢ボタンのクリックを親コンポーネントへ伝える処理を実装した。
+- `AnswerChoicesProps`に、クリック時に呼ぶ関数Propsとして`onSelectAnswer`を追加した。
+- `onSelectAnswer`の型を、`(choice: string) => void`と定義した。
+- `AnswerChoices`の引数で、`choices`と`onSelectAnswer`を分割代入した。
+- 各選択肢ボタンに`onClick`を追加した。
+- `onClick={() => onSelectAnswer(choice)}`とし、クリック時に対応する選択肢文字列を親へ渡すようにした。
+- `App`内に`handleSelectAnswer`関数を定義した。
+- `handleSelectAnswer`は`choice: string`を受け取り、`setSelectedAnswer(choice)`を実行するようにした。
+- `App`から`AnswerChoices`へ、`onSelectAnswer={handleSelectAnswer}`を渡した。
+
+### 学んだこと
+
+- Reactでは、関数もPropsとして親から子へ渡せる。
+- 子コンポーネントは親のStateを直接書き換えず、親から渡された関数を呼んで通知する。
+- `handleSelectAnswer`は、選ばれた答えを受け取り、親のStateを更新するための関数である。
+- `onSelectAnswer`は、`AnswerChoices`側で受け取る関数Propsの名前である。
+- `handleSelectAnswer`と`onSelectAnswer`は同じ関数を指すが、App側と子側で名前の役割が異なる。
+- `onClick={onSelectAnswer(choice)}`と書くと描画時に実行されてしまうため、`onClick={() => onSelectAnswer(choice)}`の形でクリック時に実行される関数を渡す。
+- TypeScriptの関数引数は、`choice: string`のように変数名の後ろへ型を書く。
+
+### 詰まった点・注意点
+
+- `function handleSelectAnswer({ choice: string })`は、`choice`という文字列引数を受け取る書き方ではない。
+- 今回は`function handleSelectAnswer(choice: string)`と書く。
+- `answer`でも`choice`でも引数名としては成立するが、どの値を受け取っているか分かりやすい名前にする。
+- `selectedAnswer`はまだ画面表示には使っていないため、見た目が変わらないのは正常である。
+- `selectedAnswer`の未使用警告は、Day3-3で表示に使うことで解消される。
+
+### 次にやること
+
+- Week6 Day3-3に進む。
+- `selectedAnswer`を画面に表示し、クリックした選択肢がStateへ保存されていることを確認する。
+- `selectedAnswer`が`null`の場合と、文字列が入っている場合で表示を分ける。

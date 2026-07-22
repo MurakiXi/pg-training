@@ -17,7 +17,8 @@ type QuestionViewProps = {
 
 type AnswerChoicesProps = {
   choices: string[]
-}
+  onSelectAnswer: (choice: string) => void;
+};
 
 function QuizHeader({ title }: QuizHeaderProps) {
   return (
@@ -37,11 +38,17 @@ function QuestionView({ current, total, question }: QuestionViewProps) {
   )
 }
 
-function AnswerChoices({ choices }: AnswerChoicesProps) {
+function AnswerChoices({ choices, onSelectAnswer }: AnswerChoicesProps) {
   return (
     <div className="choices">
       {choices.map((choice) => (
-        <button key={choice} className="answer-button">{choice}</button>
+        <button
+          key={choice}
+          className="answer-button"
+          onClick={() => onSelectAnswer(choice)}
+        >
+          {choice}
+        </button>
       ))}
     </div>
   )
@@ -53,7 +60,12 @@ const firstQuestion: Question = {
   choices: ["氷","水蒸気","砂","光"]
 }
 
-const [selectedAnswer, setSelectedAnswer] = useState<string | null>(null)
+const [selectedAnswer, setSelectedAnswer] =
+  useState<string | null>(null)
+
+function handleSelectAnswer(choice: string) {
+  setSelectedAnswer(choice)
+}
   
   return (
     <>
@@ -61,7 +73,10 @@ const [selectedAnswer, setSelectedAnswer] = useState<string | null>(null)
       <main>
         <QuestionView current={1} total={3} question={firstQuestion} />
         
-        <AnswerChoices choices={firstQuestion.choices} />
+        <AnswerChoices
+          choices={firstQuestion.choices}
+          onSelectAnswer={handleSelectAnswer}
+        />
 
         <p id="result">ここに結果が表示されます</p>
         <p id="reason">ここに解説が表示されます</p>
