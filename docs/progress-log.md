@@ -5069,3 +5069,39 @@ TypeScript導入の土台を作り、型を作る、変数に型を付ける、�
 - `selectedAnswer`から回答済みかどうかを判断する。
 - 回答済み状態を別のStateとして重複管理する必要があるか検討する。
 - Stateを親から子へPropsとして渡し、ボタンの`disabled`属性へ反映する。
+
+## 2026-07-24
+
+### 完了したこと
+
+- Week6 Day3-5として、回答後に選択肢ボタンを無効化した。
+- `AnswerChoicesProps`に`disabled: boolean`を追加した。
+- `AnswerChoices`で`disabled` Propsを受け取った。
+- 各選択肢ボタンへ`disabled={disabled}`を設定した。
+- 親の`App`から`disabled={selectedAnswer !== null}`を渡した。
+- 回答前は選択肢ボタンをクリックできることを確認した。
+- 一度回答すると、すべての選択肢ボタンが押せなくなることを確認した。
+- 正誤結果と解説が回答後も維持されることを確認した。
+
+### 学んだこと
+
+- HTMLの`button`は、`disabled={true}`で無効化され、`disabled={false}`で操作可能になる。
+- JSXのPropsには、変数だけでなく比較式の評価結果も直接渡せる。
+- `disabled={selectedAnswer !== null}`では、比較式の結果であるbooleanが子コンポーネントへ渡される。
+- Stateを持つ親が回答済みかどうかを判断し、子は受け取ったPropsを表示へ反映する。
+- `selectedAnswer`が`null`なら未回答、文字列なら回答済みと判断できる。
+- 既存のStateから計算できる状態は、別のStateとして重複して持つ必要がない。
+
+### 詰まった点・注意点
+
+- 左側の`disabled`はbuttonの属性で、右側の`disabled`はPropsとして受け取ったboolean値である。
+- `<button disabled>`とだけ書くと、`disabled={true}`と同じ意味になり、常に無効化される。
+- 回答前後で切り替える場合は、boolean値を波括弧で渡す必要がある。
+- `isAnswered`というStateを追加すると、`selectedAnswer`との間で状態が食い違う可能性がある。
+- 今回は`null`を未回答専用の値として使っているため、`selectedAnswer`だけで回答状態を正確に管理できる。
+
+### 次にやること
+
+- Week6 Day3の内容を整理する。
+- State、イベント、親から子へのProps、子から親へのコールバックの流れを復習する。
+- 次の問題へ進む処理に備え、回答状態を初期化する方法を学ぶ。

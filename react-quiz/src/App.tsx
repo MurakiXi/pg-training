@@ -20,6 +20,7 @@ type QuestionViewProps = {
 type AnswerChoicesProps = {
   choices: string[]
   onSelectAnswer: (choice: string) => void;
+  disabled: boolean
 };
 
 function QuizHeader({ title }: QuizHeaderProps) {
@@ -40,7 +41,7 @@ function QuestionView({ current, total, question }: QuestionViewProps) {
   )
 }
 
-function AnswerChoices({ choices, onSelectAnswer }: AnswerChoicesProps) {
+function AnswerChoices({ choices, onSelectAnswer, disabled }: AnswerChoicesProps) {
   return (
     <div className="choices">
       {choices.map((choice) => (
@@ -48,6 +49,7 @@ function AnswerChoices({ choices, onSelectAnswer }: AnswerChoicesProps) {
           key={choice}
           className="answer-button"
           onClick={() => onSelectAnswer(choice)}
+          disabled={disabled}
         >
           {choice}
         </button>
@@ -70,7 +72,7 @@ const [selectedAnswer, setSelectedAnswer] =
 function handleSelectAnswer(choice: string) {
   setSelectedAnswer(choice)
 }
-  
+
   return (
     <>
       <QuizHeader title="Science Quiz"/>
@@ -80,6 +82,7 @@ function handleSelectAnswer(choice: string) {
         <AnswerChoices
           choices={firstQuestion.choices}
           onSelectAnswer={handleSelectAnswer}
+          disabled={selectedAnswer !== null}
         />
 
         <p id="result">
