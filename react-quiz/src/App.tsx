@@ -78,7 +78,11 @@ function handleSelectAnswer(choice: string) {
           onSelectAnswer={handleSelectAnswer}
         />
 
-        <p id="result">ここに結果が表示されます</p>
+        <p id="result">
+          {selectedAnswer === null
+            ? "答えを選んでください"
+            : `選んだ答え：${selectedAnswer}`}
+        </p>
         <p id="reason">ここに解説が表示されます</p>
         <button id="next-button">次の問題</button>
       </main>
