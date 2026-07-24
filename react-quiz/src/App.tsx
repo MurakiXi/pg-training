@@ -7,6 +7,8 @@ type QuizHeaderProps = {
 type Question = {
   statement: string
   choices: string[]
+  correctAnswer: string
+  reasonText: string
 }
 
 type QuestionViewProps = {
@@ -57,7 +59,9 @@ function AnswerChoices({ choices, onSelectAnswer }: AnswerChoicesProps) {
 function App() {
 const firstQuestion: Question = {
   statement: "水を熱し続けると、水は何になって空気中へ出ていくでしょうか？",
-  choices: ["氷","水蒸気","砂","光"]
+  choices: ["氷", "水蒸気", "砂", "光"],
+  correctAnswer: "水蒸気",
+  reasonText: "水を熱し続けると、水は気体になって空気中へ出ていきます。この気体になった水を水蒸気と呼びます。"
 }
 
 const [selectedAnswer, setSelectedAnswer] =
@@ -81,9 +85,15 @@ function handleSelectAnswer(choice: string) {
         <p id="result">
           {selectedAnswer === null
             ? "答えを選んでください"
-            : `選んだ答え：${selectedAnswer}`}
+            : selectedAnswer === firstQuestion.correctAnswer
+              ? "正解！"
+              : "残念！"}
         </p>
-        <p id="reason">ここに解説が表示されます</p>
+        <p id="reason">
+          {selectedAnswer === null
+            ? ""
+            : firstQuestion.reasonText}
+        </p>
         <button id="next-button">次の問題</button>
       </main>
     </>
