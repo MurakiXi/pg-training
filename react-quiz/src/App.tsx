@@ -59,13 +59,22 @@ function AnswerChoices({ choices, onSelectAnswer, disabled }: AnswerChoicesProps
 }
 
 function App() {
-const firstQuestion: Question = {
-  statement: "水を熱し続けると、水は何になって空気中へ出ていくでしょうか？",
-  choices: ["氷", "水蒸気", "砂", "光"],
-  correctAnswer: "水蒸気",
-  reasonText: "水を熱し続けると、水は気体になって空気中へ出ていきます。この気体になった水を水蒸気と呼びます。"
-}
 
+const questions: Question[] = [
+    {
+    statement: "水を熱し続けると、水は何になって空気中へ出ていくでしょうか？",
+    correctAnswer: "水蒸気",
+    reasonText: "水を熱し続けると、水は気体になって空気中へ出ていきます。この気体になった水を水蒸気と呼びます。",
+    choices: ["氷", "水蒸気", "砂", "光"]
+  },
+      {
+    statement: "乾電池の＋極と－極を導線でつなぎ、回路ができると何が流れるでしょうか？",
+    correctAnswer: "電気",
+    reasonText: "乾電池の＋極と－極をつなぐと電気の通り道ができ、電気が流れます。",
+    choices: ["電気", "水", "空気", "光"]
+    }
+]
+  
 const [selectedAnswer, setSelectedAnswer] =
   useState<string | null>(null)
 
@@ -81,10 +90,10 @@ function handleNextQuestion() {
     <>
       <QuizHeader title="Science Quiz"/>
       <main>
-        <QuestionView current={1} total={3} question={firstQuestion} />
+        <QuestionView current={1} total={questions.length} question={questions[0]} />
         
         <AnswerChoices
-          choices={firstQuestion.choices}
+          choices={questions[0].choices}
           onSelectAnswer={handleSelectAnswer}
           disabled={selectedAnswer !== null}
         />
@@ -92,14 +101,14 @@ function handleNextQuestion() {
         <p id="result">
           {selectedAnswer === null
             ? "答えを選んでください"
-            : selectedAnswer === firstQuestion.correctAnswer
+            : selectedAnswer === questions[0].correctAnswer
               ? "正解！"
               : "残念！"}
         </p>
         <p id="reason">
           {selectedAnswer === null
             ? ""
-            : firstQuestion.reasonText}
+            : questions[0].reasonText}
         </p>
         <button onClick={handleNextQuestion} id="next-button">次の問題</button>
       </main>
