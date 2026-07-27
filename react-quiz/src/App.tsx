@@ -73,6 +73,10 @@ function handleSelectAnswer(choice: string) {
   setSelectedAnswer(choice)
 }
 
+function handleNextQuestion() {
+  setSelectedAnswer(null)
+  }
+  
   return (
     <>
       <QuizHeader title="Science Quiz"/>
@@ -97,7 +101,7 @@ function handleSelectAnswer(choice: string) {
             ? ""
             : firstQuestion.reasonText}
         </p>
-        <button id="next-button">次の問題</button>
+        <button onClick={handleNextQuestion} id="next-button">次の問題</button>
       </main>
     </>
   )
