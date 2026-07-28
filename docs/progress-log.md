@@ -5274,3 +5274,58 @@ const currentQuestion = questions[currentQuestionIndex];
 - Week6 Day4-6に進む。
 - 更新前のStateを基に新しいStateを求める場合の、関数形式のsetterを学ぶ。
 - `setCurrentQuestionIndex(currentQuestionIndex + 1)`と、`setCurrentQuestionIndex((previousIndex) => previousIndex + 1)`の違いを整理する。
+
+## Week6 Day4-6 完了
+
+### 完了したこと
+
+- 現在の問題番号を1進めるState更新を、値を直接渡す形式から関数形式のsetterへ変更した。
+
+```tsx
+setCurrentQuestionIndex((previousIndex) => previousIndex + 1);
+```
+
+- `previousIndex`には、Reactから更新処理を適用する直前の`currentQuestionIndex`が渡されることを確認した。
+- 関数形式のsetterでは、更新前のStateを引数として受け取り、次のStateを返すことを理解した。
+- 置き換え後も、1問目から2問目への切り替え、回答状態の初期化、正誤判定、解説表示が正常に動作することを確認した。
+
+### 学んだこと
+
+- Stateのsetterには、更新後の値を直接渡す形式と、更新関数を渡す形式がある。
+- 更新前の同じStateに依存せず、一定の値へ置き換える場合は値を直接渡す。
+
+```tsx
+setSelectedAnswer(null);
+setCurrentQuestionIndex(0);
+```
+
+- 更新前の同じStateを基に次の値を計算する場合は、関数形式のsetterを使う。
+
+```tsx
+setCurrentQuestionIndex((previousIndex) => previousIndex + 1);
+```
+
+- `previousIndex`は別のStateや永続的な変数ではなく、更新関数が実行されている間だけ使用される引数である。
+- `previousIndex`へ更新直前のStateを渡すのはReactである。
+- 同じイベント内でState更新を複数回行う場合、現在のレンダリングで参照しているStateはsetterを呼んだ直後には変化しない。
+- 関数形式のsetterでは、Reactが更新処理を順番に適用し、それまでの更新結果を次の更新関数へ渡す。
+- 関数形式を使うかどうかは、値が変動するかではなく、「更新前の同じStateから次の値を求めるか」を基準に判断する。
+
+### 詰まった点・注意点
+
+- `previousIndex`は「前の問題を保存する変数」ではなく、「今回の更新を適用する直前の問題添字」である。
+- `previousIndex`を別途宣言したり、Stateとして管理したりする必要はない。
+- `setCurrentQuestionIndex(currentQuestionIndex + 1)`でも、現在のように一度だけ更新する処理では正常に動作する。
+- 関数形式は単なる儀礼ではなく、更新前のStateに依存する処理であることを明示し、複数の更新にも安全に対応するための書き方である。
+- 別の変数をそのままStateへ設定する場合は、値が毎回異なっていても関数形式にする必要はない。
+
+```tsx
+setCurrentQuestionIndex(selectedPage);
+```
+
+### 次にやること
+
+- Week6 Day4-7に進む。
+- `questions`配列へ3問目を追加する。
+- 問題数を増やしても、総問題数の表示、現在の問題の取得、最終問題の判定が既存コードのまま対応できることを確認する。
+- 固定値ではなく、データから値を導出する設計の利点を整理する。
