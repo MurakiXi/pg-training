@@ -74,26 +74,31 @@ const questions: Question[] = [
     choices: ["電気", "水", "空気", "光"]
     }
 ]
-  
+
 const [selectedAnswer, setSelectedAnswer] =
   useState<string | null>(null)
+
+const [currentQuestionIndex, setCurrentQuestionIndex] =
+  useState<number>(0)
 
 function handleSelectAnswer(choice: string) {
   setSelectedAnswer(choice)
 }
 
 function handleNextQuestion() {
-  setSelectedAnswer(null)
-  }
+  if (currentQuestionIndex < questions.length -1) {
+    setSelectedAnswer(null)
+    setCurrentQuestionIndex(currentQuestionIndex + 1)
+  }}
   
   return (
     <>
       <QuizHeader title="Science Quiz"/>
       <main>
-        <QuestionView current={1} total={questions.length} question={questions[0]} />
+        <QuestionView current={currentQuestionIndex + 1} total={questions.length} question={questions[currentQuestionIndex]} />
         
         <AnswerChoices
-          choices={questions[0].choices}
+          choices={questions[currentQuestionIndex].choices}
           onSelectAnswer={handleSelectAnswer}
           disabled={selectedAnswer !== null}
         />
@@ -101,16 +106,21 @@ function handleNextQuestion() {
         <p id="result">
           {selectedAnswer === null
             ? "答えを選んでください"
-            : selectedAnswer === questions[0].correctAnswer
+            : selectedAnswer === questions[currentQuestionIndex].correctAnswer
               ? "正解！"
               : "残念！"}
         </p>
         <p id="reason">
           {selectedAnswer === null
             ? ""
-            : questions[0].reasonText}
+            : questions[currentQuestionIndex].reasonText}
         </p>
-        <button onClick={handleNextQuestion} id="next-button">次の問題</button>
+        <button
+          onClick={handleNextQuestion}
+          id="next-button"
+          disabled={selectedAnswer === null}>
+          次の問題
+        </button>
       </main>
     </>
   )

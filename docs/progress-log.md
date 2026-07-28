@@ -5183,3 +5183,51 @@ TypeScript導入の土台を作り、型を作る、変数に型を付ける、�
 - 現在表示している問題の添字を表す`currentQuestionIndex`をStateとして管理する。
 - 初期値を`0`とし、「次の問題」ボタンが押された時に添字を更新する準備を行う。
 - 通常の変数とReactのStateの違いを、再レンダリングの必要性を基準に整理する。
+
+## Week6 Day4-4 完了
+
+### 完了したこと
+
+- 現在表示している問題の配列添字を管理するため、`currentQuestionIndex` Stateを追加した。
+- `currentQuestionIndex`の初期値を`0`とし、最初は`questions[0]`を参照するようにした。
+- JSX内で固定していた`questions[0]`を、`questions[currentQuestionIndex]`へ変更した。
+- 問題文、選択肢、正誤判定、解説表示が、同じ`currentQuestionIndex`を基準に切り替わる構造にした。
+- 画面上の問題番号を`currentQuestionIndex + 1`として表示し、配列の0始まりと利用者向け表示の1始まりの差を調整した。
+- `handleNextQuestion`内で、`setCurrentQuestionIndex(currentQuestionIndex + 1)`を実行し、次の問題へ進めるようにした。
+- 次の問題へ進む際に`setSelectedAnswer(null)`も実行し、回答状態を未回答へ戻すようにした。
+- 未回答時は「次の問題」ボタンを押せないよう、`disabled={selectedAnswer === null}`を追加した。
+- `currentQuestionIndex < questions.length - 1`の条件を追加し、最終問題より先の配列外へ進まないようにした。
+- 1問目から2問目へ進むと、問題文、選択肢、進捗表示、正誤判定、解説が正しく切り替わることを確認した。
+- 2問目で次ボタンを押しても画面が崩れず、回答結果と解説が維持されることを確認した。
+- コンソールエラーが発生しないことを確認した。
+
+### 学んだこと
+
+- ボタン操作によって変更され、その変更を画面へ反映する値は、通常の変数ではなくReactのStateで管理する。
+- Stateを使う主な理由は、値の変更をReactへ知らせ、再レンダリングを発生させることである。
+- Stateとして保存している値には直接再代入せず、setter関数を使って更新する。
+- `currentQuestionIndex`には問題オブジェクトではなく、`questions`配列の添字を保存する。
+- `questions[currentQuestionIndex]`とすることで、一つのStateを変更するだけで、表示・判定・解説の参照先をまとめて切り替えられる。
+- 配列の添字は`0`から始まるが、画面上の問題番号は`1`から始まるため、表示時には`currentQuestionIndex + 1`とする。
+- 問題数が`questions.length`である場合、最後の有効な添字は`questions.length - 1`になる。
+- 次の問題が存在する条件は、`currentQuestionIndex < questions.length - 1`で判定できる。
+- 未回答時にボタンを無効化する条件と、最終問題より先へ進ませない条件は、別の責務として扱う。
+- 次ボタンの`disabled`は回答済みかどうかを担当し、配列外への移動防止は`handleNextQuestion`内の条件分岐が担当する。
+- 同じイベント内で複数のStateを更新すると、問題番号と回答状態をまとめて次の画面へ反映できる。
+
+### 詰まった点・注意点
+
+- `currentQuestionIndex++`のようにStateを直接変更してはいけない。
+- `const`で宣言していることだけがStateを使う理由ではなく、再レンダリングが必要であることが重要である。
+- `current={currentQuestionIndex + 1}`のように、JSX内の計算式全体を波括弧の中へ書く。
+- 最終問題で次ボタン自体を無効化すると、将来実装する「結果を見る」ボタンとして使えなくなる。
+- 最終問題で`setSelectedAnswer(null)`だけを実行すると、問題は変わらないまま回答結果だけが消えるため、問題番号更新と回答状態初期化は同じ条件内で行う。
+- 現時点では最終問題回答後もボタン文言は「次の問題」のままで、押しても何も起こらない。
+- 最終問題回答後に「結果を見る」へ変更し、結果画面へ移行する処理は今後実装する。
+
+### 次にやること
+
+- Week6 Day4の次段階へ進む。
+- `questions[currentQuestionIndex]`の重複参照を整理し、現在の問題を表す導出値について考える。
+- 現在値を基にStateを更新する際の関数形式のsetterについて理解する。
+- 最終的には、最終問題回答後のボタン文言と処理を結果画面へ対応させる。
