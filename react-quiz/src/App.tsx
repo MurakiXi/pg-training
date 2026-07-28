@@ -60,45 +60,49 @@ function AnswerChoices({ choices, onSelectAnswer, disabled }: AnswerChoicesProps
 
 function App() {
 
-const questions: Question[] = [
+  const questions: Question[] = [
     {
-    statement: "水を熱し続けると、水は何になって空気中へ出ていくでしょうか？",
-    correctAnswer: "水蒸気",
-    reasonText: "水を熱し続けると、水は気体になって空気中へ出ていきます。この気体になった水を水蒸気と呼びます。",
-    choices: ["氷", "水蒸気", "砂", "光"]
-  },
-      {
-    statement: "乾電池の＋極と－極を導線でつなぎ、回路ができると何が流れるでしょうか？",
-    correctAnswer: "電気",
-    reasonText: "乾電池の＋極と－極をつなぐと電気の通り道ができ、電気が流れます。",
-    choices: ["電気", "水", "空気", "光"]
+      statement: "水を熱し続けると、水は何になって空気中へ出ていくでしょうか？",
+      correctAnswer: "水蒸気",
+      reasonText: "水を熱し続けると、水は気体になって空気中へ出ていきます。この気体になった水を水蒸気と呼びます。",
+      choices: ["氷", "水蒸気", "砂", "光"]
+    },
+    {
+      statement: "乾電池の＋極と－極を導線でつなぎ、回路ができると何が流れるでしょうか？",
+      correctAnswer: "電気",
+      reasonText: "乾電池の＋極と－極をつなぐと電気の通り道ができ、電気が流れます。",
+      choices: ["電気", "水", "空気", "光"]
     }
-]
+  ]
 
-const [selectedAnswer, setSelectedAnswer] =
-  useState<string | null>(null)
 
-const [currentQuestionIndex, setCurrentQuestionIndex] =
-  useState<number>(0)
+  const [selectedAnswer, setSelectedAnswer] =
+    useState<string | null>(null)
 
-function handleSelectAnswer(choice: string) {
-  setSelectedAnswer(choice)
-}
+  const [currentQuestionIndex, setCurrentQuestionIndex] =
+    useState<number>(0)
 
-function handleNextQuestion() {
-  if (currentQuestionIndex < questions.length -1) {
-    setSelectedAnswer(null)
-    setCurrentQuestionIndex(currentQuestionIndex + 1)
-  }}
-  
+  const currentQuestion = questions[currentQuestionIndex]
+
+  function handleSelectAnswer(choice: string) {
+    setSelectedAnswer(choice)
+  }
+
+  function handleNextQuestion() {
+    if (currentQuestionIndex < questions.length - 1) {
+      setSelectedAnswer(null)
+      setCurrentQuestionIndex(currentQuestionIndex + 1)
+    }
+  }
+
   return (
     <>
       <QuizHeader title="Science Quiz"/>
       <main>
-        <QuestionView current={currentQuestionIndex + 1} total={questions.length} question={questions[currentQuestionIndex]} />
+        <QuestionView current={currentQuestionIndex + 1} total={questions.length} question={currentQuestion} />
         
         <AnswerChoices
-          choices={questions[currentQuestionIndex].choices}
+          choices={currentQuestion.choices}
           onSelectAnswer={handleSelectAnswer}
           disabled={selectedAnswer !== null}
         />
@@ -106,14 +110,14 @@ function handleNextQuestion() {
         <p id="result">
           {selectedAnswer === null
             ? "答えを選んでください"
-            : selectedAnswer === questions[currentQuestionIndex].correctAnswer
+            : selectedAnswer === currentQuestion.correctAnswer
               ? "正解！"
               : "残念！"}
         </p>
         <p id="reason">
           {selectedAnswer === null
             ? ""
-            : questions[currentQuestionIndex].reasonText}
+            : currentQuestion.reasonText}
         </p>
         <button
           onClick={handleNextQuestion}

@@ -5231,3 +5231,46 @@ TypeScript導入の土台を作り、型を作る、変数に型を付ける、�
 - `questions[currentQuestionIndex]`の重複参照を整理し、現在の問題を表す導出値について考える。
 - 現在値を基にStateを更新する際の関数形式のsetterについて理解する。
 - 最終的には、最終問題回答後のボタン文言と処理を結果画面へ対応させる。
+
+## Week6 Day4-5 完了
+
+### 完了したこと
+
+- `questions[currentQuestionIndex]`で取得していた現在の問題に、`currentQuestion`という名前を付けた。
+- `App`内に、次の導出値を追加した。
+
+```tsx
+const currentQuestion = questions[currentQuestionIndex];
+```
+
+- JSX内で繰り返していた`questions[currentQuestionIndex]`を、`currentQuestion`へ置き換えた。
+- `QuestionView`へ渡す問題を`question={currentQuestion}`とした。
+- `AnswerChoices`へ渡す選択肢を`currentQuestion.choices`から取得するようにした。
+- 正誤判定で使用する正解を`currentQuestion.correctAnswer`から取得するようにした。
+- 解説文を`currentQuestion.reasonText`から取得するようにした。
+- 置き換え後も、問題切り替え、正誤判定、解説表示、ボタンの有効・無効に変更がないことをブラウザで確認した。
+
+### 学んだこと
+
+- `currentQuestionIndex`は、現在表示している問題の配列添字を表す`number`型のStateである。
+- `questions[currentQuestionIndex]`は、その添字を使って配列から取り出した1問分の`Question`オブジェクトである。
+- `currentQuestionIndex`と`currentQuestion`は、名前が似ていても保持する値の種類が異なる。
+- `currentQuestionIndex`が更新されるとReactが再レンダリングし、`currentQuestion`は新しい添字を基に再計算される。
+- `currentQuestion`は`questions`と`currentQuestionIndex`から導出できるため、新しいStateとして管理する必要はない。
+- 他のStateから計算できる値を別のStateとして持つと、値同士が食い違う可能性がある。
+- 同じ長い式を複数箇所で使用する場合は、その結果に適切な名前を付けることで、コードの意味が読み取りやすくなる。
+- `currentQuestion.choices`のように書くことで、「現在の問題の選択肢を使う」という意図を直接表現できる。
+
+### 詰まった点・注意点
+
+- `questions[currentQuestionIndex]`が返すのは問題番号ではなく、1問分の`Question`オブジェクトである。
+- `currentQuestionIndex`は配列の添字であり、利用者向けに表示する問題番号とは異なる。
+- 利用者向けの問題番号には、引き続き`currentQuestionIndex + 1`を使用する。
+- `currentQuestion`をStateとして追加すると、`currentQuestionIndex`との二重管理になるため避ける。
+- 導出値は再レンダリングのたびに通常の`const`変数として再計算される。
+
+### 次にやること
+
+- Week6 Day4-6に進む。
+- 更新前のStateを基に新しいStateを求める場合の、関数形式のsetterを学ぶ。
+- `setCurrentQuestionIndex(currentQuestionIndex + 1)`と、`setCurrentQuestionIndex((previousIndex) => previousIndex + 1)`の違いを整理する。
