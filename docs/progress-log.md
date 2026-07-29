@@ -5329,3 +5329,65 @@ setCurrentQuestionIndex(selectedPage);
 - `questions`配列へ3問目を追加する。
 - 問題数を増やしても、総問題数の表示、現在の問題の取得、最終問題の判定が既存コードのまま対応できることを確認する。
 - 固定値ではなく、データから値を導出する設計の利点を整理する。
+
+## Week6 Day4-8・Day4 完了
+
+### 完了したこと
+
+- `selectedAnswer`、`currentQuestionIndex`、`currentQuestion`の役割を整理した。
+- 利用者の操作によって変化し、画面へ反映する必要がある`selectedAnswer`と`currentQuestionIndex`をStateとして管理した。
+- `questions.length`と`currentQuestion`は既存データから導出できるため、Stateとして二重管理しない構造にした。
+- `currentQuestionIndex`の更新によって再レンダリングが発生し、新しい添字を基に`currentQuestion`が再計算される流れを確認した。
+- 回答済み・未回答・次の問題の有無を、それぞれ別の条件式で判定した。
+- `handleNextQuestion`内で回答状態の初期化と問題番号の更新を同じ条件分岐内に置き、最終問題での不整合を防いだ。
+- 選択肢のクリックから回答Stateの更新、再レンダリング、次の問題への移動までの処理の流れを日本語で説明した。
+- 3問構成で、問題表示、選択肢、正誤判定、解説、進捗表示、次問題への移動が連動することを確認した。
+- 最終問題より先へ進まず、配列外参照が発生しないことを確認した。
+
+### 学んだこと
+
+- Stateとして管理するのは、利用者の操作などによって変化し、その変化を画面へ反映する必要がある値である。
+- 他のStateやデータから計算できる値は、通常の`const`による導出値として扱う。
+- 導出可能な値を別のStateとして持つと、更新漏れによる二重管理や不整合が起こり得る。
+- `currentQuestionIndex`は現在の問題の配列添字を表すStateである。
+- `currentQuestion`は`questions[currentQuestionIndex]`によって取得する1問分の`Question`オブジェクトである。
+- `currentQuestionIndex`が更新されるとAppが再レンダリングされ、`currentQuestion`も新しい添字から再計算される。
+- `selectedAnswer !== null`は回答済みかどうかを判定し、選択肢ボタンの無効化に使用する。
+- `selectedAnswer === null`は未回答かどうかを判定し、次ボタンの無効化に使用する。
+- `currentQuestionIndex < questions.length - 1`は、次の問題が存在するかを判定する。
+- 条件式自体が配列外参照を防ぐのではなく、条件分岐によってState更新を実行しないことで防御する。
+- 同じState更新でも、一定値へ置き換える場合と、更新前の同じStateから次の値を計算する場合でsetterの書き方を使い分ける。
+- Reactのsetterを呼び出しても、現在実行中の関数内のState変数が即座に書き換わるわけではない。
+- State更新後の再レンダリング時に、JSXや導出値が新しいStateを使って再計算される。
+
+### Day4で完成した機能
+
+- `Question[]`型の配列による複数問題の管理
+- `questions.length`による総問題数の自動表示
+- `currentQuestionIndex` Stateによる現在問題の管理
+- `currentQuestion`による現在問題データの一元参照
+- 次ボタンによる問題番号の更新
+- 次の問題へ進む際の回答状態初期化
+- 未回答時の次ボタン無効化
+- 回答後の選択肢ボタン無効化
+- 配列の最終問題より先へ進まない防御
+- 関数形式のsetterによる問題番号更新
+- 問題数を増減しても固定値の修正を必要としない構造
+
+### 詰まった点・注意点
+
+- `currentQuestionIndex`は問題オブジェクトではなく、配列の添字を保持する。
+- `currentQuestion`はStateではなく、再レンダリングごとに計算される導出値である。
+- 関数形式のsetterを使うことと、`currentQuestion`をStateにしないことは別の理由に基づく。
+- 最終問題で`setSelectedAnswer(null)`だけを実行すると、問題を進めずに回答状態だけが消える。
+- 最終問題で`currentQuestionIndex`だけを増やすと、`questions`の範囲外を参照する。
+- 進捗表示は`currentQuestion`ではなく、`currentQuestionIndex + 1`から導出している。
+- 現時点では最終問題回答後のボタン文言は「次の問題」のままであり、押しても何も起こらない。
+- 最終問題回答後の「結果を見る」表示と結果画面への移行は、今後の課題とする。
+
+### 次にやること
+
+- Week6 Day5へ進む。
+- 正解数を管理するStateを追加する。
+- 回答時に正解数を更新する処理を設計する。
+- 最終問題回答後に結果画面へ移行するための状態管理を検討する。
