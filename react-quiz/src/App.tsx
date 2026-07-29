@@ -90,10 +90,18 @@ function App() {
 
   const currentQuestion = questions[currentQuestionIndex]
 
+  const [score, setScore] =
+    useState<number>(0)
+
   function handleSelectAnswer(choice: string) {
     setSelectedAnswer(choice)
+    if (choice === currentQuestion.correctAnswer) {
+      setScore(
+        (previousScore) => previousScore + 1
+      )
+    }
   }
-
+    
   function handleNextQuestion() {
     if (currentQuestionIndex < questions.length - 1) {
       setSelectedAnswer(null)
@@ -133,6 +141,7 @@ function App() {
           disabled={selectedAnswer === null}>
           次の問題
         </button>
+        <p>{score}点</p>
       </main>
     </>
   )
