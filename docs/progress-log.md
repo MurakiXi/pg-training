@@ -5600,3 +5600,81 @@ function handleRetryQuiz() {
 - 現在`App`に集中している状態管理、イベント処理、条件付きレンダリングの構造を確認する。
 - 必要に応じて、結果画面やクイズ画面のコンポーネント分割を検討する。
 - 複数のStateと導出値が、どの操作によってどのように変化するかを整理する。
+
+## Week6 Day6-1 完了
+
+### 完了したこと
+
+- クイズの結果画面を担当する`ResultView`コンポーネントを作成した。
+- `ResultView`が必要とするPropsを`ResultViewProps`型として定義した。
+
+```tsx
+type ResultViewProps = {
+  score: number;
+  total: number;
+  correctRate: string;
+  onRetry: () => void;
+};
+```
+
+- `ResultView`でPropsを分割代入して受け取るようにした。
+
+```tsx
+function ResultView({ score, total, correctRate, onRetry }: ResultViewProps) {
+  return (
+    <>
+      <p>おつかれさまでした！</p>
+      <p>
+        全{total}問中{score}問正解！ 正答率は{correctRate}%です！
+      </p>
+      <button onClick={onRetry}>もう一度挑戦！</button>
+    </>
+  );
+}
+```
+
+- 結果画面の表示に必要な値として、正解数、全問題数、正答率を親の`App`から受け取るようにした。
+- リトライ処理そのものを子へ移さず、親の`handleRetryQuiz`を`onRetry` Propsとして渡すようにした。
+- `App`に直接書かれていた結果画面のJSXを、`ResultView`の呼び出しへ置き換えた。
+
+```tsx
+<ResultView
+  score={score}
+  total={questions.length}
+  correctRate={correctRate}
+  onRetry={handleRetryQuiz}
+/>
+```
+
+- コンポーネント名は、通常のHTML要素と区別するため大文字から始めることを確認した。
+- コンポーネント分割後も、結果画面に正しい得点と正答率が表示されることを確認した。
+- 「もう一度挑戦！」を押すと、正常に1問目へ戻れることを確認した。
+- ブラウザのコンソールにエラーが出ていないことを確認した。
+
+### 学んだこと
+
+- 子コンポーネントには、その表示と操作に必要な値だけをPropsとして渡す。
+- `ResultView`には回答中の情報が不要なため、`selectedAnswer`や`currentQuestionIndex`を渡す必要はない。
+- 子コンポーネントは、親が所有するStateを直接管理せず、親から渡された関数を呼び出して操作を伝える。
+- 親から子へ値と関数を渡すことで、Reactの一方向のデータフローを保てる。
+- 関数をPropsとして渡す場合、引数も戻り値も必要なければ型は`() => void`となる。
+- `onRetry={handleRetryQuiz}`では関数をその場で実行せず、関数そのものを子へ渡している。
+- 子側の`onClick={onRetry}`によって、ボタンがクリックされた時点で親の関数が実行される。
+- Props名は、親側で値がどのように作られたかよりも、子側で何を意味するかを基準に付ける。
+- コンポーネント名は、ReactがHTML要素と区別できるように大文字から始める。
+- コンポーネント分割によって、`App`はクイズ全体の状態管理、`ResultView`は結果表示という役割に整理できる。
+
+### 詰まった点・注意点
+
+- `resultView`のように小文字から始めると、ReactコンポーネントではなくHTML要素として解釈される。
+- `questionsLength`は値の作り方を表す名前であり、子側の用途を表すなら`total`や`totalQuestions`の方が適している。
+- 子へ`handleRetryQuiz()`と渡すと、その場で関数を実行してしまうため、括弧を付けずに渡す。
+- 結果画面のJSXを子へ移した後は、親側の`questions.length`や`handleRetryQuiz`を子から直接参照せず、Propsを使用する。
+- コンポーネント分割後も、表示だけでなくイベント処理が以前と同じように動作するか確認する必要がある。
+
+### 次にやること
+
+- Week6 Day6-2に進む。
+- `ResultView`を`App.tsx`とは別のファイルへ移す。
+- `export`と`import`を使い、別ファイルのコンポーネントを`App`から利用する。
+- コンポーネントを論理的に分割することと、物理的にファイルを分割することの違いを確認する。

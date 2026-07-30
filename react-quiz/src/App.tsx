@@ -21,7 +21,14 @@ type AnswerChoicesProps = {
   choices: string[]
   onSelectAnswer: (choice: string) => void;
   disabled: boolean
-};
+}
+
+type ResultViewProps = {
+  score: number
+  total: number
+  correctRate: string
+  onRetry:() => void
+}
 
 function QuizHeader({ title }: QuizHeaderProps) {
   return (
@@ -55,6 +62,22 @@ function AnswerChoices({ choices, onSelectAnswer, disabled }: AnswerChoicesProps
         </button>
       ))}
     </div>
+  )
+}
+
+function ResultView(
+  { score, total, correctRate, onRetry }: ResultViewProps
+) {
+  return (
+    <>
+      <p>おつかれさまでした！</p>
+      <p>全{total}問中{score}問正解！
+          正答率は{correctRate}%です！
+      </p>
+      <button onClick={onRetry}>
+        もう一度挑戦！
+      </button>
+    </>
   )
 }
 
@@ -135,16 +158,12 @@ function App() {
       <QuizHeader title="Science Quiz"/>
       <main>
         {isQuizFinished
-          ?(
-          <>
-            <p>おつかれさまでした！</p>
-            <p>全{questions.length}問中{score}問正解！ 正答率は{correctRate}%です！</p>
-            <button
-                onClick={handleRetryQuiz}>
-                もう一度挑戦！
-              </button>
-            </>
-          )
+          ? <ResultView
+            score={score}
+            total={questions.length}
+            correctRate={correctRate}
+            onRetry={handleRetryQuiz}
+            />
           :(
           <>
             <QuestionView current={currentQuestionIndex + 1} total={questions.length} question={currentQuestion} />
