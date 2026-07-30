@@ -5447,3 +5447,156 @@ if (choice === currentQuestion.correctAnswer) {
 - クイズ回答中の画面と結果画面を切り替えるための状態を設計する。
 - 最終問題かどうかに応じて、ボタン文言を「次の問題」と「結果を見る」で切り替える。
 - 最終問題回答後に、得点を表示する結果画面へ移行できるようにする。
+
+## Week6 Day5-2 完了
+
+### 完了したこと
+
+- クイズが終了しているかを管理する`isQuizFinished` Stateを追加した。
+
+```tsx
+const [isQuizFinished, setIsQuizFinished] = useState<boolean>(false);
+```
+
+- クイズ開始時は`isQuizFinished`を`false`とし、回答画面を表示するようにした。
+- 現在の問題が最終問題かどうかを表す`isLastQuestion`を導出値として追加した。
+
+```tsx
+const isLastQuestion = currentQuestionIndex === questions.length - 1;
+```
+
+- `isLastQuestion`の値によって、ボタン文言を切り替えるようにした。
+
+```tsx
+{
+  isLastQuestion ? "結果を見る" : "次の問題";
+}
+```
+
+- `handleNextQuestion`へ`else`を追加し、最終問題でボタンを押した場合は`isQuizFinished`を`true`へ変更するようにした。
+
+```tsx
+function handleNextQuestion() {
+  if (currentQuestionIndex < questions.length - 1) {
+    setSelectedAnswer(null);
+    setCurrentQuestionIndex((previousIndex) => previousIndex + 1);
+  } else {
+    setIsQuizFinished(true);
+  }
+}
+```
+
+- 正解数と全問題数から正答率を求める`correctRate`を導出値として追加した。
+
+```tsx
+const correctRate: string = ((score / questions.length) * 100).toFixed(1);
+```
+
+- `isQuizFinished`を条件とする三項演算子によって、クイズ回答画面と結果画面を切り替えるようにした。
+- 結果画面に、終了メッセージ、正解数、全問題数、正答率、「もう一度挑戦！」ボタンを表示した。
+- 最終問題へ回答すると、ボタン文言が「結果を見る」へ変わることを確認した。
+- 「結果を見る」を押すと、問題画面から結果画面へ切り替わることを確認した。
+- 結果画面に正しい正解数と正答率が表示されることを確認した。
+
+### 学んだこと
+
+- 画面の表示内容を切り替える値は、変更後に再レンダリングが必要なためStateとして管理する。
+- boolean型のStateには、`isQuizFinished`のように、何が`true`または`false`なのか分かる名前を付ける。
+- `result`のような名前だけでは、得点、正誤結果、結果画面の表示状態など、何を表しているか曖昧になる。
+- 最終問題かどうかは、`currentQuestionIndex`と`questions.length`から導出できるため、新しいStateとして管理する必要はない。
+- 二つの文字列から一方を選んで表示する場合、三項演算子が適している。
+- 二つのJSXのまとまりから一方を表示する場合にも、三項演算子を使用できる。
+- 三項演算子の各側へ複数のJSX要素を置く場合は、Fragmentで一つにまとめる。
+- `isQuizFinished`が`false`なら回答画面、`true`なら結果画面を表示することで、同じ場所の表示内容を入れ替えられる。
+- 正答率は`score`と`questions.length`から計算できるため、Stateではなく通常の`const`による導出値とする。
+- `toFixed(1)`は数値を小数第1位まで整形した文字列を返す。
+- クイズ画面の次ボタンと結果画面のリトライボタンは、見た目を共用できても担当する処理は異なる。
+
+### 詰まった点・注意点
+
+- 最終問題回答後にボタンを無効化するのではなく、「結果を見る」ボタンとして有効な状態を維持する。
+- `setIsQuizFinished(true)`を呼び出しただけでは、表示側で`isQuizFinished`を参照しない限り画面は変わらない。
+- 結果画面へ移行した後は、問題文、選択肢、正誤表示、解説、次ボタンを結果画面の要素と入れ替える。
+- 結果画面の「もう一度挑戦！」ボタンには、現時点ではリトライ処理が接続されていない。
+- `correctRate`を新たなStateとして持つと、`score`との二重管理になる。
+- `toFixed(1)`の戻り値は`number`ではなく`string`である。
+- 結果画面側と回答画面側の複数要素は、それぞれFragmentでまとめる必要がある。
+
+### 次にやること
+
+- Week6 Day5-3に進む。
+- 「もう一度挑戦！」ボタンでクイズを初期状態へ戻す。
+- `selectedAnswer`、`currentQuestionIndex`、`score`、`isQuizFinished`をそれぞれ初期値へ戻す。
+- リトライ後に1問目の未回答状態が正しく表示されることを確認する。
+
+## Week6 Day5-3・Day5 完了
+
+### 完了したこと
+
+- 結果画面の「もう一度挑戦！」ボタンでクイズを初期状態へ戻す`handleRetryQuiz`を追加した。
+
+```tsx
+function handleRetryQuiz() {
+  setSelectedAnswer(null);
+  setCurrentQuestionIndex(0);
+  setScore(0);
+  setIsQuizFinished(false);
+}
+```
+
+- `selectedAnswer`を`null`へ戻し、1問目を未回答状態にした。
+- `currentQuestionIndex`を`0`へ戻し、表示する問題を1問目にした。
+- `score`を`0`へ戻し、前回の得点を引き継がないようにした。
+- `isQuizFinished`を`false`へ戻し、結果画面からクイズ回答画面へ切り替えた。
+- 「もう一度挑戦！」ボタンの`onClick`へ`handleRetryQuiz`を渡した。
+
+```tsx
+<button onClick={handleRetryQuiz}>もう一度挑戦！</button>
+```
+
+- 結果画面から「もう一度挑戦！」を押すと、1問目の未回答状態へ戻ることを確認した。
+- リトライ後に選択肢ボタンが正常にクリックできることを確認した。
+- リトライ後に再び最後までクイズを進められることを確認した。
+- 2周目の得点へ1周目の得点が加算されず、2周目の回答だけを基に正しい結果が表示されることを確認した。
+
+### 学んだこと
+
+- リトライ処理では、クイズの進行に関係するStateをすべて初期値へ戻す必要がある。
+- 関連する複数のState更新を一つのイベントハンドラーへまとめることで、「クイズを最初からやり直す」という一つの操作として扱える。
+- `selectedAnswer`を初期化しないと、選択肢ボタンが回答済みとして無効化されたままになる。
+- `currentQuestionIndex`を初期化しないと、最終問題から再開してしまう。
+- `score`を初期化しないと、前回の得点が次の周回へ加算される。
+- `isQuizFinished`を初期化しないと、結果画面から回答画面へ戻れない。
+- 更新前のStateに依存せず、決められた初期値へ戻す処理では、setterへ値を直接渡す。
+- クイズ画面の次ボタンと結果画面のリトライボタンは、異なるイベントハンドラーを担当する。
+- 複数のState更新を同じクリックイベント内で実行すると、Reactは更新後の初期状態を基に画面を再レンダリングする。
+
+### Week6 Day5で完成した機能
+
+- 正解数を管理する`score` State
+- 正解時だけ得点を1増やす処理
+- 関数形式のsetterによる得点更新
+- 最終問題を判定する`isLastQuestion`導出値
+- 「次の問題」と「結果を見る」のボタン文言切り替え
+- クイズ終了状態を管理する`isQuizFinished` State
+- 回答画面と結果画面の条件付きレンダリング
+- 全問題数、正解数、正答率の結果表示
+- `score`と`questions.length`から導出する`correctRate`
+- 「もう一度挑戦！」によるクイズ全体の初期化
+- 複数周プレイしても得点を正しく管理できるリトライ機能
+
+### 詰まった点・注意点
+
+- 不正解時に何もしない処理では、三項演算子より`if`文が適している。
+- `correctRate`は`score`と問題数から計算できるため、Stateとして二重管理しない。
+- `toFixed(1)`の戻り値は`number`ではなく`string`である。
+- boolean型のStateには、`isQuizFinished`のように真偽の意味が分かる名前を付ける。
+- 結果画面のリトライボタンは、クイズ画面の次ボタンとは処理の責務が異なる。
+- リトライ時は一部のStateだけでなく、クイズの初期状態を構成するすべてのStateを戻す必要がある。
+
+### 次にやること
+
+- Week6の次の単元へ進む。
+- 現在`App`に集中している状態管理、イベント処理、条件付きレンダリングの構造を確認する。
+- 必要に応じて、結果画面やクイズ画面のコンポーネント分割を検討する。
+- 複数のStateと導出値が、どの操作によってどのように変化するかを整理する。

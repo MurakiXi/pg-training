@@ -122,6 +122,14 @@ function App() {
     }
   }
 
+  function handleRetryQuiz() {
+    setSelectedAnswer(null)
+    setCurrentQuestionIndex(0)
+    setScore(0)
+    setIsQuizFinished(false)
+  }
+
+
   return (
     <>
       <QuizHeader title="Science Quiz"/>
@@ -131,7 +139,10 @@ function App() {
           <>
             <p>おつかれさまでした！</p>
             <p>全{questions.length}問中{score}問正解！ 正答率は{correctRate}%です！</p>
-            <button>もう一度挑戦！</button>
+            <button
+                onClick={handleRetryQuiz}>
+                もう一度挑戦！
+              </button>
             </>
           )
           :(
