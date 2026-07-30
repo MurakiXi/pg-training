@@ -93,6 +93,15 @@ function App() {
   const [score, setScore] =
     useState<number>(0)
 
+  const [isQuizFinished, setIsQuizFinished] =
+    useState<boolean>(false)
+  
+  const isLastQuestion =
+    currentQuestionIndex === questions.length - 1
+  
+    const correctRate: string =
+    ((score / questions.length) * 100).toFixed(1)
+  
   function handleSelectAnswer(choice: string) {
     setSelectedAnswer(choice)
     if (choice === currentQuestion.correctAnswer) {
@@ -108,6 +117,8 @@ function App() {
       setCurrentQuestionIndex(
         (previousIndex) => previousIndex + 1
       )
+    } else {
+      setIsQuizFinished(true)
     }
   }
 
@@ -115,33 +126,46 @@ function App() {
     <>
       <QuizHeader title="Science Quiz"/>
       <main>
-        <QuestionView current={currentQuestionIndex + 1} total={questions.length} question={currentQuestion} />
+        {isQuizFinished
+          ?(
+          <>
+            <p>おつかれさまでした！</p>
+            <p>全{questions.length}問中{score}問正解！ 正答率は{correctRate}%です！</p>
+            <button>もう一度挑戦！</button>
+            </>
+          )
+          :(
+          <>
+            <QuestionView current={currentQuestionIndex + 1} total={questions.length} question={currentQuestion} />
         
-        <AnswerChoices
-          choices={currentQuestion.choices}
-          onSelectAnswer={handleSelectAnswer}
-          disabled={selectedAnswer !== null}
-        />
+            <AnswerChoices
+              choices={currentQuestion.choices}
+              onSelectAnswer={handleSelectAnswer}
+              disabled={selectedAnswer !== null}
+            />
 
-        <p id="result">
-          {selectedAnswer === null
-            ? "答えを選んでください"
-            : selectedAnswer === currentQuestion.correctAnswer
-              ? "正解！"
-              : "残念！"}
-        </p>
-        <p id="reason">
-          {selectedAnswer === null
-            ? ""
-            : currentQuestion.reasonText}
-        </p>
-        <button
-          onClick={handleNextQuestion}
-          id="next-button"
-          disabled={selectedAnswer === null}>
-          次の問題
-        </button>
-        <p>{score}点</p>
+          <p id="result">
+            {selectedAnswer === null
+              ? "答えを選んでください"
+              : selectedAnswer === currentQuestion.correctAnswer
+                ? "正解！"
+                : "残念！"}
+          </p>
+          <p id="reason">
+            {selectedAnswer === null
+              ? ""
+              : currentQuestion.reasonText}
+          </p>
+          <button
+            onClick={handleNextQuestion}
+            id="next-button"
+            disabled={selectedAnswer === null}>
+            {isLastQuestion
+            ? "結果を見る"
+            : "次の問題"}
+            </button>
+          </>
+          )}
       </main>
     </>
   )
