@@ -5755,3 +5755,41 @@ function ResultView({ score, total, correctRate, onRetry }: ResultViewProps) {
 - Week6 Day6-4に進む。
 - `QuestionView`と`AnswerChoices`のどちらを次に分割するか、依存するPropsと型を比較して判断する。
 - `Question`型を複数ファイルで利用する場合、型をどこに置くべきかを検討する。
+
+## 2026-07-31
+
+### Week6 Day6-4 完了
+
+### 完了したこと
+
+- `QuestionView`と`AnswerChoices`の依存関係を比較した。
+- `QuestionViewProps`は独自型`Question`を使用している一方、`AnswerChoicesProps`は基本的な型だけで完結していることを確認した。
+- 独自型を追加で共有する必要がない`AnswerChoices`を、先に分割する対象として選んだ。
+- `src/components/AnswerChoices.tsx`を作成した。
+- `AnswerChoicesProps`型と`AnswerChoices`コンポーネントを、`App.tsx`から`AnswerChoices.tsx`へ移した。
+- `AnswerChoices`をデフォルトエクスポートした。
+- `App.tsx`から元の`AnswerChoicesProps`型と`AnswerChoices`コンポーネントの定義を削除した。
+- `App.tsx`で`AnswerChoices`をデフォルトインポートした。
+- ファイル分割後も、選択肢の表示、クリック時の回答処理、回答後のボタン無効化が正常に動作することを確認した。
+
+### 学んだこと
+
+- コンポーネントの分割順序は、そのコンポーネントが依存する型やStateの数から判断できる。
+- `string[]`、関数型、`boolean`などの基本的な型だけでPropsが完結しているコンポーネントは、独自型に依存するコンポーネントより分割しやすい。
+- コンポーネントと、そのコンポーネント専用のProps型は、同じファイルへ移せる。
+- デフォルトエクスポートしたコンポーネントは、波括弧を付けずにインポートする。
+- ファイル分割後も、表示だけでなく、Propsとして渡した関数や`disabled`の挙動を確認する必要がある。
+
+### 詰まった点・注意点
+
+- 分割対象として`AnswerChoices`を選んだ後、移動対象を誤って`QuestionViewProps`と`QuestionView`としていた。
+- 選択したコンポーネントと、実際に移すProps型・関数の組み合わせを一致させる必要がある。
+- コンポーネントを移した後は、`App.tsx`に古い型定義や関数定義を残さないようにする。
+- 独自型に依存するコンポーネントを分割する場合は、その型をどのファイルから参照するかを別途考える必要がある。
+
+### 次にやること
+
+- Week6 Day6-5に進む。
+- `QuestionView`を別ファイルへ分割する方法を検討する。
+- 複数のファイルから利用する`Question`型を、どこに定義して外部公開するか判断する。
+- コンポーネントだけでなく、共有する型の配置と依存方向を考える。

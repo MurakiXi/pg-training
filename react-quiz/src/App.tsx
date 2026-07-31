@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import ResultView from './components/ResultView'
 import QuizHeader from './components/QuizHeader'
+import AnswerChoices from './components/AnswerChoices'
 
 type Question = {
   statement: string
@@ -15,12 +16,6 @@ type QuestionViewProps = {
   question: Question
 }
 
-type AnswerChoicesProps = {
-  choices: string[]
-  onSelectAnswer: (choice: string) => void;
-  disabled: boolean
-}
-
 function QuestionView({ current, total, question }: QuestionViewProps) {
   return (
     <>
@@ -28,23 +23,6 @@ function QuestionView({ current, total, question }: QuestionViewProps) {
       <div className="question-title">問題：</div>
       <div id="statement">{question.statement}</div>
     </>
-  )
-}
-
-function AnswerChoices({ choices, onSelectAnswer, disabled }: AnswerChoicesProps) {
-  return (
-    <div className="choices">
-      {choices.map((choice) => (
-        <button
-          key={choice}
-          className="answer-button"
-          onClick={() => onSelectAnswer(choice)}
-          disabled={disabled}
-        >
-          {choice}
-        </button>
-      ))}
-    </div>
   )
 }
 
