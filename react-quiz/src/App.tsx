@@ -1,9 +1,6 @@
 import { useState } from 'react'
 import ResultView from './components/ResultView'
-
-type QuizHeaderProps = {
-  title: string
-}
+import QuizHeader from './components/QuizHeader'
 
 type Question = {
   statement: string
@@ -22,14 +19,6 @@ type AnswerChoicesProps = {
   choices: string[]
   onSelectAnswer: (choice: string) => void;
   disabled: boolean
-}
-
-function QuizHeader({ title }: QuizHeaderProps) {
-  return (
-      <header>
-      <div className="header__logo">{title}</div>
-      </header>
-  )
 }
 
 function QuestionView({ current, total, question }: QuestionViewProps) {
