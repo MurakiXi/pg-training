@@ -5793,3 +5793,48 @@ function ResultView({ score, total, correctRate, onRetry }: ResultViewProps) {
 - `QuestionView`を別ファイルへ分割する方法を検討する。
 - 複数のファイルから利用する`Question`型を、どこに定義して外部公開するか判断する。
 - コンポーネントだけでなく、共有する型の配置と依存方向を考える。
+
+## 2026-07-31
+
+### Week6 Day6-5 完了
+
+### 完了したこと
+
+- `QuestionView`を別ファイルへ分割する際、`Question`型が`App.tsx`と`QuestionView.tsx`の両方で必要になることを確認した。
+- `Question`型を特定のコンポーネントのファイルへ置かず、共通の型として管理する方針を選んだ。
+- `src/types`ディレクトリを作成した。
+- `src/types/question.ts`を作成した。
+- `Question`型を`App.tsx`から`question.ts`へ移した。
+- `Question`型を名前付きエクスポートした。
+- `App.tsx`で`Question`型を型専用インポートした。
+- `src/components/QuestionView.tsx`を作成した。
+- `QuestionViewProps`型と`QuestionView`コンポーネントを、`App.tsx`から`QuestionView.tsx`へ移した。
+- `QuestionView.tsx`で`Question`型を型専用インポートした。
+- `QuestionView`をデフォルトエクスポートした。
+- `App.tsx`で`QuestionView`をデフォルトインポートした。
+- ファイル分割後も、問題表示、進行度表示、回答、次問遷移、結果表示、リトライが正常に動作することを確認した。
+
+### 学んだこと
+
+- 複数のファイルで使う型は、特定のコンポーネントファイルではなく、共通の型ファイルへ分けて管理できる。
+- `Question`型は`QuestionView`だけの型ではなく、クイズ全体の問題データを表す共通の型である。
+- 型を名前付きエクスポートした場合は、波括弧付きでインポートする。
+- 型だけを読み込む場合は、`import type`を使って型専用の読み込みであることを明示できる。
+- 相対パスは、`import`を書くファイルの場所を基準に考える。
+- `QuestionView.tsx`から`types`へ進む場合は、一階層上へ戻るために`../`を使う。
+- コンポーネントと共通型を分けることで、ファイル間の依存関係を整理できる。
+
+### 詰まった点・注意点
+
+- `export type Question`は名前付きエクスポートなので、デフォルトインポートでは読み込めない。
+- `import type Question`ではなく、`import type { Question }`と波括弧を付ける必要がある。
+- `App.tsx`と`QuestionView.tsx`では現在地が異なるため、同じ型を読み込む場合でも相対パスが異なる。
+- 共通型を`App.tsx`へ残すと、子コンポーネントが親コンポーネントのファイルへ依存する構造になる。
+- 型ファイルはJSXを含まないため、拡張子は`.tsx`ではなく`.ts`を使う。
+
+### 次にやること
+
+- Week6 Day6-6に進む。
+- 分割後の`App.tsx`に残っている責務を整理する。
+- 問題データ、State、イベント処理、画面構成のうち、どこまでを`App.tsx`が担当すべきか検討する。
+- コンポーネント分割後の構造を、自分の言葉で説明できる状態を目指す。
