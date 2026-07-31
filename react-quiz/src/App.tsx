@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import ResultView from './components/ResultView'
 
 type QuizHeaderProps = {
   title: string
@@ -21,13 +22,6 @@ type AnswerChoicesProps = {
   choices: string[]
   onSelectAnswer: (choice: string) => void;
   disabled: boolean
-}
-
-type ResultViewProps = {
-  score: number
-  total: number
-  correctRate: string
-  onRetry:() => void
 }
 
 function QuizHeader({ title }: QuizHeaderProps) {
@@ -62,22 +56,6 @@ function AnswerChoices({ choices, onSelectAnswer, disabled }: AnswerChoicesProps
         </button>
       ))}
     </div>
-  )
-}
-
-function ResultView(
-  { score, total, correctRate, onRetry }: ResultViewProps
-) {
-  return (
-    <>
-      <p>おつかれさまでした！</p>
-      <p>全{total}問中{score}問正解！
-          正答率は{correctRate}%です！
-      </p>
-      <button onClick={onRetry}>
-        もう一度挑戦！
-      </button>
-    </>
   )
 }
 
