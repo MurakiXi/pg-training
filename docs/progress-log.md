@@ -5838,3 +5838,46 @@ function ResultView({ score, total, correctRate, onRetry }: ResultViewProps) {
 - 分割後の`App.tsx`に残っている責務を整理する。
 - 問題データ、State、イベント処理、画面構成のうち、どこまでを`App.tsx`が担当すべきか検討する。
 - コンポーネント分割後の構造を、自分の言葉で説明できる状態を目指す。
+
+## 2026-08-04
+
+### Week6 Day6-6 完了
+
+### 完了したこと
+
+- コンポーネント分割後の`App.tsx`に残っている役割を整理した。
+- `App.tsx`内の処理を、「問題データ」「State」「Stateから計算される値」「操作・画面全体の制御」に分類した。
+- `selectedAnswer`、`currentQuestionIndex`、`score`、`isQuizFinished`は、クイズ全体の進行に関係するStateとして`App.tsx`に残す方針を確認した。
+- `currentQuestion`、`isLastQuestion`、`correctRate`は、現在のStateなどから算出できる導出値として整理した。
+- 問題データ`questions`は、クイズ全体の進行状態ではないため、将来的に別ファイルへ分割できる候補であることを確認した。
+- 正誤メッセージ、解説、次ボタンを表示する部分を`AnswerFeedback`コンポーネントとして分割した。
+- `AnswerFeedbackProps`を作成し、`selectedAnswer`、`currentQuestion`、`isLastQuestion`、`handleNextQuestion`をPropsとして受け取る形にした。
+- `AnswerFeedback.tsx`で共有型`Question`を型専用インポートした。
+- `App.tsx`から`AnswerFeedback`へ必要な値と関数をPropsとして渡した。
+- `isLastQuestion`と`handleNextQuestion`の定義自体は、クイズ全体の状態・進行を扱うため`App.tsx`に残した。
+- ファイル分割後、クイズを一周し、回答、正誤表示、解説、次問遷移、結果表示、リトライが正常に動作することを確認した。
+
+### 学んだこと
+
+- コンポーネント分割では、JSXを移すことと、そのJSXで使うStateや関数の管理場所を移すことは別に考える必要がある。
+- クイズ全体のStateや、そのStateを更新する処理は、複数の子コンポーネントを統括する親の`App`に残す方が自然である。
+- 子コンポーネントは、必要な値や関数をPropsとして受け取ることで、親のStateを直接管理せずに表示や操作を担当できる。
+- Propsには、「表示すべき文字列そのもの」だけでなく、子コンポーネント自身が表示内容を判断するための材料を渡す方法もある。
+- `selectedAnswer`は回答済みかどうかだけでなく、実際に選択された文字列を保持するため、型は`boolean`ではなく`string | null`である。
+- 関数をPropsとして渡す場合、引数も戻り値もない`handleNextQuestion`の型は`() => void`になる。
+- コンポーネントのPropsは、そのコンポーネント内で実際に必要なものだけに絞ることで、親子間の依存を増やしすぎずに済む。
+- コンポーネント名は、中に含まれるHTML要素ではなく、そのコンポーネントが担当する責務から考える。
+
+### 詰まった点・注意点
+
+- `selectedAnswer`を、回答済みかどうかを表す値と考えて`boolean`と判断しかけたが、実際に格納される値から型を考える必要がある。
+- Propsの分割代入に型を指定する場合は、分割代入したオブジェクト全体の後ろに`: Props型`を付ける。
+- `AnswerFeedback`へJSXを移しても、`isLastQuestion`や`handleNextQuestion`まで子へ移す必要はない。
+- `handleSelectAnswer`は選択肢をクリックする`AnswerChoices`の責務に関係するため、`AnswerFeedback`には不要である。
+- Propsを追加するときは、「何となく必要そう」ではなく、そのコンポーネント内で実際に参照しているかを確認する。
+
+### 次にやること
+
+- Week6で行ったReactのコンポーネント分割、Props、State、導出値、イベント処理の役割を整理する。
+- `App.tsx`に残っている問題データ`questions`を今後どこまで分離するか検討する。
+- Week7のReactフォーム、Tailwind、問題追加機能へ進む前に、Week6で扱ったReact基礎を自力で説明・変更できるか確認する。

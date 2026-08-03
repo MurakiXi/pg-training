@@ -4,6 +4,7 @@ import QuizHeader from './components/QuizHeader'
 import AnswerChoices from './components/AnswerChoices'
 import type { Question } from './types/question'
 import QuestionView from './components/QuestionView'
+import AnswerFeedback from './components/AnswerFeedback'
 
 function App() {
 
@@ -96,28 +97,13 @@ function App() {
               choices={currentQuestion.choices}
               onSelectAnswer={handleSelectAnswer}
               disabled={selectedAnswer !== null}
-            />
-
-          <p id="result">
-            {selectedAnswer === null
-              ? "答えを選んでください"
-              : selectedAnswer === currentQuestion.correctAnswer
-                ? "正解！"
-                : "残念！"}
-          </p>
-          <p id="reason">
-            {selectedAnswer === null
-              ? ""
-              : currentQuestion.reasonText}
-          </p>
-          <button
-            onClick={handleNextQuestion}
-            id="next-button"
-            disabled={selectedAnswer === null}>
-            {isLastQuestion
-            ? "結果を見る"
-            : "次の問題"}
-            </button>
+              />
+              <AnswerFeedback
+                selectedAnswer={selectedAnswer}
+                currentQuestion={currentQuestion}
+                isLastQuestion={isLastQuestion}
+                handleNextQuestion={handleNextQuestion}
+              />
           </>
           )}
       </main>
