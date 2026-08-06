@@ -5909,3 +5909,27 @@ function ResultView({ score, total, correctRate, onRetry }: ResultViewProps) {
 - Week6を完了扱いとする。
 - Week7へ進む。
 - Reactフォーム、Tailwind CSS、親による問題追加機能を段階的に学習する。
+
+### Week7 Day1：Reactフォームの最小構成
+
+#### 完了したこと
+
+- 問題文入力用のStateとして`inputStatement`を作成した。
+- テキスト入力値は文字列として扱うため、Stateの型を`string`、初期値を空文字列`""`とした。
+- `input`の`value`へStateを渡し、表示値をReact側で管理した。
+- `onChange`でイベントオブジェクトを受け取り、`event.target.value`から現在の入力値を取得した。
+- `setInputStatement`でStateを更新し、入力内容をリアルタイムに画面へ反映した。
+- controlled componentにおける入力→イベント→State更新→再レンダリングの流れを確認した。
+
+#### 学んだこと
+
+- Stateは単に再レンダリングさせるための変数ではなく、コンポーネントが保持する状態であり、State変更に伴ってReactが再レンダリングする。
+- controlled componentでは、フォームの現在値をReactのStateとして管理する。
+- `value`だけをStateへ結び付けても、Stateを書き換える処理がなければ入力値を変更できない。
+- `onChange`へ渡す無名関数の`event`は関数名ではなく、Reactから渡されるイベントオブジェクトを受け取る引数名である。
+- `event.target.value`でイベント発生元のフォーム要素の現在値を取得できる。
+- フォームの値を送信時だけ取得する方法もあり、すべてのフォーム入力で必ずStateが必要なわけではない。
+
+#### 次にやること
+
+- Week7 Day2へ進み、問題追加に必要な複数のフォーム入力を管理する。

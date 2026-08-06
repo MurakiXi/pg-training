@@ -47,8 +47,11 @@ function App() {
   const isLastQuestion =
     currentQuestionIndex === questions.length - 1
   
-    const correctRate: string =
+  const correctRate: string =
     ((score / questions.length) * 100).toFixed(1)
+  
+  const [inputStatement, setInputStatement] =
+    useState<string>("")
   
   function handleSelectAnswer(choice: string) {
     setSelectedAnswer(choice)
@@ -106,6 +109,14 @@ function App() {
               />
           </>
           )}
+        
+        <input
+  value={inputStatement}
+  onChange={(event) => {
+      setInputStatement(event.target.value)
+  }}
+        />
+        <p>現在の入力：{inputStatement}</p>
       </main>
     </>
   )
