@@ -5,11 +5,13 @@ import AnswerChoices from './components/AnswerChoices'
 import type { Question } from './types/question'
 import QuestionView from './components/QuestionView'
 import AnswerFeedback from './components/AnswerFeedback'
+import QuestionForm from './components/QuestionForm'
 
 function App() {
 
-  const questions: Question[] = [
-    {
+  const [questions, setQuestions] =
+    useState<Question[]>([
+      {
       statement: "水を熱し続けると、水は何になって空気中へ出ていくでしょうか？",
       correctAnswer: "水蒸気",
       reasonText: "水を熱し続けると、水は気体になって空気中へ出ていきます。この気体になった水を水蒸気と呼びます。",
@@ -26,10 +28,9 @@ function App() {
     correctAnswer: "青",
     reasonText:"星は温度が低いと赤っぽく光り、温度が上がるにつれて黄色、白と色が変わっていき、最も温度が高い星は青白く光ります。",
     choices:["白", "黄", "赤", "青"]
-    }
-  ]
-
-
+      }
+    ])
+  
   const [selectedAnswer, setSelectedAnswer] =
     useState<string | null>(null)
 
@@ -50,41 +51,8 @@ function App() {
   const correctRate: string =
     ((score / questions.length) * 100).toFixed(1)
   
-  const [inputStatement, setInputStatement] =
-    useState<string>("")
-  
-  const [inputChoice1, setInputChoice1] =
-    useState<string>("")
 
-  const [inputChoice2, setInputChoice2] =
-    useState<string>("")
 
-  const [inputChoice3, setInputChoice3] =
-    useState<string>("")
-
-  const [inputChoice4, setInputChoice4] =
-    useState<string>("")
-
-  const choices = [
-  inputChoice1,
-  inputChoice2,
-  inputChoice3,
-  inputChoice4,
-  ]
-  
-  const [inputCorrectAnswer, setInputCorrectAnswer] =
-    useState<string>("")
-
-  const [inputReasonText, setInputReasonText] =
-    useState<string>("")
-
-  const newQuestion: Question = {
-    statement: inputStatement,
-    choices: choices,
-    correctAnswer: inputCorrectAnswer,
-    reasonText: inputReasonText
-  }
-  
   function handleSelectAnswer(choice: string) {
     setSelectedAnswer(choice)
     if (choice === currentQuestion.correctAnswer) {
@@ -112,6 +80,12 @@ function App() {
     setIsQuizFinished(false)
   }
 
+  function handleAddQuestion(newQuestion: Question) {
+    setQuestions(
+      (previousQuestions) =>
+        [...previousQuestions, newQuestion]
+      )  
+  }
 
   return (
     <>
@@ -139,61 +113,10 @@ function App() {
                 isLastQuestion={isLastQuestion}
                 handleNextQuestion={handleNextQuestion}
               />
+              <QuestionForm
+              onAddQuestion={handleAddQuestion}/>
           </>
           )}
-        
-        <input
-          value={inputStatement}
-          onChange={(event) => {
-            setInputStatement(event.target.value)
-          }}
-        />
-        <input
-          value={inputChoice1}
-          onChange={(event) => {
-            setInputChoice1(event.target.value)
-          }}
-        />
-        <input
-          value={inputChoice2}
-          onChange={(event) => {
-            setInputChoice2(event.target.value)
-          }}
-        />
-        <input
-          value={inputChoice3}
-          onChange={(event) => {
-            setInputChoice3(event.target.value)
-          }}
-        />
-        <input
-          value={inputChoice4}
-          onChange={(event) => {
-            setInputChoice4(event.target.value)
-          }}
-        />
-        <input
-          value={inputCorrectAnswer}
-          onChange={(event) => {
-            setInputCorrectAnswer(event.target.value)
-          }}
-        />
-        <textarea
-          value={inputReasonText}
-          onChange={(event) => {
-            setInputReasonText(event.target.value)
-          }}
-        />
-        
-        <p>現在の入力：
-          問題文：{inputStatement}
-          選択肢1：{inputChoice1}
-          選択肢2：{inputChoice2}
-          選択肢3：{inputChoice3}
-          選択肢4：{inputChoice4}
-          正解：{inputCorrectAnswer}
-          解説：{inputReasonText}
-        </p>
       </main>
     </>
   )

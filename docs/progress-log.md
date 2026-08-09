@@ -5960,3 +5960,36 @@ function ResultView({ score, total, correctRate, onRetry }: ResultViewProps) {
 
 - Week7 Day3へ進む。
 - 問題追加フォームを子コンポーネントとして扱い、作成した`Question`を親コンポーネントへ渡す方法を学ぶ。
+
+### Week7 Day3：子フォームから親へQuestionを渡す
+
+#### 完了したこと
+
+- 問題追加フォームを`QuestionForm`コンポーネントとして切り出した。
+- フォーム入力中のStateは`QuestionForm`側で管理し、クイズ全体の`questions`は親`App`側で管理する責務分担とした。
+- `QuestionFormProps`へ`onAddQuestion: (newQuestion: Question) => void`を定義した。
+- `QuestionForm`内で入力Stateから`choices`と`newQuestion`を組み立てた。
+- 「問題を追加」ボタンから`onAddQuestion(newQuestion)`を呼び出した。
+- 固定配列だった`questions`を`useState<Question[]>`で管理するStateへ変更した。
+- 親`App`に`handleAddQuestion`を作成し、関数形式の`setQuestions`とスプレッド構文を使って新しい問題を追加した。
+- `<QuestionForm onAddQuestion={handleAddQuestion} />`として親の処理を子へPropsで渡した。
+- 初期3問からフォームで4問目を追加できることを確認した。
+- 追加した4問目が実際のクイズに表示され、正誤判定・問題数・正答率まで正常に動作することを確認した。
+
+#### 学んだこと
+
+- コンポーネント内部だけで使う入力Stateは子に置き、アプリ全体で使うStateは共通の親で管理できる。
+- 子コンポーネントは親のStateを直接変更せず、親からPropsで受け取った関数を呼ぶことで更新を依頼できる。
+- 関数Propsでは、引数として渡すデータの型と戻り値の型を区別する必要がある。
+- `Question[]`は`Question`型のオブジェクトを要素として持つ配列を表す。
+- State配列へ要素を追加するときは元配列を直接変更せず、新しい配列を作ってsetterへ渡す。
+- 前のStateを基に次のStateを作る場合は、関数形式のsetStateを利用できる。
+- JSXを記述するTypeScriptファイルには`.tsx`拡張子が必要である。
+- React Hookはファイルのトップレベルではなく、React関数コンポーネントまたはcustom Hook内で呼び出す必要がある。
+- ReactのStateだけで追加したデータはリロードすると失われ、永続化にはlocalStorageやAPI・DBなど別の仕組みが必要になる。
+
+#### 次にやること
+
+- Week7 Day4へ進む。
+- 問題追加後のフォームリセットと、最低限の入力チェックを実装する。
+- 追加処理をより安全にし、不完全なQuestionがquestionsへ入らないようにする。
