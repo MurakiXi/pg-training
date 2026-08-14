@@ -31,14 +31,46 @@ export default function QuestionForm({ onAddQuestion }: QuestionFormProps) {
   inputChoice3,
   inputChoice4,
   ]
-  
-  const newQuestion: Question = {
-    statement: inputStatement,
-    choices: choices,
-    correctAnswer: inputCorrectAnswer,
-    reasonText: inputReasonText
-  }
 
+  const [errorMessage, setErrorMessage] =
+    useState<string>("")
+
+  function handleAddQuestionClick() {
+    const trimmedChoices = choices.map(choice => choice.trim())
+    const trimmedStatement = inputStatement.trim()
+    const trimmedCorrectAnswer = inputCorrectAnswer.trim()
+    const trimmedReasonText = inputReasonText.trim()
+    if (
+      trimmedStatement === "" ||
+      trimmedChoices.includes("") ||
+      trimmedCorrectAnswer === "" ||
+      trimmedReasonText === ""
+    ) {
+      setErrorMessage("追加する問題に、空白または未入力の項目があります")
+      return
+    }
+    if (
+      new Set(trimmedChoices).size !== trimmedChoices.length
+    ) {
+      setErrorMessage("追加する問題の選択肢が、一部または全て重複しています")
+      return
+    }
+    if (
+      !trimmedChoices.includes(trimmedCorrectAnswer)
+    ) {
+      setErrorMessage("追加する問題の選択肢に、正解が含まれていません")
+      return
+    }
+    const newQuestion: Question = {
+      statement: trimmedStatement,
+      choices: trimmedChoices,
+      correctAnswer: trimmedCorrectAnswer,
+      reasonText: trimmedReasonText
+    }
+    setErrorMessage("")
+    onAddQuestion(newQuestion)
+  }
+  
   return (
       <>
         <input
@@ -93,8 +125,11 @@ export default function QuestionForm({ onAddQuestion }: QuestionFormProps) {
           正解：{inputCorrectAnswer}
           解説：{ inputReasonText }
         </p>
-        <button
-          onClick={() => onAddQuestion(newQuestion)}
+
+      <p>{errorMessage}</p>
+
+      <button
+          onClick={handleAddQuestionClick}
           id="add-question">
           問題を追加する
         </button>
