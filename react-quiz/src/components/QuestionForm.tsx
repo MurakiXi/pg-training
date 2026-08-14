@@ -67,8 +67,15 @@ export default function QuestionForm({ onAddQuestion }: QuestionFormProps) {
       correctAnswer: trimmedCorrectAnswer,
       reasonText: trimmedReasonText
     }
-    setErrorMessage("")
     onAddQuestion(newQuestion)
+    setErrorMessage("")
+    setInputStatement("")
+    setInputChoice1("")
+    setInputChoice2("")
+    setInputChoice3("")
+    setInputChoice4("")
+    setInputCorrectAnswer("")
+    setInputReasonText("")
   }
   
   return (
