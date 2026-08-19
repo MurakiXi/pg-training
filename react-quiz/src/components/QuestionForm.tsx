@@ -79,44 +79,58 @@ export default function QuestionForm({ onAddQuestion }: QuestionFormProps) {
   }
   
   return (
-      <>
-        <input
+    <>
+      問題文：
+      <input
+        className="border-1 py-2 px-3 rounded-md w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
           value={inputStatement}
           onChange={(event) => {
             setInputStatement(event.target.value)
           }}
-        />
-        <input
+      />
+      選択肢1：
+      <input
+        className="border-1 py-2 px-3 rounded-md w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
           value={inputChoice1}
           onChange={(event) => {
             setInputChoice1(event.target.value)
           }}
-        />
-        <input
+      />
+      選択肢2：
+      <input
+        className="border-1 py-2 px-3 rounded-md w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
           value={inputChoice2}
           onChange={(event) => {
             setInputChoice2(event.target.value)
           }}
-        />
-        <input
+      />
+      選択肢3：
+      <input
+        className="border-1 py-2 px-3 rounded-md w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
           value={inputChoice3}
           onChange={(event) => {
             setInputChoice3(event.target.value)
           }}
-        />
-        <input
+      />
+      選択肢4：
+      <input
+        className="border-1 py-2 px-3 rounded-md w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
           value={inputChoice4}
           onChange={(event) => {
             setInputChoice4(event.target.value)
           }}
-        />
-        <input
+      />
+      正答：
+      <input
+        className="border-1 py-2 px-3 rounded-md w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
           value={inputCorrectAnswer}
           onChange={(event) => {
             setInputCorrectAnswer(event.target.value)
           }}
-        />
-        <textarea
+      />
+      解説文：
+      <textarea
+        className="border-1 py-2 px-3 rounded-md w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
           value={inputReasonText}
           onChange={(event) => {
             setInputReasonText(event.target.value)
@@ -133,13 +147,12 @@ export default function QuestionForm({ onAddQuestion }: QuestionFormProps) {
           解説：{ inputReasonText }
         </p>
 
-      <p>{errorMessage}</p>
-
       <button
           onClick={handleAddQuestionClick}
-          id="add-question">
+          id="add-question"className="bg-blue-500 text-white px-4 py-2 rounded-md font-semibold shadow-md hover:bg-blue-600 active:bg-blue-700">
           問題を追加する
-        </button>
+      </button>
+            <p>{errorMessage}</p>
       </>
     )
 }

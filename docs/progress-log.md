@@ -6090,3 +6090,36 @@ function ResultView({ score, total, correctRate, onRetry }: ResultViewProps) {
 - Week7 Day4全体の理解確認を行う。
 - 入力値のtrim、バリデーション、早期return、Question生成、問題追加、フォームリセットの処理順を説明できるか確認する。
 - 確認後、Week7 Day5のTailwind CSSへ進む。
+
+### Week7 Day5 完了
+
+### 完了したこと
+
+- 現行のReact/Vite環境を確認し、Tailwind CSSが未導入であることをpackage.jsonから確認した。
+- tailwindcssと@tailwindcss/viteをdevDependenciesとしてインストールした。
+- vite.config.tsでTailwindのViteプラグインを読み込み、既存のReactプラグインと併用する設定にした。
+- index.cssでTailwind CSSを読み込んだ。
+- Viteの再起動後、既存クイズアプリとConsoleに異常がないことを確認した。
+- 「問題を追加する」ボタンへutility classを追加し、背景色、文字色、padding、角丸、文字の太さ、影を設定した。
+- hover:とactive:を使い、マウス操作に応じて背景色が変化することを確認した。
+- QuestionFormの全input・textareaへ枠線、padding、角丸、横幅100%のスタイルを適用した。
+- focus:を使い、フォーカス中の入力欄へ青いリングを表示した。
+- Tailwindによる見た目の変更がReactのState、onChange、バリデーション等のロジックへ影響しないことを確認した。
+
+### 学んだこと
+
+- Tailwind CSSは、よく使うCSS指定をutility classとして体系化し、必要なCSSを生成する仕組みである。
+- npmはパッケージマネージャであり、Tailwind CSS自体はnpmによって管理されるパッケージである。
+- dependenciesとdevDependenciesは、アプリの実行に必要な依存関係か、開発工程で使うツールかという役割で区別する。
+- Viteプラグインは、パッケージとしてpackage.jsonに追加したうえで、vite.config.tsで利用する設定を行う。
+- ReactではTailwindのutility classをclassNameへ直接記述できる。
+- w-fullはwidth: 100%に相当し、max-w-*とは役割が異なる。
+- hover:、active:、focus:は、それぞれ特定の状態でのみ後続のutilityを適用する状態バリアントである。
+- Tailwindのクラス名を暗記することより、「CSSなら何を指定したいか」から適切なutilityを選ぶことが重要である。
+
+### 次にやること
+
+- Tailwind CSSのレスポンシブ対応へ進む。
+- ブレークポイントプレフィックスの意味を理解する。
+- モバイルファーストの考え方を確認する。
+- 小さな画面を基本とし、画面幅が広がった時だけスタイルを変更する実装を行う。
