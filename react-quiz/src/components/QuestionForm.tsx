@@ -80,14 +80,18 @@ export default function QuestionForm({ onAddQuestion }: QuestionFormProps) {
   
   return (
     <>
+      <div>
       問題文：
       <input
-        className="border-1 py-2 px-3 rounded-md w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
+        className="border-1 py-2 px-3 rounded-md w-full md:w-1/2 focus:outline-none focus:ring-2 focus:ring-blue-500"
           value={inputStatement}
           onChange={(event) => {
             setInputStatement(event.target.value)
           }}
-      />
+        />
+        </div>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div>
       選択肢1：
       <input
         className="border-1 py-2 px-3 rounded-md w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
@@ -95,7 +99,9 @@ export default function QuestionForm({ onAddQuestion }: QuestionFormProps) {
           onChange={(event) => {
             setInputChoice1(event.target.value)
           }}
-      />
+          />
+        </div>
+        <div>
       選択肢2：
       <input
         className="border-1 py-2 px-3 rounded-md w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
@@ -103,7 +109,9 @@ export default function QuestionForm({ onAddQuestion }: QuestionFormProps) {
           onChange={(event) => {
             setInputChoice2(event.target.value)
           }}
-      />
+          />
+        </div>
+        <div>
       選択肢3：
       <input
         className="border-1 py-2 px-3 rounded-md w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
@@ -111,7 +119,9 @@ export default function QuestionForm({ onAddQuestion }: QuestionFormProps) {
           onChange={(event) => {
             setInputChoice3(event.target.value)
           }}
-      />
+          />
+        </div>
+        <div>
       選択肢4：
       <input
         className="border-1 py-2 px-3 rounded-md w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
@@ -119,15 +129,20 @@ export default function QuestionForm({ onAddQuestion }: QuestionFormProps) {
           onChange={(event) => {
             setInputChoice4(event.target.value)
           }}
-      />
+          />
+        </div>
+      </div>
+      <div>
       正答：
       <input
-        className="border-1 py-2 px-3 rounded-md w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
+        className="border-1 py-2 px-3 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 w-full md:w-1/2"
           value={inputCorrectAnswer}
           onChange={(event) => {
             setInputCorrectAnswer(event.target.value)
           }}
-      />
+        />
+      </div>
+      <div>
       解説文：
       <textarea
         className="border-1 py-2 px-3 rounded-md w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
@@ -136,7 +151,7 @@ export default function QuestionForm({ onAddQuestion }: QuestionFormProps) {
             setInputReasonText(event.target.value)
           }}
         />
-        
+      </div>        
         <p>現在の入力：
           問題文：{inputStatement}
           選択肢1：{inputChoice1}
