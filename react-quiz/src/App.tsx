@@ -51,8 +51,6 @@ function App() {
   const correctRate: string =
     ((score / questions.length) * 100).toFixed(1)
   
-
-
   function handleSelectAnswer(choice: string) {
     setSelectedAnswer(choice)
     if (choice === currentQuestion.correctAnswer) {
@@ -114,7 +112,8 @@ function App() {
                 handleNextQuestion={handleNextQuestion}
               />
               <QuestionForm
-              onAddQuestion={handleAddQuestion}/>
+                questionsLength={questions.length}
+                onAddQuestion={handleAddQuestion}/>
           </>
           )}
       </main>

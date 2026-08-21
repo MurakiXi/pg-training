@@ -1,9 +1,13 @@
 import type { Question } from '../types/question'
 import { useState } from 'react'
 
-type QuestionFormProps = { onAddQuestion: (newQuestion: Question) => void; }
+type QuestionFormProps = {
+  onAddQuestion:
+  (newQuestion: Question) => void;
+  questionsLength:number
+}
 
-export default function QuestionForm({ onAddQuestion }: QuestionFormProps) {
+export default function QuestionForm({ onAddQuestion,questionsLength }: QuestionFormProps) {
   const [inputStatement, setInputStatement] =
     useState<string>("")
   
@@ -35,11 +39,15 @@ export default function QuestionForm({ onAddQuestion }: QuestionFormProps) {
   const [errorMessage, setErrorMessage] =
     useState<string>("")
 
+  const [isSuccessMessageVisible, setIsSuccessMessageVisible] = 
+    useState<boolean>(false)
+  
   function handleAddQuestionClick() {
     const trimmedChoices = choices.map(choice => choice.trim())
     const trimmedStatement = inputStatement.trim()
     const trimmedCorrectAnswer = inputCorrectAnswer.trim()
     const trimmedReasonText = inputReasonText.trim()
+    setIsSuccessMessageVisible(false)
     if (
       trimmedStatement === "" ||
       trimmedChoices.includes("") ||
@@ -68,6 +76,7 @@ export default function QuestionForm({ onAddQuestion }: QuestionFormProps) {
       reasonText: trimmedReasonText
     }
     onAddQuestion(newQuestion)
+    setIsSuccessMessageVisible(true)
     setErrorMessage("")
     setInputStatement("")
     setInputChoice1("")
@@ -167,7 +176,12 @@ export default function QuestionForm({ onAddQuestion }: QuestionFormProps) {
           id="add-question"className="bg-blue-500 text-white px-4 py-2 rounded-md font-semibold shadow-md hover:bg-blue-600 active:bg-blue-700">
           問題を追加する
       </button>
-            <p>{errorMessage}</p>
+      <p>{errorMessage}</p>
+      {isSuccessMessageVisible && (
+        <p className="text-green-600">
+          問題を追加しました。現在の問題数：{questionsLength}問
+        </p>
+      )}
       </>
     )
 }
