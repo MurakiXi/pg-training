@@ -43,6 +43,10 @@ export default function QuestionForm({ onAddQuestion,questionsLength }: Question
     useState<boolean>(false)
   
   function handleAddQuestionClick() {
+    if (isQuestionLimitReached)
+      {
+      return
+    }
     const trimmedChoices = choices.map(choice => choice.trim())
     const trimmedStatement = inputStatement.trim()
     const trimmedCorrectAnswer = inputCorrectAnswer.trim()
@@ -87,6 +91,10 @@ export default function QuestionForm({ onAddQuestion,questionsLength }: Question
     setInputReasonText("")
   }
   
+  const questionLimit = 50
+
+  const isQuestionLimitReached = questionsLength >= questionLimit ;
+
   return (
     <>
       <div>
@@ -172,8 +180,9 @@ export default function QuestionForm({ onAddQuestion,questionsLength }: Question
         </p>
 
       <button
-          onClick={handleAddQuestionClick}
-          id="add-question"className="bg-blue-500 text-white px-4 py-2 rounded-md font-semibold shadow-md hover:bg-blue-600 active:bg-blue-700">
+        onClick={handleAddQuestionClick}
+        disabled={isQuestionLimitReached}
+        id="add-question" className="bg-blue-500 text-white px-4 py-2 rounded-md font-semibold shadow-md hover:bg-blue-600 active:bg-blue-700 disabled:cursor-not-allowed disabled:bg-gray-400">
           問題を追加する
       </button>
       <p>{errorMessage}</p>
@@ -182,6 +191,16 @@ export default function QuestionForm({ onAddQuestion,questionsLength }: Question
           問題を追加しました。現在の問題数：{questionsLength}問
         </p>
       )}
+      {isQuestionLimitReached
+        ? (
+          <p>
+            これ以上問題を追加できません。
+          </p>)
+        : (
+          <p>
+            問題は全{questionLimit}問になるまで追加可能です。現在、全{questionsLength}問です。
+          </p>
+        )}
       </>
     )
 }
