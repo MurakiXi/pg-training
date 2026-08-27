@@ -7,27 +7,28 @@ import QuestionView from './components/QuestionView'
 import AnswerFeedback from './components/AnswerFeedback'
 import QuestionForm from './components/QuestionForm'
 
+
 function App() {
 
   const [questions, setQuestions] =
     useState<Question[]>([
       {
-      statement: "水を熱し続けると、水は何になって空気中へ出ていくでしょうか？",
-      correctAnswer: "水蒸気",
-      reasonText: "水を熱し続けると、水は気体になって空気中へ出ていきます。この気体になった水を水蒸気と呼びます。",
-      choices: ["氷", "水蒸気", "砂", "光"]
-    },
-    {
-      statement: "乾電池の＋極と－極を導線でつなぎ、回路ができると何が流れるでしょうか？",
-      correctAnswer: "電気",
-      reasonText: "乾電池の＋極と－極をつなぐと電気の通り道ができ、電気が流れます。",
-      choices: ["電気", "水", "空気", "光"]
-    },
-    {
-    statement: "夜空で光る星にはさまざまな色がありますが、次の中で一番温度が高い星の色はどれでしょうか？",
-    correctAnswer: "青",
-    reasonText:"星は温度が低いと赤っぽく光り、温度が上がるにつれて黄色、白と色が変わっていき、最も温度が高い星は青白く光ります。",
-    choices:["白", "黄", "赤", "青"]
+        statement: "水を熱し続けると、水は何になって空気中へ出ていくでしょうか？",
+        correctAnswer: "水蒸気",
+        reasonText: "水を熱し続けると、水は気体になって空気中へ出ていきます。この気体になった水を水蒸気と呼びます。",
+        choices: ["氷", "水蒸気", "砂", "光"]
+      },
+      {
+        statement: "乾電池の＋極と－極を導線でつなぎ、回路ができると何が流れるでしょうか？",
+        correctAnswer: "電気",
+        reasonText: "乾電池の＋極と－極をつなぐと電気の通り道ができ、電気が流れます。",
+        choices: ["電気", "水", "空気", "光"]
+      },
+      {
+        statement: "夜空で光る星にはさまざまな色がありますが、次の中で一番温度が高い星の色はどれでしょうか？",
+        correctAnswer: "青",
+        reasonText: "星は温度が低いと赤っぽく光り、温度が上がるにつれて黄色、白と色が変わっていき、最も温度が高い星は青白く光ります。",
+        choices: ["白", "黄", "赤", "青"]
       }
     ])
   
@@ -50,6 +51,9 @@ function App() {
   
   const correctRate: string =
     ((score / questions.length) * 100).toFixed(1)
+  
+  const [isAddFormVisible, setIsAddFormVisible] =
+    useState<boolean>(false)
   
   function handleSelectAnswer(choice: string) {
     setSelectedAnswer(choice)
@@ -85,9 +89,18 @@ function App() {
       )  
   }
 
+  function handleToggleAddForm() {
+    setIsAddFormVisible(
+      (previousIsAddFormVisible) => !previousIsAddFormVisible
+    )
+  }
+
   return (
     <>
-      <QuizHeader title="Science Quiz"/>
+      <QuizHeader title="Science Quiz"
+        isAddFormVisible={isAddFormVisible}
+        onToggleAddForm={handleToggleAddForm}
+      />
       <main>
         {isQuizFinished
           ? <ResultView
@@ -111,9 +124,12 @@ function App() {
                 isLastQuestion={isLastQuestion}
                 handleNextQuestion={handleNextQuestion}
               />
-              <QuestionForm
-                questionsLength={questions.length}
-                onAddQuestion={handleAddQuestion}/>
+              <div className={isAddFormVisible ? "" : "hidden"}>
+                <QuestionForm
+                  questionsLength={questions.length}
+                  onAddQuestion={handleAddQuestion}
+                />
+              </div>
           </>
           )}
       </main>

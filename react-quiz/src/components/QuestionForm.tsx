@@ -43,15 +43,15 @@ export default function QuestionForm({ onAddQuestion,questionsLength }: Question
     useState<boolean>(false)
   
   function handleAddQuestionClick() {
-    if (isQuestionLimitReached)
-      {
-      return
-    }
     const trimmedChoices = choices.map(choice => choice.trim())
     const trimmedStatement = inputStatement.trim()
     const trimmedCorrectAnswer = inputCorrectAnswer.trim()
     const trimmedReasonText = inputReasonText.trim()
     setIsSuccessMessageVisible(false)
+    if (isQuestionLimitReached)
+      {
+      return
+    }
     if (
       trimmedStatement === "" ||
       trimmedChoices.includes("") ||
@@ -91,7 +91,7 @@ export default function QuestionForm({ onAddQuestion,questionsLength }: Question
     setInputReasonText("")
   }
   
-  const questionLimit = 50
+  const questionLimit = 10
 
   const isQuestionLimitReached = questionsLength >= questionLimit ;
 
