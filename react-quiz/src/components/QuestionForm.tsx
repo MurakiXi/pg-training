@@ -97,6 +97,7 @@ export default function QuestionForm({ onAddQuestion,questionsLength }: Question
 
   return (
     <>
+      <div>追加する問題の問題文、選択肢4つ、正解、解説文を入力してください。</div>
       <div>
       問題文：
       <input

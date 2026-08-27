@@ -110,20 +110,21 @@ function App() {
             onRetry={handleRetryQuiz}
             />
           :(
-          <>
-            <QuestionView current={currentQuestionIndex + 1} total={questions.length} question={currentQuestion} />
-        
-            <AnswerChoices
-              choices={currentQuestion.choices}
-              onSelectAnswer={handleSelectAnswer}
-              disabled={selectedAnswer !== null}
-              />
-              <AnswerFeedback
-                selectedAnswer={selectedAnswer}
-                currentQuestion={currentQuestion}
-                isLastQuestion={isLastQuestion}
-                handleNextQuestion={handleNextQuestion}
-              />
+            <>
+              <div className={isAddFormVisible ? "hidden" : ""}>
+                <QuestionView current={currentQuestionIndex + 1} total={questions.length} question={currentQuestion} />
+                <AnswerChoices
+                  choices={currentQuestion.choices}
+                  onSelectAnswer={handleSelectAnswer}
+                  disabled={selectedAnswer !== null}
+                />
+                <AnswerFeedback
+                  selectedAnswer={selectedAnswer}
+                  currentQuestion={currentQuestion}
+                  isLastQuestion={isLastQuestion}
+                  handleNextQuestion={handleNextQuestion}
+                />
+              </div>
               <div className={isAddFormVisible ? "" : "hidden"}>
                 <QuestionForm
                   questionsLength={questions.length}
