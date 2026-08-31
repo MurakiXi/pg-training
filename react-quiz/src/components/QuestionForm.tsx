@@ -4,10 +4,11 @@ import { useState } from 'react'
 type QuestionFormProps = {
   onAddQuestion:
   (newQuestion: Question) => void;
-  questionsLength:number
+  questionsLength: number
+  questionLimit:number
 }
 
-export default function QuestionForm({ onAddQuestion,questionsLength }: QuestionFormProps) {
+export default function QuestionForm({ onAddQuestion,questionsLength, questionLimit }: QuestionFormProps) {
   const [inputStatement, setInputStatement] =
     useState<string>("")
   
@@ -91,8 +92,6 @@ export default function QuestionForm({ onAddQuestion,questionsLength }: Question
     setInputReasonText("")
   }
   
-  const questionLimit = 10
-
   const isQuestionLimitReached = questionsLength >= questionLimit ;
 
   return (

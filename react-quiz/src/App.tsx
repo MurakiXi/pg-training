@@ -54,6 +54,10 @@ function App() {
   
   const [isAddFormVisible, setIsAddFormVisible] =
     useState<boolean>(false)
+
+  const questionLimit = 4
+  
+  const remainingQuestionCount = questionLimit - questions.length
   
   function handleSelectAnswer(choice: string) {
     setSelectedAnswer(choice)
@@ -100,6 +104,8 @@ function App() {
       <QuizHeader title="Science Quiz"
         isAddFormVisible={isAddFormVisible}
         onToggleAddForm={handleToggleAddForm}
+        questionsLength={questions.length}
+        remainingQuestionCount={remainingQuestionCount}
       />
       <main>
         {isQuizFinished
@@ -129,6 +135,7 @@ function App() {
                 <QuestionForm
                   questionsLength={questions.length}
                   onAddQuestion={handleAddQuestion}
+                  questionLimit={questionLimit}
                 />
               </div>
           </>
